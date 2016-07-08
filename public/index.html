@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='appletesApp'>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Appletes</title>
+    <!-- favicon -->
+    <!--     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff"> -->
+    <!-- angular-material -->
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet" href="node_modules/mdi/css/materialdesignicons.min.css" media="all" type="text/css">
+    <link rel="stylesheet" href="/css/style.css">
+    <base href="/">
+</head>
+
+<body ng-controller="MainController" ng-cloak>
+    <div class="container">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <p><strong>Appletes</strong></p>
+                <md-button>
+                    <md-icon class="mdi mdi-bullseye"></md-icon>Add Workout</md-button>
+            </div>
+        </md-toolbar>
+        <md-content class="md-padding" layout="column">
+            <md-card flex="33" ng-repeat="card in view.cards">
+                <md-card-header>
+                    <md-card-avatar>
+                        <img class="md-user-avatar" src="/images/youcandoit.png">
+                    </md-card-avatar>
+                    <md-card-header-text>
+                        <span class="md-title">By {{card.contributor}}</span>
+                        <span class="md-subhead"> {{card.timestamp}}</span>
+                    </md-card-header-text>
+                </md-card-header>
+                <img ng-src="#" class="md-card-image" alt="image caption">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{card.title}}</span>
+                    </md-card-title-text>
+                    <br>
+                    <md-card-title-text layout="row">
+                        <span class="md-subhead">Tags: </span>
+                        <span class="md-subhead" ng-repeat="tag in card.tags">{{tag}}&nbsp;</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="start center">
+                    <md-button>Action 1</md-button>
+                    <md-button>Action 2</md-button>
+                    <md-card-icon-actions>
+                        <md-button class="md-icon-button" aria-label="icon">
+                            <md-icon md-svg-icon="icon"></md-icon>
+                        </md-button>
+                    </md-card-icon-actions>
+                </md-card-actions>
+                <md-card-content>
+                    <p>
+                        {{card.description}}
+                    </p>
+                </md-card-content>
+            </md-card>
+        </md-content>
+    </div>
+    <!-- end container -->
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyAhtV4Nmpcu_5rX5yLYLZEn2XGxn-xvwg4",
+        authDomain: "project-5928931587527197811.firebaseapp.com",
+        databaseURL: "https://project-5928931587527197811.firebaseio.com",
+        storageBucket: "project-5928931587527197811.appspot.com",
+    };
+    firebase.initializeApp(config);
+    </script>
+    <!-- AngularJS -->
+    <!--  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script> -->
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-animate/angular-animate.js"></script>
+    <script src="node_modules/angular-aria/angular-aria.js"></script>
+    <script src="node_modules/angular-material/angular-material.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+    <!-- Angular Material Library -->
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script> -->
+    <script src="/js/app.js"></script>
+    <script src="components/mainController.js"></script>
+</body>
+
+</html>
