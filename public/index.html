@@ -27,43 +27,42 @@
                     <md-icon class="mdi mdi-bullseye"></md-icon>Add Workout</md-button>
             </div>
         </md-toolbar>
-        <md-content class="md-padding" layout="column">
-            <md-card flex="33" ng-repeat="card in view.cards">
-                <md-card-header>
-                    <md-card-avatar>
-                        <img class="md-user-avatar" src="/images/youcandoit.png">
-                    </md-card-avatar>
-                    <md-card-header-text>
-                        <span class="md-title">By {{card.contributor}}</span>
-                        <span class="md-subhead"> {{card.timestamp}}</span>
-                    </md-card-header-text>
-                </md-card-header>
-                <img ng-src="#" class="md-card-image" alt="image caption">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{card.title}}</span>
-                    </md-card-title-text>
-                    <br>
-                    <md-card-title-text layout="row">
-                        <span class="md-subhead">Tags: </span>
-                        <span class="md-subhead" ng-repeat="tag in card.tags">{{tag}}&nbsp;</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <md-card-actions layout="row" layout-align="start center">
-                    <md-button>Action 1</md-button>
-                    <md-button>Action 2</md-button>
-                    <md-card-icon-actions>
-                        <md-button class="md-icon-button" aria-label="icon">
-                            <md-icon md-svg-icon="icon"></md-icon>
-                        </md-button>
-                    </md-card-icon-actions>
-                </md-card-actions>
-                <md-card-content>
-                    <p>
-                        {{card.description}}
-                    </p>
-                </md-card-content>
-            </md-card>
+        <md-content class="md-padding" layout="row" layout-align="space-around center" layout-wrap>
+            <div flex="20"></div>
+            <div flex="60">
+                <md-card ng-repeat="card in view.cards">
+                    <md-card-header>
+                        <md-card-avatar>
+                            <img class="md-user-avatar" src="/images/youcandoit.png">
+                        </md-card-avatar>
+                        <md-card-header-text>
+                            <span class="md-title">By {{card.contributor}}</span>
+                            <span class="md-subhead"> {{card.timestamp | date: 'short'}}</span>
+                        </md-card-header-text>
+                    </md-card-header>
+                    <img class="cardImage" ng-src="{{card.imageUrl}}" alt="image caption" \>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{card.title}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div class="tag" layout="row">
+                        <span class="md-subhead">&nbsp;Tags: </span>
+                        <span class="md-subhead" ng-repeat="tag in card.tags">&nbsp;<i>{{tag}}</i>&nbsp;</span>
+                    </div>
+<!--                     <md-card-actions layout="row" layout-align="start center">
+                        <md-button>Action 1</md-button>
+                        <md-button>Action 2</md-button>
+                    </md-card-actions> -->
+                    <md-card-content>
+                        <p>
+                            {{card.description}}
+                        </p>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <!-- //end flex 50 -->
+            <div flex></div>
         </md-content>
     </div>
     <!-- end container -->

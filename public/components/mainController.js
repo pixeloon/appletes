@@ -9,11 +9,21 @@
               title: "Pushups",
               tags: ["endurance", "legs"],
               contributor: "workoutbee@gmail.com",
-              imageUrl: "http://speedendurance.com/wp-content/uploads/2014/03/Push-Ups.jpg",
+              imageUrl: "/images/Push-Ups.jpg",
               description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
               votes: 5,
               timestamp: Date.now(),
               comments: ["nice workout", "this rocks"]
+          },
+          {
+              title: "Pullups",
+              tags: ["strength", "arms"],
+              contributor: "workit@yahoo.com",
+              imageUrl: "/images/pullup.jpg",
+              description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+              votes: 5,
+              timestamp: Date.now(),
+              comments: ["tough exercise", "this is hard"]
           }];
 
           $scope.submitPost = function() {
