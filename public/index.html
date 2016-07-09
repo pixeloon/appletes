@@ -23,11 +23,70 @@
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <p><strong>Appletes</strong></p>
-                <md-button>
-                    <md-icon class="mdi mdi-bullseye"></md-icon>Add Workout</md-button>
+                <md-button ng-if="view.showCards" ng-click='view.showNewWorkoutForm = !view.showNewWorkoutForm; view.showCards = !view.showCards'>
+                    <md-icon class="mdi mdi-shape-polygon-plus"></md-icon>Add Workout</md-button>
+                <md-button ng-if="!view.showCards" ng-click='view.showNewWorkoutForm = !view.showNewWorkoutForm; view.showCards = !view.showCards'>
+                    <md-icon class="mdi mdi-sort-variant"></md-icon>Show Feed</md-button>
             </div>
         </md-toolbar>
-        <md-content class="md-padding" layout="row" layout-align="space-around center" layout-wrap>
+        <!-- NEW WORKOUT form -->
+        <div ng-if="view.showNewWorkoutForm">
+            <div layout="column" class="md-inline-form">
+<!--                 <md-content layout-gt-sm="row" layout-padding>
+                    <div>
+                        <md-input-container>
+                            <label>Title</label>
+                            <input ng-model="view.workouts.title" type="text">
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Tag</label>
+                            <input ng-model="view.workouts.tags" type="text">
+                        </md-input-container>
+                    </div>
+                </md-content> -->
+                <md-content layout-padding>
+                    <div>
+                        <form name="userForm">
+                                                <md-input-container>
+                            <label>Title</label>
+                            <input ng-model="view.workouts.title" type="text">
+                        </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Tags:</label>
+                                <md-select ng-model="view.tags">
+                                    <md-option ng-repeat="tag in view.tags">
+                                        {{tag.name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container class="md-block">
+                                <label>Instructions:</label>
+                                <textarea ng-model="view.workouts.instructions" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+                            </md-input-container>
+                        </form>
+                    </div>
+                </md-content>
+            </div>
+            <md-content layout="row" class="md-padding" layout-wrap>
+                <md-card ng-repeat="exercise in view.exercises" flex="30">
+                    <img class="exerciseImage" ng-src="{{exercise.image}}" alt="image caption" \>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{exercise.name}}</span> 
+
+                        </md-card-title-text>
+                    </md-card-title>
+                    <!-- // EXERCISES -->
+                    <md-card-content>
+                        <p>Tags: <span class="exerciseTags" ng-repeat="tag in exercise.tags">&nbsp;<i>{{tag}}</i>&nbsp;</span><br>
+                            {{exercise.description}}
+                        </p>
+                    </md-card-content>
+                </md-card>
+            </md-content>
+        </div>
+        <!-- //CARDS -->
+        <md-content ng-if="view.showCards" class="md-padding" layout="row" layout-align="space-around center" layout-wrap>
             <div flex-xs="5" flex="10" flex-gt-sm="20"></div>
             <div flex-xs="90" flex="80" flex-gt-sm="60">
                 <md-card ng-repeat="card in view.cards">
@@ -40,7 +99,7 @@
                             <span class="md-subhead"> {{card.timestamp | date: 'short'}}</span>
                         </md-card-header-text>
                     </md-card-header>
-                    <img class="cardImage" ng-src="{{card.imageUrl}}" alt="image caption" \>
+                    <img class="cardImage" ng-src="{{card.image}}" alt="image caption" \>
                     <md-card-title>
                         <md-card-title-text>
                             <span class="md-headline">{{card.title}}</span>
@@ -50,7 +109,7 @@
                         <span class="md-subhead">&nbsp;Tags: </span>
                         <span class="md-subhead" ng-repeat="tag in card.tags">&nbsp;<i>{{tag}}</i>&nbsp;</span>
                     </div>
-<!--                     <md-card-actions layout="row" layout-align="start center">
+                    <!--                     <md-card-actions layout="row" layout-align="start center">
                         <md-button>Action 1</md-button>
                         <md-button>Action 2</md-button>
                     </md-card-actions> -->
@@ -91,6 +150,7 @@
     <!-- <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script> -->
     <script src="/js/app.js"></script>
     <script src="components/mainController.js"></script>
+    <script src="components/mainFactory.js"></script>
 </body>
 
 </html>
