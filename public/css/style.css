@@ -1,38 +1,46 @@
 button .material-icons {
-  margin-top: 7px;
+    margin-top: 7px;
 }
 
-
-.cardImage  {
+.cardImage {
     max-width: 200px;
     max-height: 200px;
 }
 
-.exerciseImage  {
+.exerciseImage {
     max-width: 200px;
     max-height: 200px;
 }
 
 .exerciseTags {
-  color: blue;
+    color: blue;
 }
 
 .selectHeader {
-  /* Please note: All these selectors are only applied to children of elements with the 'selectHeader' class */ }
-  .selectHeader .header-searchbox {
+    /* All these selectors are only applied to children of elements with the 'selectHeader' class */
+
+}
+
+.selectHeader .header-searchbox {
     border: none;
     outline: none;
     height: 100%;
     width: 100%;
-    padding: 0; }
-  .selectHeader .select-header {
+    padding: 0;
+}
+
+.selectHeader .select-header {
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 0 rgba(0, 0, 0, 0.14), 0 0 0 0 rgba(0, 0, 0, 0.12);
-    padding-left: 10.667px;
+    padding-left: 10px;
     height: 48px;
     cursor: pointer;
     position: relative;
     display: flex;
     align-items: center;
-    width: auto; }
-  .selectdemoSelectHeader md-content._md {
-    max-height: 240px; }
+    width: auto;
+}
+
+.selectHeader md-content._md {
+    max-height: 240px;
+}
+
