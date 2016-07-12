@@ -1,6 +1,4 @@
-button .material-icons {
-    margin-top: 7px;
-}
+
 
 .cardImage {
     max-width: 200px;
@@ -15,6 +13,10 @@ button .material-icons {
 .exerciseTags {
     color: blue;
 }
+
+/*.error {
+    color:#ff9800;
+}*/
 
 .selectHeader {
     /* All these selectors are only applied to children of elements with the 'selectHeader' class */
@@ -42,5 +44,13 @@ button .material-icons {
 
 .selectHeader md-content._md {
     max-height: 240px;
+}
+
+.mdi-shape-circle-plus {
+    font-size: 25px;
+}
+
+.mdi-menu {
+    font-size: 25px
 }
 

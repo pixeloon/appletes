@@ -20,15 +20,20 @@
 
 <body ng-controller="MainController" ng-cloak>
     <!-- <div class="container"> -->
-    <md-toolbar md-scroll-shrink ng-if="true">
+    <!-- <nav> -->
+    <md-toolbar md-scroll-shrink>
         <div class="md-toolbar-tools">
-            <p><strong>Appletes</strong></p>
+            <md-button ng-click='openLeftNav()' aria-label="Settings">
+                <md-icon class="mdi mdi-menu"></md-icon>
+            </md-button>
+            <span flex></span>
+            <p><strong>Appletes</strong></p><span flex></span>
             <md-button ng-click='openRightNav()'>
-                <md-icon class="mdi mdi-shape-polygon-plus"></md-icon>Add Workout</md-button>
-            <!-- <md-button ng-if="!view.showCards" ng-click='closeRightNav(); view.showCards = !view.showCards'>
-                <md-icon class="mdi mdi-sort-variant"></md-icon>Show Feed</md-button> -->
+                <md-icon class="mdi mdi-shape-circle-plus"></md-icon>Add Workout</md-button>
         </div>
     </md-toolbar>
+    <md-content class="md-padding">
+    </md-content>
     <!-- SIDENAV RIGHT-->
     <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
         <md-toolbar class="md-theme-light">
@@ -40,14 +45,14 @@
                     <form name="workoutForm">
                         <md-input-container>
                             <label for="title">Name your Workout</label>
-                            <input ng-model="view.workouts.title" type="text" md-autofocus>
+                            <input ng-model="view.workout.title" type="text" md-autofocus>
                         </md-input-container>
                         <!-- //SELECT -->
-                        <div ng-controller="TagController as ctrl" layout="column" class="tagInput" ng-cloak>
+                        <div layout="column" class="tagInput" ng-cloak>
                             <md-content class="md-padding" layout="column">
-                                <md-chips ng-model="ctrl.selectedTags" md-autocomplete-snap md-transform-chip="ctrl.transformChip($chip)" md-require-match="ctrl.autocompleteRequireMatch">
-                                    <md-autocomplete md-selected-item="ctrl.selectedItem" md-search-text="ctrl.searchText" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name" placeholder="Start typing to apply tags">
-                                        <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
+                                <md-chips name='tags' ng-model="view.selectedTags" md-max-chips='5' md-autocomplete-snap md-transform-chip="view.transformChip($chip)" md-require-match="view.autocompleteRequireMatch">
+                                    <md-autocomplete md-selected-item="view.selectedItem" md-search-text="view.searchText" md-items="item in view.querySearch(view.searchText)" md-item-text="item.name" placeholder="Start typing to apply tags">
+                                        <span md-highlight-text="view.searchText">{{item.name}}</span>
                                     </md-autocomplete>
                                     <md-chip-template>
                                         <span>
@@ -55,14 +60,18 @@
                                         </span>
                                     </md-chip-template>
                                 </md-chips>
+                                <div ng-messages="workoutForm.tags.$error" ng-if="workoutForm.$dirty">
+                                    <div class="error" ng-message="md-max-chips">
+                                        You reached the max. amount of tags</div>
+                                </div>
                             </md-content>
                         </div>
                         <!-- //SELECT END -->
                         <md-input-container class="md-block">
                             <label for="instructions">Provide helpful Instructions:</label>
-                            <textarea ng-model="view.workouts.instructions" md-maxlength="500" rows="5" id="instructions" md-select-on-focus></textarea>
+                            <textarea ng-model="view.workout.instructions" md-maxlength="500" rows="5" id="instructions" md-select-on-focus></textarea>
                         </md-input-container>
-                        <md-button class="md-primary">Save</md-button>
+                        <md-button class="md-primary" ng-click="submitWorkout(view.workout)">Save</md-button>
                         <md-button ng-click="closeRightNav()" class="md-warn">Cancel</md-button>
                     </form>
                 </div>
@@ -70,29 +79,51 @@
         </div>
     </md-sidenav>
     <!-- // END RIGHT SIDENAV -->
+    <!-- SIDENAV LEFT-->
+    <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+        <md-toolbar class="md-theme-light">
+            <h1 class="md-toolbar-tools">Settings</h1>
+        </md-toolbar>
+        <div layout="column" class="md-inline-form">
+            <md-content layout-padding>
+                <div>
+                    <h1>right sidebar content</h1>
+                </div>
+            </md-content>
+        </div>
+    </md-sidenav>
+    <!-- // END LEFT SIDENAV -->
+    <!-- </nav> -->
     <!-- //CARDS -->
     <md-content class="md-padding" layout="row" layout-align="space-around center" layout-wrap>
         <div flex-xs="5" flex="10" flex-gt-sm="20"></div>
         <div flex-xs="90" flex="80" flex-gt-sm="60">
-            <md-card ng-repeat="card in view.cards">
+            <md-card ng-repeat="card in view.workouts">
                 <md-card-header>
                     <md-card-avatar>
                         <img class="md-user-avatar" src="/images/youcandoit.png">
                     </md-card-avatar>
                     <md-card-header-text>
                         <span class="md-title">By {{card.contributor}}</span>
-                        <span class="md-subhead"> {{card.timestamp | date: 'short'}}</span>
+                        <span class="md-subhead"> {{card.timestamp | date: 'short'}}
+                        <md-button ng-click="card.showImage = !card.showImage">Show Image</md-button>
+                        <md-button ng-click="card.showComments = !card.showComments">Comments</md-button></span>
+                        </span>
                     </md-card-header-text>
                 </md-card-header>
-                <img class="cardImage" ng-src="{{card.image}}" alt="image caption" \>
+                <md-divider></md-divider>
+                <div ng-show="card.showImage">
+                    <img class="cardImage" ng-src="{{card.image}}" alt="image caption" \>
+                </div>
                 <md-card-title>
                     <md-card-title-text>
                         <span class="md-headline">{{card.title}}</span>
                     </md-card-title-text>
                 </md-card-title>
                 <div class="tag" layout="row">
+                    <!-- <md-chips><md-chip-template ng-model="card.selectedTags" readonly="true">{{$chip.name}} -->
                     <span class="md-subhead">&nbsp;Tags: </span>
-                    <span class="md-subhead" ng-repeat="tag in card.tags">&nbsp;<i>{{tag}}</i>&nbsp;</span>
+                    <span class="md-subhead" ng-repeat="tag in card.selectedTags">&nbsp;{{tag.name}}&nbsp;</span>
                 </div>
                 <!--                     <md-card-actions layout="row" layout-align="start center">
                         <md-button>Action 1</md-button>
@@ -100,8 +131,13 @@
                     </md-card-actions> -->
                 <md-card-content>
                     <p>
-                        {{card.description}}
+                        {{card.instructions}}
                     </p>
+                    <div ng-show="card.showComments">
+                    <md-divider></md-divider>
+                    
+                        <div ng-repeat="comment in card.comments">{{comment}}</div>
+                    </div>
                 </md-card-content>
             </md-card>
         </div>
@@ -123,22 +159,21 @@
     firebase.initializeApp(config);
     </script>
     <!-- AngularJS -->
-    <!--  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script> -->
     <script src="node_modules/angular/angular.js"></script>
     <script src="node_modules/angular-animate/angular-animate.js"></script>
     <script src="node_modules/angular-aria/angular-aria.js"></script>
     <script src="node_modules/angular-material/angular-material.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-messages.min.js"></script>
     <script scr="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+    <script src="//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script>
     <!-- AngularFire -->
     <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
     <!-- Angular Material Library -->
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script> -->
     <script src="/js/app.js"></script>
     <script src="components/mainController.js"></script>
     <script src="components/workoutFactory.js"></script>
     <script src="components/exerciseFactory.js"></script>
+    <script src="components/tagFactory.js"></script>
 </body>
 
 </html>

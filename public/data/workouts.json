@@ -1,26 +1,26 @@
 [{
     "title": "Hulk",
-    "tags": ["endurance", "arms", "upper body"],
+    "selectedTags": ["endurance", "arms", "upper body"],
     "contributor": "workoutbee@gmail.com",
     "image": "/images/Push-Ups.jpg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "instructions": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
     "votes": 3,
     "timestamp": "07/09/16",
     "comments": ["nice workout", "this rocks"]
 }, {
     "title": "Wonder Woman",
-    "tags": ["endurance", "strength", "back", "legs", "plyometric"],
+    "selectedTags": ["endurance", "strength", "back", "legs", "plyometric"],
     "contributor": "workit@yahoo.com",
     "image": "/images/pullup.jpg",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "instructions": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
     "votes": 5,
     "timestamp": "07/08/16",
     "comments": ["tough exercise", "this is hard"]
 }, {
     "title": "Superman",
-    "tags": ["endurance", "strength", "arms"],
+    "selectedTags": ["endurance", "strength", "arms"],
     "contributor": "fitman@aol.com",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "instructions": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
     "votes": 4,
     "timestamp": "07/07/16",
     "comments": ["good one", "this is too easy"]

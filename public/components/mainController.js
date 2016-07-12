@@ -3,60 +3,86 @@
     "use strict";
 
     angular.module("appletesApp")
-        .controller("MainController", function($scope, $http, $element, $mdSidenav, $timeout, $q, WorkoutFactory, ExerciseFactory) {
 
-            WorkoutFactory.getWorkouts().then(function(workouts) {
-                $scope.view.cards = workouts.data;
-            });
+    .controller("MainController", function($scope, $http, $element, $mdSidenav, $timeout, $q, $mdToast, WorkoutFactory, ExerciseFactory, TagFactory) {
 
-            ExerciseFactory.getExercises().then(function(exercises) {
-                $scope.view.exercises = exercises.data;
-            });
-            window.scope = $scope
-            $scope.view = {};
-            $scope.view.exerciseCounter = 4;
-            $scope.view.workoutCounter = 0;
-            $scope.view.cardCounter = 0;
-            $scope.view.showCards = true;
+        WorkoutFactory.getWorkouts().then(function(workouts) {
+            $scope.view.workouts = workouts.data;
+        });
 
-            $scope.submitWorkout = function() {
-                $scope.view.workouts.push({
-                    workoutId: $scope.view.workoutCounter,
-                    title: $scope.view.workoutTitle,
-                    contributor: $scope.view.workoutContributor,
-                    image: $scope.view.workoutImage,
-                    description: $scope.view.workoutDescription,
-                    exercises: [$scope.view.exerciseList],
-                    timestamp: Date.now(),
-                    comments: []
-                });
-            }
+        ExerciseFactory.getExercises().then(function(exercises) {
+            $scope.view.exercises = exercises.data;
+        });
 
-            $scope.openRightNav = function() {
-                $mdSidenav('right').open();
-            };
+        TagFactory.getTags().then(function(tags) {
+            $scope.view.tagsData = tags.data;
+            $scope.view.tags = loadTags();
+            // $scope.view.tags = loadTags();
+        });
 
-            $scope.closeRightNav = function() {
-                $mdSidenav('right').close();
-            };
+        window.scope = $scope
+        $scope.view = {};
+        $scope.view.workout = {};
+        $scope.view.showImage = false;
 
-        })
+        $scope.view.exerciseCounter = 4;
+        $scope.view.workoutCounter = 0;
+        $scope.view.cardCounter = 0;
+        $scope.view.showCards = true;
 
-    .controller('TagController', TagCtrl);
+        $scope.submitWorkout = function(workout) {
+          if (workout){
+            workout.workoutId = $scope.view.workoutCounter + 1
+            workout.timestamp = Date.now();
+            workout.comments = [];
+            workout.image = "";
+            workout.votes = 0;
+            workout.comments = [];
+            workout.selectedTags = $scope.view.selectedTags;
+            // workout.contributor: $scope.view.workoutContributor,
+            $scope.view.workouts.push(workout)
+            $mdToast.show(
+              $mdToast.simple()
+              .content('Workout added!')
+              .position("top, right")
+              .hideDelay(3000));
 
-    function TagCtrl($timeout, $q) {
-        var self = this;
-        self.readonly = false;
-        self.selectedItem = null;
-        self.searchText = null;
-        self.querySearch = querySearch;
-        self.tags = loadTags();
-        self.selectedTags = [];
-        self.numberChips = [];
-        self.numberChips2 = [];
-        self.numberBuffer = '';
-        self.autocompleteRequireMatch = true;
-        self.transformChip = transformChip;
+            
+          }
+            $scope.closeRightNav();
+
+        }
+
+        // handling left and right nav slider
+
+        $scope.openRightNav = function() {
+            $mdSidenav('right').open();
+        };
+
+        $scope.closeRightNav = function() {
+            $mdSidenav('right').close();
+            $scope.view.workout = {};
+            $scope.view.selectedTags = [];
+        };
+
+        $scope.openLeftNav = function() {
+            $mdSidenav('left').open();
+        };
+
+        $scope.closeLeftNav = function() {
+            $mdSidenav('left').close();
+
+
+        };
+
+        // handling tag chips
+        $scope.view.selectedItem = null;
+        $scope.view.searchText = null;
+        $scope.view.querySearch = querySearch;
+        $scope.view.selectedTags = [];
+        // $scope.view.numberBuffer = '';
+        $scope.view.autocompleteRequireMatch = true;
+        $scope.view.transformChip = transformChip;
         /**
          * Return the proper object when the append is called.
          */
@@ -72,7 +98,7 @@
          * Search for tags.
          */
         function querySearch(query) {
-            var results = query ? self.tags.filter(createFilterFor(query)) : [];
+            var results = query ? $scope.view.tagsData.filter(createFilterFor(query)) : [];
             return results;
         }
         /**
@@ -81,30 +107,21 @@
         function createFilterFor(query) {
             var lowercaseQuery = angular.lowercase(query);
             return function filterFn(tag) {
-                return (tag._lowername.indexOf(lowercaseQuery) === 0);
+                return (tag.name.indexOf(lowercaseQuery) === 0);
             };
         }
 
         function loadTags() {
-            var tags = [{
-                'name': 'endurance'
-            }, {
-                'name': 'strength'
-            }, {
-                'name': 'flexibility'
-            }, {
-                'name': 'arms'
-            }, {
-                'name': 'legs'
-            }];
+            var tags = $scope.view.tagsData;
+
             return tags.map(function(tag) {
-                tag._lowername = tag.name.toLowerCase();
+                tag.name = tag.name.toLowerCase();
                 return tag;
             });
         }
-    }
+        // }
 
-
+    })
 
 
 
