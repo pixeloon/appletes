@@ -14,6 +14,23 @@
     color: blue;
 }
 
+.cardContent {
+    margin-top: 1.5em;  
+}   
+
+.fixed-nav {
+    position: fixed;
+}
+
+.md-fab {
+  fill: #fff;
+}
+
+.cardTools {
+    text-align: right;
+    max-height: 50px;
+    background-color: lightgray;
+}
 /*.error {
     color:#ff9800;
 }*/
@@ -46,11 +63,22 @@
     max-height: 240px;
 }
 
-.mdi-shape-circle-plus {
+.mdi-shape-circle-plus, .mdi-menu, .mdi-star-outline, .mdi-star, .mdi-close, .mdi-magnify, .mdi-account-circle  {
     font-size: 25px;
 }
 
-.mdi-menu {
-    font-size: 25px
+
+.dialog-content {
+     max-width:800px;
+     max-height:810px;
 }
+
+.commentText {
+    margin: 0px 10px 10px 10px;
+  
+}
+
+
+
+
 

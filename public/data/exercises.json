@@ -2,7 +2,7 @@
     "exerciseId": 1,
     "name": "Pushups",
     "tags": ["endurance", "upper body"],
-    "image": "/images/Push-Ups.jpg",
+    "image": "../images/Push-Ups.jpg",
     "videoUrl": "",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
     "timestamp": "07/05/16"
@@ -17,7 +17,7 @@
 }, {
     "exerciseId": 3,
     "name": "Jumpingjacks",
-    "tags": ["endurance, legs", "shoulders"],
+    "tags": ["endurance", "legs", "shoulders"],
     "image": "/images/jumpingjack.jpg",
     "videoUrl": "",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
@@ -26,7 +26,7 @@
 {
     "exerciseId": 4,
     "name": "Flying Dutchman",
-    "tags": ["endurance, legs", "shoulders"],
+    "tags": ["endurance", "legs", "shoulders"],
     "image": "/images/jumpingjack.jpg",
     "videoUrl": "",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
@@ -35,7 +35,7 @@
 {
     "exerciseId": 5,
     "name": "Heroes",
-    "tags": ["endurance, legs", "shoulders"],
+    "tags": ["endurance", "legs", "shoulders"],
     "image": "/images/jumpingjack.jpg",
     "videoUrl": "",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",

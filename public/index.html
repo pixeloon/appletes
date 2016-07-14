@@ -19,132 +19,184 @@
 </head>
 
 <body ng-controller="MainController" ng-cloak>
-    <!-- <div class="container"> -->
-    <!-- <nav> -->
-    <md-toolbar md-scroll-shrink>
-        <div class="md-toolbar-tools">
-            <md-button ng-click='openLeftNav()' aria-label="Settings">
-                <md-icon class="mdi mdi-menu"></md-icon>
-            </md-button>
-            <span flex></span>
-            <p><strong>Appletes</strong></p><span flex></span>
-            <md-button ng-click='openRightNav()'>
-                <md-icon class="mdi mdi-shape-circle-plus"></md-icon>Add Workout</md-button>
-        </div>
-    </md-toolbar>
-    <md-content class="md-padding">
-    </md-content>
-    <!-- SIDENAV RIGHT-->
-    <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
-        <md-toolbar class="md-theme-light">
-            <h1 class="md-toolbar-tools">Add Workout</h1>
+    <div layout="column" flex>
+        <!-- <nav> -->
+        <md-toolbar class="fixed-nav">
+            <md-whiteframe class="md-whiteframe-5dp">
+                <div class="md-toolbar-tools">
+                    <md-button ng-click='openLeftNav()' aria-label="Settings">
+                        <md-icon class="mdi mdi-menu"></md-icon>
+                    </md-button>
+                    <span flex></span>
+                    <p><strong>Appletes</strong></p><span flex></span>
+                    <md-button ng-click='view.search = !view.search' aria-label="Search">
+                        <md-icon class="mdi mdi-magnify"></md-icon>
+                    </md-button>
+                    <md-button ng-click="openRightNav()">
+                        <md-icon class="mdi mdi-shape-circle-plus"></md-icon>Add Workout</md-button>
+                </div>
+            </md-whiteframe>
         </md-toolbar>
-        <div layout="column" class="md-inline-form">
-            <md-content layout-padding>
-                <div>
-                    <form name="workoutForm">
+        <!-- // sub menu -->
+        <md-toolbar class="fixed-nav" ng-show="view.search">
+            <md-whiteframe class="md-whiteframe-5dp">
+                <div class="md-toolbar-tools">
+                        <span flex></span>
+                    <form>
+                        <md-button ng-click='view.search = !view.search' aria-label="Search">
+                            <md-icon class="mdi mdi-magnify"></md-icon>
+                        </md-button>
                         <md-input-container>
-                            <label for="title">Name your Workout</label>
-                            <input ng-model="view.workout.title" type="text" md-autofocus>
+                            <input ng-model="view.filteredWorkouts" type="text" aria-label="Search Input" md-autofocus>
                         </md-input-container>
-                        <!-- //SELECT -->
-                        <div layout="column" class="tagInput" ng-cloak>
-                            <md-content class="md-padding" layout="column">
-                                <md-chips name='tags' ng-model="view.selectedTags" md-max-chips='5' md-autocomplete-snap md-transform-chip="view.transformChip($chip)" md-require-match="view.autocompleteRequireMatch">
-                                    <md-autocomplete md-selected-item="view.selectedItem" md-search-text="view.searchText" md-items="item in view.querySearch(view.searchText)" md-item-text="item.name" placeholder="Start typing to apply tags">
-                                        <span md-highlight-text="view.searchText">{{item.name}}</span>
-                                    </md-autocomplete>
-                                    <md-chip-template>
-                                        <span>
-                                            <strong>{{$chip.name}}</strong>
-                                        </span>
-                                    </md-chip-template>
-                                </md-chips>
-                                <div ng-messages="workoutForm.tags.$error" ng-if="workoutForm.$dirty">
-                                    <div class="error" ng-message="md-max-chips">
-                                        You reached the max. amount of tags</div>
-                                </div>
-                            </md-content>
-                        </div>
-                        <!-- //SELECT END -->
-                        <md-input-container class="md-block">
-                            <label for="instructions">Provide helpful Instructions:</label>
-                            <textarea ng-model="view.workout.instructions" md-maxlength="500" rows="5" id="instructions" md-select-on-focus></textarea>
-                        </md-input-container>
-                        <md-button class="md-primary" ng-click="submitWorkout(view.workout)">Save</md-button>
-                        <md-button ng-click="closeRightNav()" class="md-warn">Cancel</md-button>
+                        
                     </form>
                 </div>
-            </md-content>
-        </div>
-    </md-sidenav>
-    <!-- // END RIGHT SIDENAV -->
-    <!-- SIDENAV LEFT-->
-    <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
-        <md-toolbar class="md-theme-light">
-            <h1 class="md-toolbar-tools">Settings</h1>
+            </md-whiteframe>
         </md-toolbar>
-        <div layout="column" class="md-inline-form">
-            <md-content layout-padding>
-                <div>
-                    <h1>right sidebar content</h1>
-                </div>
-            </md-content>
-        </div>
-    </md-sidenav>
-    <!-- // END LEFT SIDENAV -->
-    <!-- </nav> -->
-    <!-- //CARDS -->
-    <md-content class="md-padding" layout="row" layout-align="space-around center" layout-wrap>
-        <div flex-xs="5" flex="10" flex-gt-sm="20"></div>
-        <div flex-xs="90" flex="80" flex-gt-sm="60">
-            <md-card ng-repeat="card in view.workouts">
-                <md-card-header>
-                    <md-card-avatar>
-                        <img class="md-user-avatar" src="/images/youcandoit.png">
-                    </md-card-avatar>
-                    <md-card-header-text>
-                        <span class="md-title">By {{card.contributor}}</span>
-                        <span class="md-subhead"> {{card.timestamp | date: 'short'}}
-                        <md-button ng-click="card.showImage = !card.showImage">Show Image</md-button>
-                        <md-button ng-click="card.showComments = !card.showComments">Comments</md-button></span>
-                        </span>
-                    </md-card-header-text>
-                </md-card-header>
-                <md-divider></md-divider>
-                <div ng-show="card.showImage">
-                    <img class="cardImage" ng-src="{{card.image}}" alt="image caption" \>
-                </div>
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">{{card.title}}</span>
-                    </md-card-title-text>
-                </md-card-title>
-                <div class="tag" layout="row">
-                    <!-- <md-chips><md-chip-template ng-model="card.selectedTags" readonly="true">{{$chip.name}} -->
-                    <span class="md-subhead">&nbsp;Tags: </span>
-                    <span class="md-subhead" ng-repeat="tag in card.selectedTags">&nbsp;{{tag.name}}&nbsp;</span>
-                </div>
-                <!--                     <md-card-actions layout="row" layout-align="start center">
+        <md-content class="md-padding">
+            <!-- //end sub menu -->
+        </md-content>
+        <!-- SIDENAV LEFT-->
+        <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+            <md-toolbar class="md-theme-light">
+                <h1 class="md-toolbar-tools">Settings</h1>
+            </md-toolbar>
+            <div layout="column" class="md-inline-form">
+                <md-content layout-padding>
+                    <div>
+                        <md-switch ng-model="view.showComments" class="md-primary" md-no-ink aria-label="Switch Comments">
+                            Show all comments: {{ view.showComments}}
+                        </md-switch>
+                        <md-switch ng-model="view.showImages" class="md-primary" md-no-ink aria-label="Switch Images">
+                            Show all images: {{ view.showImages }}
+                        </md-switch>
+                    </div>
+                </md-content>
+            </div>
+        </md-sidenav>
+        <!-- // END LEFT SIDENAV -->
+        <!-- SIDENAV RIGHT-->
+        <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right">
+            <md-toolbar>
+                <h1 class="md-toolbar-tools">Add Workout</h1>
+            </md-toolbar>
+            <div layout="column" class="md-inline-form">
+                <md-content layout-padding>
+                    <div>
+                        <form name="workoutForm">
+                            <md-input-container>
+                                <label for="title">Name your Workout</label>
+                                <input ng-model="view.workout.title" type="text" md-autofocus>
+                            </md-input-container>
+                            <!-- // add exercises -->
+                            <md-button aria-label="Add" ng-click="showExerciseDialog($event)">
+                                <ng-md-icon icon="add">Add</ng-md-icon>
+                            </md-button>
+                            <!-- //SELECT -->
+                            <div layout="column" class="tagInput">
+                                <md-content class="md-padding" layout="column">
+                                    <md-chips name='tags' ng-model="view.selectedTags" md-max-chips='5' md-autocomplete-snap md-transform-chip="view.transformChip($chip)" md-require-match="view.autocompleteRequireMatch">
+                                        <md-autocomplete md-selected-item="view.selectedItem" md-search-text="view.searchText" md-items="item in view.querySearch(view.searchText)" md-item-text="item.name" placeholder="Start typing to apply tags">
+                                            <span md-highlight-text="view.searchText">{{item.name}}</span>
+                                        </md-autocomplete>
+                                        <md-chip-template>
+                                            <span>
+                                            <strong>{{$chip.name}}</strong>
+                                        </span>
+                                        </md-chip-template>
+                                    </md-chips>
+                                    <div ng-messages="workoutForm.tags.$error" ng-if="workoutForm.$dirty">
+                                        <div ng-message="md-max-chips">
+                                            You reached the max. amount of tags</div>
+                                    </div>
+                                </md-content>
+                            </div>
+                            <!-- //SELECT END -->
+                            <md-input-container class="md-block">
+                                <label for="instructions">Provide helpful Instructions:</label>
+                                <textarea ng-model="view.workout.instructions" md-maxlength="500" rows="5" id="instructions" md-select-on-focus></textarea>
+                            </md-input-container>
+                            <md-button class="md-primary" ng-click="submitWorkout(view.workout)">Save</md-button>
+                            <md-button ng-click="closeRightNav()" class="md-warn">Cancel</md-button>
+                        </form>
+                    </div>
+                </md-content>
+            </div>
+        </md-sidenav>
+        <!-- // END RIGHT SIDENAV -->
+        <!-- </nav> -->
+        <!-- //CARDS -->
+        <md-content class="md-padding" layout="row" layout-align="space-around center" layout-wrap>
+            <div flex-xs="5" flex="10" flex-gt-sm="20"></div>
+            <div class="cardContent" flex-xs="90" flex="80" flex-gt-sm="60">
+                <md-card ng-repeat="card in view.workouts  | filter: view.filteredWorkouts">
+                    <md-card-header>
+                        <md-card-avatar>
+                            <img class="md-user-avatar" src="/images/youcandoit.png">
+                        </md-card-avatar>
+                        <md-card-header-text>
+                            <span class="md-title">By {{card.contributor}}</span>
+                            <span class="md-subhead"> {{card.timestamp | date: 'short'}}</span>
+                            <!-- </span> -->
+                        </md-card-header-text>
+                    </md-card-header>
+                    <md-divider></md-divider>
+                    <!-- //card tools -->
+                    <!-- <md-toolbar class="cardTools"> -->
+                    <div class="cardTools">
+                        <md-button class="md-accent" ng-click="card.showImage = !card.showImage">Show Image</md-button>
+                        <md-button class="md-accent" ng-click="card.showComments = !card.showComments">Comments</md-button>
+                        <span flex></span>
+                        <md-button ng-click='card.fav = !card.fav; addToFavs(card.workoutId)' aria-label="Settings">
+                            <md-icon ng-hide="card.fav" class="mdi mdi-star-outline"></md-icon>
+                            <md-icon ng-show="card.fav" class="mdi mdi-star md-accent"></md-icon>
+                        </md-button>
+                    </div>
+                    <!-- </md-toolbar> -->
+                    <div ng-show="view.showImages">
+                        <img class="cardImage" ng-src="{{card.image}}" alt="Workout Image" \>
+                    </div>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">{{card.title}}</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <div class="tag" layout="row">
+                        <span class="md-subhead">&nbsp;Tags: </span>
+                        <span class="md-subhead" ng-repeat="tag in card.selectedTags">&nbsp;{{tag.name}}&nbsp;</span>
+                    </div>
+                    <!--<md-card-actions layout="row" layout-align="start center">
                         <md-button>Action 1</md-button>
                         <md-button>Action 2</md-button>
                     </md-card-actions> -->
-                <md-card-content>
-                    <p>
-                        {{card.instructions}}
-                    </p>
-                    <div ng-show="card.showComments">
-                    <md-divider></md-divider>
-                    
-                        <div ng-repeat="comment in card.comments">{{comment}}</div>
-                    </div>
-                </md-card-content>
-            </md-card>
-        </div>
-        <!-- //end flex 50 -->
-        <div flex></div>
-    </md-content>
-    <!-- </div> -->
+                    <md-card-content>
+                        <p>
+                            {{card.instructions}}
+                        </p>
+                        <div ng-show="view.showComments">
+                            <md-card ng-repeat="comment in card.comments">
+                                <md-card-header>
+                                <md-card-avatar>
+                                    <md-icon class="mdi mdi-account-circle"></md-icon>
+                                    </md-card-avatar>
+                                    <md-card-header-text>
+                                        <span class="md-title">{{comment.contributor}}: </span>
+                                        <span class="md-subhead"> {{comment.timestamp | date: 'short'}}</span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <!-- <md-card-content> -->
+                                    <span class="commentText">{{comment.text}}</span>
+                                <!-- </md-card-content> -->
+                            </md-card>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <!-- //end flex 50 -->
+            <div flex></div>
+        </md-content>
+    </div>
     <!-- end container -->
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
@@ -175,5 +227,5 @@
     <script src="components/exerciseFactory.js"></script>
     <script src="components/tagFactory.js"></script>
 </body>
-
+    
 </html>

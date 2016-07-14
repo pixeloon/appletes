@@ -3,7 +3,7 @@ angular.module('appletesApp', ['ngMaterial', 'ngMessages'])
 
   $mdThemingProvider.theme('default')
   .primaryPalette('blue')
-  .accentPalette('orange')
+  .accentPalette('red')
 })
 
 

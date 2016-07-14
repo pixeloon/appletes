@@ -4,7 +4,29 @@
 
     angular.module("appletesApp")
 
-    .controller("MainController", function($scope, $http, $element, $mdSidenav, $timeout, $q, $mdToast, WorkoutFactory, ExerciseFactory, TagFactory) {
+    // Setup the filter
+    // .filter('cardsByTags', function() {
+
+    //     // Create the return function and set the required parameter name to **input**
+    //     return function(input, tag) {
+
+    //         var out = [];
+
+    //         // Using the angular.forEach method, go through the array of data and perform the operation of figuring out if the language is statically or dynamically typed.
+    //         angular.forEach(input, function(card) {
+
+    //             if (card.selectedTags === tag) {
+    //                 out.push(card)
+    //             }
+
+    //         })
+
+    //         return out;
+    //     }
+
+    // })
+
+    .controller("MainController", function($scope, $http, $mdSidenav, $timeout, $q, $mdToast, $mdDialog, WorkoutFactory, ExerciseFactory, TagFactory) {
 
         WorkoutFactory.getWorkouts().then(function(workouts) {
             $scope.view.workouts = workouts.data;
@@ -15,15 +37,22 @@
         });
 
         TagFactory.getTags().then(function(tags) {
+            // $scope.view.tags = tags.data;
             $scope.view.tagsData = tags.data;
             $scope.view.tags = loadTags();
-            // $scope.view.tags = loadTags();
+            $scope.view.tagsArr = loadTagsArr();
+            console.log("Loaded tags Data: ", $scope.view.tagsData);
+            console.log("Loaded tags: ", $scope.view.tags);
+            console.log("Loaded tags Array: ", $scope.view.tagsArr);
+
         });
 
         window.scope = $scope
         $scope.view = {};
         $scope.view.workout = {};
-        $scope.view.showImage = false;
+        $scope.view.showImages = true;
+        $scope.view.showComments = true;
+        $scope.view.filteredWorkouts = "";
 
         $scope.view.exerciseCounter = 4;
         $scope.view.workoutCounter = 0;
@@ -31,30 +60,39 @@
         $scope.view.showCards = true;
 
         $scope.submitWorkout = function(workout) {
-          if (workout){
-            workout.workoutId = $scope.view.workoutCounter + 1
-            workout.timestamp = Date.now();
-            workout.comments = [];
-            workout.image = "";
-            workout.votes = 0;
-            workout.comments = [];
-            workout.selectedTags = $scope.view.selectedTags;
-            // workout.contributor: $scope.view.workoutContributor,
-            $scope.view.workouts.push(workout)
-            $mdToast.show(
-              $mdToast.simple()
-              .content('Workout added!')
-              .position("top, right")
-              .hideDelay(3000));
+            if (workout) {
+                workout.workoutId = $scope.view.workoutCounter + 1
+                workout.timestamp = Date.now();
+                workout.comments = [];
+                workout.image = "";
+                workout.votes = 0;
+                workout.comments = [];
+                workout.selectedTags = $scope.view.selectedTags;
+                // workout.contributor: $scope.view.workoutContributor,
+                $scope.view.workouts.push(workout)
 
-            
-          }
+                $scope.showToast('Workout added!');
+
+            }
             $scope.closeRightNav();
 
         }
 
-        // handling left and right nav slider
+        $scope.editWorkout = function(workout) {
+            $scope.editing = true;
 
+        }
+
+        $scope.deleteWorkout = function(workout) {
+
+        }
+
+        $scope.addToFavs = function(workoutId) {
+
+
+        }
+
+        // handling left and right nav slider
         $scope.openRightNav = function() {
             $mdSidenav('right').open();
         };
@@ -71,16 +109,37 @@
 
         $scope.closeLeftNav = function() {
             $mdSidenav('left').close();
-
-
         };
+
+        // handling exercise add dialog
+        $scope.showExerciseDialog = function(event) {
+            $mdDialog.show({
+                controller: 'MainController',
+                templateUrl: '/templates/exerciseDialog.html',
+                parent: angular.element(document.body),
+                targetEvent: event,
+                clickOutsideToClose: false
+            })
+        };
+
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+
+        $scope.showToast = function(message) {
+            $mdToast.show(
+                $mdToast.simple()
+                .content(message)
+                .position("top, right")
+                .hideDelay(2500));
+
+        }
 
         // handling tag chips
         $scope.view.selectedItem = null;
         $scope.view.searchText = null;
         $scope.view.querySearch = querySearch;
         $scope.view.selectedTags = [];
-        // $scope.view.numberBuffer = '';
         $scope.view.autocompleteRequireMatch = true;
         $scope.view.transformChip = transformChip;
         /**
@@ -89,9 +148,12 @@
         function transformChip(chip) {
             // If it is an object, it's already a known chip
             if (angular.isObject(chip)) {
+
                 return chip;
             }
+
             // Otherwise, create a new one
+
             return { name: chip }
         }
         /**
@@ -113,13 +175,21 @@
 
         function loadTags() {
             var tags = $scope.view.tagsData;
-
             return tags.map(function(tag) {
                 tag.name = tag.name.toLowerCase();
                 return tag;
             });
         }
-        // }
+
+        function loadTagsArr() {
+            var tags = $scope.view.tagsData;
+            var arr = [];
+            return tags.map(function(tag) {
+                arr.push(tag.name.toLowerCase())
+                return arr;
+            });
+        }
+
 
     })
 

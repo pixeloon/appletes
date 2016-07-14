@@ -1,0 +1,55 @@
+<md-dialog aria-label="Add Workout" ng-cloak>
+    <form name="workoutForm">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Add Workout</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-icon class="mdi mdi-close" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content class="dialog-content">
+            <h3 class="md-title">Step One - <small>Choose your Exercises:</small></h3>
+            <div ng-repeat="exercise in view.exercises">
+                <md-checkbox name="exercise" id="{{exercise.exerciseId}}" layout="row">
+                    <h3>{{exercise.name}}</h3></md-checkbox>
+                <p><img ng-source="{{exercise.image}}" alt="Exercise Image" \> {{exercise.description}}
+                </p>
+            </div>
+            <!-- //SELECT -->
+            <div layout="column" class="tagInput">
+                <h3 class="md-title">Step Two - <small>Enter up to 5 categories that describe this workout. For example: strength or legs ...</small></h3>
+                <md-chips name='tags' ng-model="view.selectedTags" md-max-chips='5' md-autocomplete-snap md-transform-chip="view.transformChip($chip)" md-require-match="view.autocompleteRequireMatch">
+                    <md-autocomplete md-selected-item="view.selectedItem" md-search-text="view.searchText" md-items="item in view.querySearch(view.searchText)" md-item-text="item.name" placeholder="Start typing to apply tags">
+                        <span md-highlight-text="view.searchText">{{item.name}}</span>
+                    </md-autocomplete>
+                    <md-chip-template>
+                        <span>
+                                            <strong>{{$chip.name}}</strong>
+                                        </span>
+                    </md-chip-template>
+                </md-chips>
+                <div ng-messages="workoutForm.tags.$error" ng-if="workoutForm.$dirty">
+                    <div ng-message="md-max-chips">
+                        You reached the max. amount of tags</div>
+                </div>
+            </div>
+            <!-- //SELECT END -->
+            <h3 class="md-title">Step Three - <small>Provide some helpful Instructions and give your new Workout a name.</small></h3>
+            <md-input-container class="md-block">
+                <label for="instructions">Instructions:</label>
+                <textarea ng-model="view.workout.instructions" md-maxlength="500" rows="5" id="instructions" md-select-on-focus></textarea>
+            </md-input-container>
+            <md-input-container>
+                <label for="title">Name:</label>
+                <input ng-model="view.workout.title" type="text" md-autofocus>
+            </md-input-container>
+            <pre> {{view.workout | json}}</pre>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <span flex></span>
+            <md-button class="md-primary" ng-click="submitWorkout(view.workout)">Save</md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

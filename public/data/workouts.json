@@ -1,27 +1,33 @@
 [{
+    "workoutId": 1,
     "title": "Hulk",
-    "selectedTags": ["endurance", "arms", "upper body"],
+    "selectedTags": [{"name": "endurance"}, {"name": "arms"}, {"name": "upper body"}],
+    "tags": ["endurance", "arms"],
     "contributor": "workoutbee@gmail.com",
     "image": "/images/Push-Ups.jpg",
     "instructions": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
     "votes": 3,
     "timestamp": "07/09/16",
-    "comments": ["nice workout", "this rocks"]
+    "comments": [{"contributor": "Bill", "text": "nice workout",  "timestamp": "07/07/2016 8:30PM"}, {"contributor": "Tam", "text": "this rocks",  "timestamp": "07/07/2016 8:30PM"}]
 }, {
+    "workoutId": 2,
     "title": "Wonder Woman",
-    "selectedTags": ["endurance", "strength", "back", "legs", "plyometric"],
+    "selectedTags": [{"name": "endurance"}, {"name": "strength"}, {"name": "back"}, {"name": "legs"}, {"name": "plyometric"}],
+    "tags": ["endurance", "plyometric"],
     "contributor": "workit@yahoo.com",
     "image": "/images/pullup.jpg",
     "instructions": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
     "votes": 5,
     "timestamp": "07/08/16",
-    "comments": ["tough exercise", "this is hard"]
+    "comments": [{"contributor": "Mike", "text": "tough one",  "timestamp": "07/07/2016 8:30PM"}, {"contributor": "Sara", "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis neque explicabo, nam pariatur cum commodi, voluptatem aliquam ut accusamus, a quidem nihil alias. Non tempore necessitatibus, veniam illum fugiat quibusdam!",  "timestamp": "07/07/2016 8:30PM"}]
 }, {
+    "workoutId": 3,
     "title": "Superman",
-    "selectedTags": ["endurance", "strength", "arms"],
+    "selectedTags": [{"name": "endurance"}, {"name": "strength"}, {"name": "arms"}],
+    "tags": ["endurance", "strength"],
     "contributor": "fitman@aol.com",
     "instructions": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
     "votes": 4,
     "timestamp": "07/07/16",
-    "comments": ["good one", "this is too easy"]
+    "comments": [{"contributor": "Mike", "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis neque explicabo, nam pariatur cum commodi, voluptatem aliquam ut accusamus, a quidem nihil alias. Non tempore necessitatibus, veniam illum fugiat quibusdam! ", "timestamp": "07/07/2016 8:30PM"}, {"contributor": "Mary", "text": "this is too easy", "timestamp": "07/07/2016 8:30PM"}]
 }]
