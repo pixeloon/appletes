@@ -122,7 +122,7 @@
                     </div>
                 </md-content>
 
-                <pre>{{view.workout | json}}</pre>
+                <!-- <pre>{{view.workout | json}}</pre> -->
             </div>
         </md-sidenav>
         <!-- // END RIGHT SIDENAV -->
@@ -160,6 +160,8 @@
                         <md-icon ng-show="card.fav" class="mdi mdi-star md-accent fav" ng-click='card.fav = !card.fav'></md-icon>
                         <md-card-title-text>
                             <span class="md-headline">{{card.title}}</span>
+                          
+                            
                         </md-card-title-text>
                     </md-card-title>
                     <div class="tag" layout="row">
@@ -182,9 +184,10 @@
                         </div> -->
 
                         <div class="card">
-                            <div ng-show="view.showImages" class="floatedImg">
-                                <img class="cardImage" ng-src="{{card.image}}" alt="Workout Image" \>
-                                <p class="foo floatedImg">{{card.instructions}}</p>    
+                            <div><p class="foo floatedImg">
+                            <img ng-show="view.showImages" class="cardImage floatedImg" ng-src="{{card.image}}" alt="Workout Image" align="right" \>
+                            {{card.instructions}}</p>
+                            <span><a href="#" ng-click="addComment()">Comment</a></span>    
                             </div>
 
                         </div>

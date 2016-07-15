@@ -29,9 +29,9 @@
                 <legend> Pick at least one </legend>
                 <!-- <div > -->
                 <div ng-repeat="exercise in view.exercises | filter: view.filteredExercises" class="exerciseInfo">
-                <pre>{{view.selectedExercise | json}}</pre>
-                 <pre>{{exercise | json}}</pre>
-                    <md-checkbox ng-checked=(exercise.selectedExercise) ng-click="exercise.selectedExercise = !exercise.selectedExercise;
+                <!-- <pre>{{view.selectedExercise | json}}</pre> -->
+                 <!-- <pre>{{exercise | json}}</pre> -->
+                    <md-checkbox ng-checked=(exercise.selectedExercise) ng-click="exercise.selectedExercise = !exercise.selectedExercise; 
                     toggleExercise(exercise)" name="exerciseId " layout="row ">
                         <h3>{{exercise.name}}</h3></md-checkbox>
                         
