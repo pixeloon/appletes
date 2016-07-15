@@ -1,8 +1,8 @@
 
 
 .cardImage {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 150px;
+    max-height: 150px;
 }
 
 .exerciseImage {
@@ -26,14 +26,70 @@
   fill: #fff;
 }
 
-.cardTools {
+/*.cardTools {
     text-align: right;
     max-height: 50px;
     background-color: lightgray;
-}
-/*.error {
-    color:#ff9800;
 }*/
+
+.fav {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+
+.card:after {
+        clear: both;
+        display: table;
+        content: " ";
+}
+
+.card {
+    position: relative;
+    /*second option things*/
+    max-height: 300px;
+    overflow: scroll;
+}
+
+
+/*
+.exerciseInfo {
+    position: relative;
+    second option things
+    max-height: 300px;
+    overflow: scroll;
+}
+*/
+
+
+.floatedImg {
+    float: left;
+    display: inline-block;
+    margin: 0px 10px 5px 0px;
+}
+
+/*second option class*/ 
+.foo {
+    width: 100%;
+}
+
+.cardInfo {
+    position: absolute;
+    width: 65%;
+
+}
+
+.cardInfo p {
+    margin-top: 0
+}
+
+.dialog-content {
+    margin: 10px;
+}
+
+.keepDialog {
+    opacity: 0;
+}
 
 .selectHeader {
     /* All these selectors are only applied to children of elements with the 'selectHeader' class */
@@ -76,6 +132,18 @@
 .commentText {
     margin: 0px 10px 10px 10px;
   
+}
+
+.exerciseSearch {
+    margin-top: 20px;
+    margin-right: 10px;
+    color: white;
+}
+
+.exerciseInfo:after {
+        clear: both;
+        display: table;
+        content: " ";
 }
 
 

@@ -32,7 +32,7 @@
                     <md-button ng-click='view.search = !view.search' aria-label="Search">
                         <md-icon class="mdi mdi-magnify"></md-icon>
                     </md-button>
-                    <md-button ng-click="openRightNav()">
+                    <md-button ng-click="setWorkoutId(); openRightNav()">
                         <md-icon class="mdi mdi-shape-circle-plus"></md-icon>Add Workout</md-button>
                 </div>
             </md-whiteframe>
@@ -41,7 +41,7 @@
         <md-toolbar class="fixed-nav" ng-show="view.search">
             <md-whiteframe class="md-whiteframe-5dp">
                 <div class="md-toolbar-tools">
-                        <span flex></span>
+                    <span flex></span>
                     <form>
                         <md-button ng-click='view.search = !view.search' aria-label="Search">
                             <md-icon class="mdi mdi-magnify"></md-icon>
@@ -49,7 +49,6 @@
                         <md-input-container>
                             <input ng-model="view.filteredWorkouts" type="text" aria-label="Search Input" md-autofocus>
                         </md-input-container>
-                        
                     </form>
                 </div>
             </md-whiteframe>
@@ -90,8 +89,8 @@
                                 <input ng-model="view.workout.title" type="text" md-autofocus>
                             </md-input-container>
                             <!-- // add exercises -->
-                            <md-button aria-label="Add" ng-click="showExerciseDialog($event)">
-                                <ng-md-icon icon="add">Add</ng-md-icon>
+                            <md-button class="md-primary" aria-label="Add" ng-click="showExerciseDialog($event)">
+                                <ng-md-icon icon="add">Add Exercises</ng-md-icon>
                             </md-button>
                             <!-- //SELECT -->
                             <div layout="column" class="tagInput">
@@ -122,6 +121,8 @@
                         </form>
                     </div>
                 </md-content>
+
+                <pre>{{view.workout | json}}</pre>
             </div>
         </md-sidenav>
         <!-- // END RIGHT SIDENAV -->
@@ -136,15 +137,15 @@
                             <img class="md-user-avatar" src="/images/youcandoit.png">
                         </md-card-avatar>
                         <md-card-header-text>
-                            <span class="md-title">By {{card.contributor}}</span>
                             <span class="md-subhead"> {{card.timestamp | date: 'short'}}</span>
+                            <span class="md-title">By {{card.contributor}}</span>
                             <!-- </span> -->
                         </md-card-header-text>
                     </md-card-header>
                     <md-divider></md-divider>
                     <!-- //card tools -->
                     <!-- <md-toolbar class="cardTools"> -->
-                    <div class="cardTools">
+                    <!--                     <div class="cardTools">
                         <md-button class="md-accent" ng-click="card.showImage = !card.showImage">Show Image</md-button>
                         <md-button class="md-accent" ng-click="card.showComments = !card.showComments">Comments</md-button>
                         <span flex></span>
@@ -152,12 +153,11 @@
                             <md-icon ng-hide="card.fav" class="mdi mdi-star-outline"></md-icon>
                             <md-icon ng-show="card.fav" class="mdi mdi-star md-accent"></md-icon>
                         </md-button>
-                    </div>
+                    </div> -->
                     <!-- </md-toolbar> -->
-                    <div ng-show="view.showImages">
-                        <img class="cardImage" ng-src="{{card.image}}" alt="Workout Image" \>
-                    </div>
                     <md-card-title>
+                        <md-icon ng-hide="card.fav" class="mdi mdi-star-outline fav" ng-click='card.fav = !card.fav'></md-icon>
+                        <md-icon ng-show="card.fav" class="mdi mdi-star md-accent fav" ng-click='card.fav = !card.fav'></md-icon>
                         <md-card-title-text>
                             <span class="md-headline">{{card.title}}</span>
                         </md-card-title-text>
@@ -171,23 +171,35 @@
                         <md-button>Action 2</md-button>
                     </md-card-actions> -->
                     <md-card-content>
-                        <p>
-                            {{card.instructions}}
-                        </p>
+                        <!-- <div class="card">
+                            <div ng-show="view.showImages" class="floatedImg">
+                                <img class="cardImage" ng-src="{{card.image}}" alt="Workout Image" \>
+                            </div>
+                            <div class="cardInfo floatedImg">
+                                <p>{{card.instructions}}</p>    
+                            </div>
+
+                        </div> -->
+
+                        <div class="card">
+                            <div ng-show="view.showImages" class="floatedImg">
+                                <img class="cardImage" ng-src="{{card.image}}" alt="Workout Image" \>
+                                <p class="foo floatedImg">{{card.instructions}}</p>    
+                            </div>
+
+                        </div>
                         <div ng-show="view.showComments">
                             <md-card ng-repeat="comment in card.comments">
                                 <md-card-header>
-                                <md-card-avatar>
-                                    <md-icon class="mdi mdi-account-circle"></md-icon>
+                                    <md-card-avatar>
+                                        <md-icon class="mdi mdi-account-circle"></md-icon>
                                     </md-card-avatar>
                                     <md-card-header-text>
-                                        <span class="md-title">{{comment.contributor}}: </span>
                                         <span class="md-subhead"> {{comment.timestamp | date: 'short'}}</span>
+                                        <span class="md-title">{{comment.contributor}}: </span>
                                     </md-card-header-text>
                                 </md-card-header>
-                                <!-- <md-card-content> -->
-                                    <span class="commentText">{{comment.text}}</span>
-                                <!-- </md-card-content> -->
+                                <span class="commentText">{{comment.text}}</span>
                             </md-card>
                         </div>
                     </md-card-content>
@@ -227,5 +239,5 @@
     <script src="components/exerciseFactory.js"></script>
     <script src="components/tagFactory.js"></script>
 </body>
-    
+
 </html>

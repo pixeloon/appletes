@@ -25,7 +25,6 @@
     //     }
 
     // })
-
     .controller("MainController", function($scope, $http, $mdSidenav, $timeout, $q, $mdToast, $mdDialog, WorkoutFactory, ExerciseFactory, TagFactory) {
 
         WorkoutFactory.getWorkouts().then(function(workouts) {
@@ -37,27 +36,33 @@
         });
 
         TagFactory.getTags().then(function(tags) {
-            // $scope.view.tags = tags.data;
             $scope.view.tagsData = tags.data;
             $scope.view.tags = loadTags();
-            $scope.view.tagsArr = loadTagsArr();
-            console.log("Loaded tags Data: ", $scope.view.tagsData);
-            console.log("Loaded tags: ", $scope.view.tags);
-            console.log("Loaded tags Array: ", $scope.view.tagsArr);
 
         });
 
-        window.scope = $scope
-        $scope.view = {};
+        window.iinerscope = $scope
+        $scope.view =  {};
         $scope.view.workout = {};
         $scope.view.showImages = true;
         $scope.view.showComments = true;
         $scope.view.filteredWorkouts = "";
 
         $scope.view.exerciseCounter = 4;
-        $scope.view.workoutCounter = 0;
+        $scope.view.workoutCounter = 3;
         $scope.view.cardCounter = 0;
         $scope.view.showCards = true;
+        $scope.view.selectedExercises = [];
+
+        $scope.setWorkoutId = function() {
+            $scope.view.workoutCounter += 1;
+            $scope.view.workout.workoutId = $scope.view.workoutCounter;
+            return $scope.view.workout.workoutId;
+        }
+
+        $scope.getWorkoutId = function() {
+            return $scope.view.workout.workoutId;
+        }
 
         $scope.submitWorkout = function(workout) {
             if (workout) {
@@ -68,13 +73,33 @@
                 workout.votes = 0;
                 workout.comments = [];
                 workout.selectedTags = $scope.view.selectedTags;
-                // workout.contributor: $scope.view.workoutContributor,
                 $scope.view.workouts.push(workout)
 
                 $scope.showToast('Workout added!');
 
             }
             $scope.closeRightNav();
+
+        }
+
+        $scope.toggleExercise = function(exercise) {
+
+            if (exercise.selectedExercise) {
+                if (!exercise.workoutId) {
+                    exercise.workoutId = $scope.getWorkoutId();
+                }
+                $scope.view.selectedExercises.push(exercise)
+
+                return exercise
+
+            } else {
+                var idAtIndex = $scope.view.selectedExercises.findIndex(function(el) {
+                    return el.exerciseId === exercise.exerciseId;
+                })
+                $scope.view.selectedExercises.slice(idAtIndex, 1)
+                return
+            }
+
 
         }
 
@@ -114,8 +139,9 @@
         // handling exercise add dialog
         $scope.showExerciseDialog = function(event) {
             $mdDialog.show({
-                controller: 'MainController',
                 templateUrl: '/templates/exerciseDialog.html',
+                scope: $scope.$new(),
+                controller: 'ModalController',
                 parent: angular.element(document.body),
                 targetEvent: event,
                 clickOutsideToClose: false
@@ -148,12 +174,9 @@
         function transformChip(chip) {
             // If it is an object, it's already a known chip
             if (angular.isObject(chip)) {
-
                 return chip;
             }
-
             // Otherwise, create a new one
-
             return { name: chip }
         }
         /**
@@ -181,18 +204,24 @@
             });
         }
 
-        function loadTagsArr() {
-            var tags = $scope.view.tagsData;
-            var arr = [];
-            return tags.map(function(tag) {
-                arr.push(tag.name.toLowerCase())
-                return arr;
-            });
-        }
+        // function loadTagsArr() {
+        //     var tags = $scope.view.tagsData;
+        //     var arr = [];
+        //     return tags.map(function(tag) {
+        //         arr.push(tag.name.toLowerCase())
+        //         return arr;
+        //     });
+        // }
 
 
     })
+    .controller('ModalController', function($scope){
+      
+      $scope.name = "FOO!!!"
+        // ADD YOUR MODAL LOGIC!
+    })
 
+  
 
 
 })();

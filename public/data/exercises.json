@@ -2,7 +2,7 @@
     "exerciseId": 1,
     "name": "Pushups",
     "tags": ["endurance", "upper body"],
-    "image": "../images/Push-Ups.jpg",
+    "image": "/images/Push-Ups.jpg",
     "videoUrl": "",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
     "timestamp": "07/05/16"
