@@ -12,7 +12,7 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="theme-color" content="#ffffff"> -->
     <!-- angular-material -->
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
     <link rel="stylesheet" href="node_modules/mdi/css/materialdesignicons.min.css" media="all" type="text/css">
     <link rel="stylesheet" href="/css/style.css">
     <base href="/">
@@ -121,7 +121,6 @@
                         </form>
                     </div>
                 </md-content>
-
                 <!-- <pre>{{view.workout | json}}</pre> -->
             </div>
         </md-sidenav>
@@ -145,27 +144,27 @@
                     <md-divider></md-divider>
                     <!-- //card tools -->
                     <!-- <md-toolbar class="cardTools"> -->
-                    <!--                     <div class="cardTools">
-                        <md-button class="md-accent" ng-click="card.showImage = !card.showImage">Show Image</md-button>
-                        <md-button class="md-accent" ng-click="card.showComments = !card.showComments">Comments</md-button>
+                    <div class="cardTools">
+                        <!-- <md-button class="md-accent" ng-click="card.showImage = !card.showImage">Show Image</md-button> -->
+                        <md-button class="md-accent" ng-click="card.showAddComment = !card.showAddComment">Comment</md-button>
                         <span flex></span>
-                        <md-button ng-click='card.fav = !card.fav; addToFavs(card.workoutId)' aria-label="Settings">
-                            <md-icon ng-hide="card.fav" class="mdi mdi-star-outline"></md-icon>
-                            <md-icon ng-show="card.fav" class="mdi mdi-star md-accent"></md-icon>
-                        </md-button>
-                    </div> -->
+                        Votes: {{card.votes}}
+                            <md-icon ng-click="voteUp(card)" class="mdi mdi-arrow-up-bold-circle md-primary"></md-icon>
+                            <md-icon ng-click="voteDown(card)" class="mdi mdi-arrow-down-bold-circle  md-primary"></md-icon>
+                           
+
+                        
+                    </div>
                     <!-- </md-toolbar> -->
                     <md-card-title>
                         <md-icon ng-hide="card.fav" class="mdi mdi-star-outline fav" ng-click='card.fav = !card.fav'></md-icon>
                         <md-icon ng-show="card.fav" class="mdi mdi-star md-accent fav" ng-click='card.fav = !card.fav'></md-icon>
                         <md-card-title-text>
-                            <span class="md-headline">{{card.title}}</span>
-                          
-                            
+                            <span class="md-headline">{{card.title}} - <small>{{card.skill}}</small></span>
                         </md-card-title-text>
                     </md-card-title>
                     <div class="tag" layout="row">
-                        <span class="md-subhead">&nbsp;Tags: </span>
+                        <span class="md-subhead">&nbsp;<strong>Tags: </strong></span>
                         <span class="md-subhead" ng-repeat="tag in card.selectedTags">&nbsp;{{tag.name}}&nbsp;</span>
                     </div>
                     <!--<md-card-actions layout="row" layout-align="start center">
@@ -182,14 +181,23 @@
                             </div>
 
                         </div> -->
-
                         <div class="card">
-                            <div><p class="foo floatedImg">
-                            <img ng-show="view.showImages" class="cardImage floatedImg" ng-src="{{card.image}}" alt="Workout Image" align="right" \>
-                            {{card.instructions}}</p>
-                            <span><a href="#" ng-click="addComment()">Comment</a></span>    
+                            <div>
+                                <p class="foo floatedImg">
+                                    <img ng-show="view.showImages" class="cardImage floatedImg" ng-src="{{card.image}}" alt="Workout Image" align="right" \> {{card.instructions}}
+                                </p>
+                                <!-- <span><a href="#" ng-click="addComment()">Comment</a></span>     -->
                             </div>
-
+                        </div>
+                        <div ng-show="card.showAddComment" layout="column" class="tagInput">
+                            <md-content class="md-padding" layout="column">
+                                <md-input-container class="md-block">
+                                    <label for="comments">Enter your comment here:</label>
+                                    <textarea ng-model="card.comment" md-maxlength="500" rows="5" id="comment" md-select-on-focus></textarea>
+                                </md-input-container>
+                                <md-button class="md-primary" ng-click="submitComment(card.comment)">Save</md-button>
+                                <md-button ng-click="card.showAddComment = false" class="md-warn">Cancel</md-button>
+                            </md-content>
                         </div>
                         <div ng-show="view.showComments">
                             <md-card ng-repeat="comment in card.comments">
@@ -234,10 +242,13 @@
     <script scr="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
     <script src="//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js"></script>
     <!-- AngularFire -->
-    <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+    <!-- <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script> -->
+    <script src="node_modules/angularfire/dist/angularfire.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/2.0.1/angularfire.min.js"></script> -->
     <!-- Angular Material Library -->
     <script src="/js/app.js"></script>
     <script src="components/mainController.js"></script>
+    <script src="components/auth.js"></script>
     <script src="components/workoutFactory.js"></script>
     <script src="components/exerciseFactory.js"></script>
     <script src="components/tagFactory.js"></script>

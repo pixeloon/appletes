@@ -41,6 +41,16 @@
 
             });
 
+            // firebase.auth().onAuthStateChanged(function(user) {
+            //     if (user) {
+            //         console.log("User avalable")
+            //     } else {
+            //         console.log("No user available")
+            //     }
+            // });
+
+            
+
             window.mainscope = $scope
             $scope.view = {};
             $scope.view.workout = {};
@@ -67,12 +77,12 @@
 
             $scope.submitWorkout = function(workout) {
                 if (workout) {
-                  if (!workout.contributor){
-                    workout.contributor = "Anonymous"
-                  } else {
-                    //To Do
-                    workout.contributor = $scope.currentUser;
-                  }
+                    if (!workout.contributor) {
+                        workout.contributor = "Anonymous"
+                    } else {
+                        //To Do
+                        workout.contributor = $scope.currentUser;
+                    }
                     workout.workoutId = $scope.view.workoutCounter + 1
                     workout.timestamp = Date.now();
                     workout.comments = [];
@@ -97,18 +107,31 @@
             }
 
             $scope.deleteWorkout = function(workout) {
-              //To Do
+                //To Do
 
+            }
+
+            $scope.voteUp = function(card) {
+                card.votes += 1;
+                console.log("Votes:", card.votes)
+                return card;
+
+            }
+
+            $scope.voteDown = function(card) {
+                card.votes -= 1;
+                console.log("Votes:", card.votes)
+                return card;
             }
 
             // handling Exercises
             $scope.submitExercises = function() {
                 var selectedExercises = $scope.view.selectedExercises
                 var workoutExercises = [];
-                    // debugger
+                // debugger
                 if (selectedExercises) {
-                    selectedExercises.forEach(function(ex){
-                      workoutExercises.push(ex.exerciseId)
+                    selectedExercises.forEach(function(ex) {
+                        workoutExercises.push(ex.exerciseId)
 
                     })
                     $scope.view.workout.exerciseIds = workoutExercises;
@@ -133,7 +156,7 @@
             }
 
             $scope.addToFavs = function(workoutId) {
-              //ToDo
+                //ToDo
 
             }
 
@@ -229,8 +252,8 @@
         .controller('ModalController', function($scope) {
 
             window.innerscope = $scope
-            // $scope.modal = {};
-            // $scope.modal.exercises = [];
+                // $scope.modal = {};
+                // $scope.modal.exercises = [];
 
             // $scope.captureWorkoutId = function(exercise) {
             //     exercise.workoutId = $scope.getWorkoutId();
