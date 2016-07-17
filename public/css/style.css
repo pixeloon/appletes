@@ -47,7 +47,7 @@
 }
 
 .cardContent {
-    margin-top: 1.5em;
+    margin-top: 3em;
 }
 
 .fixed-nav {
@@ -147,6 +147,10 @@
     max-height: 240px;
 }
 
+.md-button.md-mini {
+    font-size: 1.5em;
+}
+
 .mdi-shape-circle-plus,
 .mdi-menu,
 .mdi-star-outline,
@@ -156,7 +160,8 @@
 .mdi-account-circle,
 .mdi-arrow-up-bold-circle,
 .mdi-arrow-down-bold-circle,
-.mdi-format-clear {
+.mdi-format-clear,
+.mdi-plus-circle-outline {
     font-size: 25px;
 }
 

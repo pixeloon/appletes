@@ -11,32 +11,10 @@
                 <md-button ng-click='ctrl.view.filterWorkouts = !ctrl.view.filterWorkouts' aria-label="Filter">
                     <md-icon class="mdi mdi-magnify"></md-icon>
                 </md-button>
-                <md-button ng-click="ctrl.setWorkoutId(); ctrl.openRightNav()">
-                    <md-icon class="mdi mdi-shape-circle-plus"></md-icon>Add Workout</md-button>
-            </div>
-        </md-whiteframe>
-    </md-toolbar>
-    <!-- // sub menu -->
-    <md-toolbar class="fixed-nav" ng-show="ctrl.view.filterWorkouts">
-        <md-whiteframe class="md-whiteframe-5dp">
-            <div class="md-toolbar-tools">
-                <span flex></span>
-                <form>
-                    <md-input-container style="margin-top: 45px">
-                        <label for="filter">Apply Filter</label>
-                        <input ng-model="ctrl.view.filteredWorkouts" type="text" aria-label="Filter Input" style="color:white;font-size: 1em;" md-autofocus>
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Sort:</label>
-                        <input>
-                        <span flex></span>
-                        <md-button class="md-icon-button" ng-click="ctrl.view.filteredWorkouts = ''">
-                            <md-icon class="mdi mdi-format-clear" aria-label="Clear Filter"></md-icon>
-                        </md-button>
-                        <md-button class="md-icon-button" ng-click="ctrl.view.filterWorkouts = false">
-                            <md-icon class="mdi mdi-close" aria-label="Close Filter"></md-icon>
-                        </md-button>
-                </form>
+                <md-button class="md-fab md-mini md-accent" ng-click="ctrl.setWorkoutId(); ctrl.openRightNav()">
+                    +
+                    <md-tooltip>Add Workout</md-tooltip>
+                </md-button>
             </div>
         </md-whiteframe>
     </md-toolbar>
@@ -114,7 +92,7 @@
                     </form>
                 </div>
             </md-content>
-            <pre>{{view.workout | json}}</pre>
+            <!-- <pre>{{view.workout | json}}</pre> -->
         </div>
     </md-sidenav>
     <!-- // END RIGHT SIDENAV -->
@@ -123,6 +101,26 @@
     <md-content class="md-padding" layout="row" layout-align="space-around center" layout-wrap>
         <div flex-xs="5" flex="10" flex-gt-sm="20"></div>
         <div class="cardContent" flex-xs="90" flex="80" flex-gt-sm="60">
+            <!-- // sub menu -->
+            <div ng-show="ctrl.view.filterWorkouts" flex-xs="90" flex="80" flex-gt-sm="60" class="md-primary" style="text-align=center">
+                <span flex></span>
+                <md-input-container>
+                    <label for="filter">Apply Filter</label>
+                    <input ng-model="ctrl.view.filteredWorkouts" type="text" aria-label="Filter Input" md-autofocus>
+                </md-input-container>
+                <md-input-container>
+                    <label>Sort:</label>
+                    <input>
+                </md-input-container>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="ctrl.view.filteredWorkouts = ''">
+                    <md-icon class="mdi mdi-format-clear" aria-label="Clear Filter"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="ctrl.view.filterWorkouts = false">
+                    <md-icon class="mdi mdi-close" aria-label="Close Filter"></md-icon>
+                </md-button>
+                <span flex></span>
+            </div>
             <md-card ng-repeat="card in ctrl.view.workouts  | filter: ctrl.view.filteredWorkouts">
                 <md-card-header>
                     <md-card-avatar>
@@ -137,29 +135,29 @@
                 <md-divider></md-divider>
                 <!-- //card tools -->
                 <md-toolbar class="cardTools md-accent md-padding" style="z-index: 0">
-                <div class="cardTools">
-                <md-button class="md-primary" ng-click="card.showSets = !card.showSets" ng-if="!card.showSets">Detail</md-button>
-                <md-button class="md-primary" ng-click="card.showSets = !card.showSets" ng-if="card.showSets">Less</md-button>
-                    <md-button class="md-primary" ng-click="card.showAddComment = !card.showAddComment">Comment</md-button>
-                    <span flex></span> {{card.votes}}
-                    <md-icon ng-click="ctrl.voteUp(card)" class="mdi mdi-arrow-up-bold-circle md-primary"></md-icon>
-                    <md-icon ng-click="ctrl.voteDown(card)" class="mdi mdi-arrow-down-bold-circle  md-primary"></md-icon>
-                </div>
+                    <div class="cardTools">
+                        <md-button class="md-primary" ng-click="card.showSets = !card.showSets" ng-if="!card.showSets">Detail</md-button>
+                        <md-button class="md-primary" ng-click="card.showSets = !card.showSets" ng-if="card.showSets">Less</md-button>
+                        <md-button class="md-primary" ng-click="card.showAddComment = !card.showAddComment">Comment</md-button>
+                        <span flex></span> {{card.votes}}
+                        <md-icon ng-click="ctrl.voteUp(card)" class="mdi mdi-arrow-up-bold-circle md-primary"></md-icon>
+                        <md-icon ng-click="ctrl.voteDown(card)" class="mdi mdi-arrow-down-bold-circle  md-primary"></md-icon>
+                    </div>
                 </md-toolbar>
                 <!-- // end card tools -->
                 <!-- // add comments -->
-                    <div ng-show="card.showAddComment" layout="column" class="tagInput">
-                        <md-content class="md-padding" layout="column">
-                            <md-input-container class="md-block">
-                                <label for="comments">Enter your comment here:</label>
-                                <textarea ng-model="card.comment" md-maxlength="250" rows="5" id="comment" md-select-on-focus></textarea>
-                            </md-input-container>
-                            <div>
+                <div ng-show="card.showAddComment" layout="column" class="tagInput">
+                    <md-content class="md-padding" layout="column">
+                        <md-input-container class="md-block">
+                            <label for="comments">Enter your comment here:</label>
+                            <textarea ng-model="card.comment" md-maxlength="250" rows="5" id="comment" md-select-on-focus></textarea>
+                        </md-input-container>
+                        <div>
                             <md-button class="md-primary" ng-click="ctrl.submitComment(card.comment)">Save</md-button>
                             <md-button ng-click="card.showAddComment = false" class="md-warn">Cancel</md-button>
-                            </div>
-                        </md-content>
-                    </div>
+                        </div>
+                    </md-content>
+                </div>
                 <!-- // end add comments -->
                 <!-- // CARDS -->
                 <md-card-title>
