@@ -136,15 +136,32 @@
                 </md-card-header>
                 <md-divider></md-divider>
                 <!-- //card tools -->
-                <!-- <md-toolbar class="cardTools"> -->
+                <md-toolbar class="cardTools md-accent md-padding" style="z-index: 0">
                 <div class="cardTools">
-                    <!-- <md-button class="md-accent" ng-click="card.showImage = !card.showImage">Show Image</md-button> -->
-                    <md-button class="md-accent" ng-click="card.showAddComment = !card.showAddComment">Comment</md-button>
-                    <span flex></span> Votes: {{card.votes}}
-                    <md-icon ng-click="voteUp(card)" class="mdi mdi-arrow-up-bold-circle md-primary"></md-icon>
-                    <md-icon ng-click="voteDown(card)" class="mdi mdi-arrow-down-bold-circle  md-primary"></md-icon>
+                <md-button class="md-primary" ng-click="card.showSets = !card.showSets" ng-if="!card.showSets">Detail</md-button>
+                <md-button class="md-primary" ng-click="card.showSets = !card.showSets" ng-if="card.showSets">Less</md-button>
+                    <md-button class="md-primary" ng-click="card.showAddComment = !card.showAddComment">Comment</md-button>
+                    <span flex></span> {{card.votes}}
+                    <md-icon ng-click="ctrl.voteUp(card)" class="mdi mdi-arrow-up-bold-circle md-primary"></md-icon>
+                    <md-icon ng-click="ctrl.voteDown(card)" class="mdi mdi-arrow-down-bold-circle  md-primary"></md-icon>
                 </div>
-                <!-- </md-toolbar> -->
+                </md-toolbar>
+                <!-- // end card tools -->
+                <!-- // add comments -->
+                    <div ng-show="card.showAddComment" layout="column" class="tagInput">
+                        <md-content class="md-padding" layout="column">
+                            <md-input-container class="md-block">
+                                <label for="comments">Enter your comment here:</label>
+                                <textarea ng-model="card.comment" md-maxlength="250" rows="5" id="comment" md-select-on-focus></textarea>
+                            </md-input-container>
+                            <div>
+                            <md-button class="md-primary" ng-click="ctrl.submitComment(card.comment)">Save</md-button>
+                            <md-button ng-click="card.showAddComment = false" class="md-warn">Cancel</md-button>
+                            </div>
+                        </md-content>
+                    </div>
+                <!-- // end add comments -->
+                <!-- // CARDS -->
                 <md-card-title>
                     <md-icon ng-hide="card.fav" class="mdi mdi-star-outline fav" ng-click='card.fav = !card.fav'></md-icon>
                     <md-icon ng-show="card.fav" class="mdi mdi-star md-accent fav" ng-click='card.fav = !card.fav'></md-icon>
@@ -157,7 +174,7 @@
                     <span class="md-subhead" ng-repeat="tag in card.selectedTags">&nbsp;{{tag.name}}&nbsp;</span>
                 </div>
                 <md-card-content>
-                    <div class="card">
+                    <div class="card" ng-hide="card.showSets">
                         <div>
                             <p class="foo floatedImg">
                                 <img ng-show="ctrl.view.showImages" class="cardImage floatedImg" ng-src="{{card.image}}" alt="Workout Image" align="right" \> {{card.instructions}}
@@ -165,30 +182,22 @@
                         </div>
                     </div>
                     <!-- //exercise block -->
-                    <div layout="column" flex class="exerciseSets">
-                        <div ng-repeat="set in card.sets" class="setInfo"><h3>Set {{set.number}}:</h3>
+                    <div layout="column" flex class="exerciseSets" ng-show="card.showSets">
+                        <div ng-repeat="set in card.sets" class="setInfo">
+                            <h3>Set {{set.number}}:</h3>
                             <div ng-repeat="exercise in set.exercises" layout="column">
-                                <div class="setInfo" >
+                                <div class="setInfo">
                                     <p>
-                                    <img class="setImage" ng-src="{{exercise.image}}" alt="Exercise image" align="left" \> 
-                                    <strong class="setTitle">{{exercise.title}}: {{exercise.reps}}x</strong>
+                                        <img class="setImage" ng-src="{{exercise.image}}" alt="Exercise image" align="left" \>
+                                        <strong class="setTitle">{{exercise.title}}: {{exercise.reps}}x</strong>
                                     </p>
                                 </div>
-                        <md-divider></md-divider>
+                                <md-divider></md-divider>
                             </div>
                         </div>
                     </div>
                     <!-- // end exercise block -->
-                    <div ng-show="card.showAddComment" layout="column" class="tagInput">
-                        <md-content class="md-padding" layout="column">
-                            <md-input-container class="md-block">
-                                <label for="comments">Enter your comment here:</label>
-                                <textarea ng-model="card.comment" md-maxlength="500" rows="5" id="comment" md-select-on-focus></textarea>
-                            </md-input-container>
-                            <md-button class="md-primary" ng-click="ctrl.submitComment(card.comment)">Save</md-button>
-                            <md-button ng-click="card.showAddComment = false" class="md-warn">Cancel</md-button>
-                        </md-content>
-                    </div>
+                    <!-- // comment block -->
                     <div ng-show="ctrl.view.showComments">
                         <md-card ng-repeat="comment in card.comments">
                             <md-card-header>
@@ -205,6 +214,7 @@
                     </div>
                 </md-card-content>
             </md-card>
+            <!-- // end CARDS -->
         </div>
         <!-- //end flex 50 -->
         <div flex></div>

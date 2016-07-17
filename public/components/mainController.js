@@ -51,27 +51,23 @@
             });
 
 
-
-
-
             window.mainscope = ctrl
             ctrl.view = {};
             ctrl.view.workout = {};
             ctrl.view.showImages = true;
             ctrl.view.showComments = true;
             ctrl.view.filterWorkouts = false;
+            ctrl.showSets = false;
+            ctrl.view.showCards = true;
             ctrl.view.filteredWorkouts = "";
             ctrl.view.selectedTags = [];
-
             ctrl.view.exerciseCounter = 4;
             ctrl.view.workoutCounter = 3;
             ctrl.view.cardCounter = 0;
-            ctrl.view.showCards = true;
             ctrl.view.selectedExercises = [];
 
 
             function signOutUser() {
-                debugger
                 firebase.auth().signOut().then(function() {
                     console.log("Signed out successfully!");
                 }, function(error) {
@@ -110,7 +106,6 @@
 
                 }
                 closeRightNav();
-
             }
 
 
