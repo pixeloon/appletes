@@ -3,7 +3,7 @@
         <div class="md-toolbar-tools">
             <h2>Add Exercises</h2>
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel()">
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
                 <md-icon md-icon class="mdi mdi-close" aria-label="Close dialog"></md-icon>
             </md-button>
         </div>
@@ -11,7 +11,7 @@
     <md-dialog-content class="dialog-content">
     <p>
         <md-input-container>
-            <input ng-model="view.filteredExercises" type="text" aria-label="Search Input" placeholder="Apply Filter" md-autofocus>
+            <input ng-model="ctrl.view.filteredExercises" type="text" aria-label="Search Input" placeholder="Apply Filter" md-autofocus>
         </md-input-container></p>
         <div class="keepDialog">
         </div>
@@ -28,7 +28,7 @@
             <fieldset class="standard">
                 <legend> Pick at least one </legend>
                 <!-- <div > -->
-                <div ng-repeat="exercise in view.exercises | filter: view.filteredExercises" class="exerciseInfo">
+                <div ng-repeat="exercise in ctrl.view.exercises | filter: ctrl.view.filteredExercises" class="exerciseInfo">
                 <!-- <pre>{{view.selectedExercise | json}}</pre> -->
                  <!-- <pre>{{exercise | json}}</pre> -->
                     <md-checkbox ng-checked=(exercise.selectedExercise) ng-click="exercise.selectedExercise = !exercise.selectedExercise; 
@@ -44,7 +44,7 @@
     </md-dialog-content>
     <md-dialog-actions layout="row ">
         <span flex></span>
-        <md-button class="md-primary " ng-click="submitExercises() ">Submit</md-button>
+        <md-button class="md-primary " ng-click="ctrl.submitExercises() ">Submit</md-button>
     </md-dialog-actions>
     </form>
 </md-dialog>

@@ -26,6 +26,12 @@
   fill: #fff;
 }
 
+.user-avatar {
+  border-radius: 99%;
+  width: 32px;
+  height: 32px;
+}
+
 .cardTools {
     text-align: right;
 }
@@ -67,9 +73,9 @@
 }
 
 /*second option class*/ 
-.foo {
+/*.foo {
     width: 100%;
-}
+}*/
 
 .cardInfo {
     position: absolute;
@@ -117,7 +123,8 @@
     max-height: 240px;
 }
 
-.mdi-shape-circle-plus, .mdi-menu, .mdi-star-outline, .mdi-star, .mdi-close, .mdi-magnify, .mdi-account-circle, .mdi-arrow-up-bold-circle, .mdi-arrow-down-bold-circle  {
+.mdi-shape-circle-plus, .mdi-menu, .mdi-star-outline, .mdi-star, .mdi-close, .mdi-magnify, 
+.mdi-account-circle, .mdi-arrow-up-bold-circle, .mdi-arrow-down-bold-circle, .mdi-format-clear  {
     font-size: 25px;
 }
 
