@@ -1,15 +1,16 @@
 <div layout="column" flex>
-    <!-- <nav> -->
     <md-toolbar class="fixed-nav">
         <md-whiteframe class="md-whiteframe-5dp">
             <div class="md-toolbar-tools">
                 <md-button ng-click='ctrl.openLeftNav()' aria-label="Settings">
                     <md-icon class="mdi mdi-menu"></md-icon>
+                    <md-tooltip>Settings</md-tooltip>
                 </md-button>
                 <span flex></span>
                 <p><strong>Appletes</strong></p><span flex></span>
                 <md-button ng-click='ctrl.view.filterWorkouts = !ctrl.view.filterWorkouts' aria-label="Filter">
                     <md-icon class="mdi mdi-magnify"></md-icon>
+                    <md-tooltip>Show Filter</md-tooltip>
                 </md-button>
                 <md-button class="md-fab md-mini md-accent" ng-click="ctrl.setWorkoutId(); ctrl.openRightNav()">
                     +
@@ -35,7 +36,7 @@
                     <md-divider></md-divider>
                 </div>
                 <div>
-                    <md-switch ng-model="ctrl.view.showComments" class="md-primary" md-no-ink aria-label="Switch Comm   ents">
+                    <md-switch ng-model="ctrl.view.showComments" class="md-primary" md-no-ink aria-label="Switch Comments">
                         Show all comments: {{ ctrl.view.showComments}}
                     </md-switch>
                     <md-switch ng-model="ctrl.view.showImages" class="md-primary" md-no-ink aria-label="Switch Images">
@@ -96,32 +97,40 @@
         </div>
     </md-sidenav>
     <!-- // END RIGHT SIDENAV -->
-    <!-- </nav> -->
     <!-- //CARDS -->
     <md-content class="md-padding" layout="row" layout-align="space-around center" layout-wrap>
         <div flex-xs="5" flex="10" flex-gt-sm="20"></div>
         <div class="cardContent" flex-xs="90" flex="80" flex-gt-sm="60">
             <!-- // sub menu -->
-            <div ng-show="ctrl.view.filterWorkouts" flex-xs="90" flex="80" flex-gt-sm="60" class="md-primary" style="text-align=center">
-                <span flex></span>
+            <div ng-show="ctrl.view.filterWorkouts" flex-xs="90" flex="80" flex-gt-sm="60" class="md-primary" layout-align="center center">
+                <!-- <span flex></span> -->
+                <div layout="row">
                 <md-input-container>
                     <label for="filter">Apply Filter</label>
                     <input ng-model="ctrl.view.filteredWorkouts" type="text" aria-label="Filter Input" md-autofocus>
                 </md-input-container>
                 <md-input-container>
                     <label>Sort:</label>
-                    <input>
+                    <md-select ng-model="ctrl.view.sortOption">
+                        <md-option ng-repeat="option in ctrl.view.sortOptions" value="{{option}}">
+                            {{option}}
+                        </md-option>
+                    </md-select>
                 </md-input-container>
-                <span flex></span>
                 <md-button class="md-icon-button" ng-click="ctrl.view.filteredWorkouts = ''">
                     <md-icon class="mdi mdi-format-clear" aria-label="Clear Filter"></md-icon>
+                    <md-tooltip>Clear Filter</md-tooltip>
                 </md-button>
                 <md-button class="md-icon-button" ng-click="ctrl.view.filterWorkouts = false">
                     <md-icon class="mdi mdi-close" aria-label="Close Filter"></md-icon>
+                    <md-tooltip>Hide Filter</md-tooltip>
                 </md-button>
-                <span flex></span>
+                </div>
+                <!-- <span flex></span> -->
+                <!-- <span flex></span> -->
             </div>
-            <md-card ng-repeat="card in ctrl.view.workouts  | filter: ctrl.view.filteredWorkouts">
+            <!-- // end sub menu -->
+            <md-card ng-repeat="card in ctrl.view.workouts  | filter: ctrl.view.filteredWorkouts | orderBy: ctrl.sort()">
                 <md-card-header>
                     <md-card-avatar>
                         <img class="md-user-avatar" ng-src="/images/youcandoit.png">
@@ -129,7 +138,6 @@
                     <md-card-header-text>
                         <span class="md-subhead"> {{card.timestamp | date: 'short'}}</span>
                         <span class="md-title">By {{card.contributor}}</span>
-                        <!-- </span> -->
                     </md-card-header-text>
                 </md-card-header>
                 <md-divider></md-divider>
@@ -140,8 +148,11 @@
                         <md-button class="md-primary" ng-click="card.showSets = !card.showSets" ng-if="card.showSets">Less</md-button>
                         <md-button class="md-primary" ng-click="card.showAddComment = !card.showAddComment">Comment</md-button>
                         <span flex></span> {{card.votes}}
-                        <md-icon ng-click="ctrl.voteUp(card)" class="mdi mdi-arrow-up-bold-circle md-primary"></md-icon>
-                        <md-icon ng-click="ctrl.voteDown(card)" class="mdi mdi-arrow-down-bold-circle  md-primary"></md-icon>
+                        <md-icon ng-click="ctrl.voteUp(card)" class="mdi mdi-arrow-up-bold-circle md-primary">
+                            <md-tooltip>Vote</md-tooltip>
+                        </md-icon>
+                        <md-icon ng-click="ctrl.voteDown(card)" class="mdi mdi-arrow-down-bold-circle  md-primary">
+                        </md-icon>
                     </div>
                 </md-toolbar>
                 <!-- // end card tools -->

@@ -23,6 +23,7 @@
             ctrl.showExerciseDialog = showExerciseDialog;
             ctrl.showToast = showToast;
             ctrl.signOutUser = signOutUser;
+            ctrl.sort = sort;
             ctrl.submitExercises = submitExercises;
             ctrl.submitWorkout = submitWorkout;
             ctrl.voteDown = voteDown;
@@ -65,13 +66,15 @@
             ctrl.view.workoutCounter = 3;
             ctrl.view.cardCounter = 0;
             ctrl.view.selectedExercises = [];
+            ctrl.view.sortOption = "Date"
+            ctrl.view.sortOptions = ["Date", "Votes"];
 
 
             function signOutUser() {
                 firebase.auth().signOut().then(function() {
                     console.log("Signed out successfully!");
                 }, function(error) {
-                    console.log("Error occurred: ", errror)
+                    console.log("Error occurred: ", error)
                 });
             }
 
@@ -83,6 +86,20 @@
 
             function getWorkoutId() {
                 return ctrl.view.workout.workoutId;
+            }
+
+            function sort() {
+              var option = ctrl.view.sortOption;
+
+                if (option === "Votes") {
+                    return "-votes"
+
+                } else if (option === "Date") {
+                    return "-timestamp"
+                } else {
+
+                    return "timestamp"
+                }
             }
 
             function submitWorkout(workout) {
@@ -135,7 +152,7 @@
 
             // handling Exercises
             function submitExercises() {
-              debugger
+                debugger
                 var selectedExercises = ctrl.view.selectedExercises;
                 var workoutExercises = [];
                 // debugger
@@ -243,7 +260,7 @@
                 });
             }
 
-// AUTHENTICATION
+            // AUTHENTICATION
 
             var provider = new firebase.auth.GoogleAuthProvider();
 
@@ -298,7 +315,7 @@
 
         }) // end main controller
 
-        .controller('ModalController', function($scope) {
+    .controller('ModalController', function($scope) {
 
             window.innerscope = $scope
 

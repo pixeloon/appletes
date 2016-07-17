@@ -9,37 +9,28 @@
         </div>
     </md-toolbar>
     <md-dialog-content class="dialog-content">
-    <p>
-        <md-input-container>
-            <input ng-model="ctrl.view.filteredExercises" type="text" aria-label="Search Input" placeholder="Apply Filter" md-autofocus>
-        </md-input-container></p>
+        <p>
+            <md-input-container>
+                <input ng-model="ctrl.view.filteredExercises" type="text" aria-label="Search Input" placeholder="Apply Filter" md-autofocus>
+            </md-input-container>
+        </p>
         <div class="keepDialog">
         </div>
-        
-        <!--           
-          <div layout="row" layout-wrap flex>
-            <div flex="50" ng-repeat="item in items">
-              <md-checkbox ng-checked="exists(item, selected)" ">
-         
-              </md-checkbox>
-            </div>
-          </div> -->
+        </div> -->
         <form name="exercisesForm">
             <fieldset class="standard">
                 <legend> Pick at least one </legend>
-
                 <div ng-repeat="exercise in ctrl.view.exercises | filter: ctrl.view.filteredExercises" class="exerciseInfo">
-                <!-- <pre>{{view.selectedExercise | json}}</pre> -->
-                 <!-- <pre>{{exercise | json}}</pre> -->
+                    <!-- <pre>{{view.selectedExercise | json}}</pre> -->
+                    <!-- <pre>{{exercise | json}}</pre> -->
                     <md-checkbox ng-checked=(exercise.selectedExercise) ng-click="exercise.selectedExercise = !exercise.selectedExercise; 
                     toggleExercise(exercise)" name="exerciseId " layout="row ">
                         <h3>{{exercise.name}}</h3></md-checkbox>
-                        
                     <p>
-                    <img class="exerciseImage " ng-src="{{exercise.image}} " alt="Exercise Image " align="right" \> {{exercise.description}}
-                    <br><br><strong>Tags: </strong><i><span ng-repeat="tag in exercise.tags">{{tag}}&nbsp;</span></i></p>
+                        <img class="exerciseImage " ng-src="{{exercise.image}} " alt="Exercise Image " align="right" \> {{exercise.description}}
+                        <br>
+                        <br><strong>Tags: </strong><i><span ng-repeat="tag in exercise.tags">{{tag}}&nbsp;</span></i></p>
                 </div>
-          
             </fieldset>
     </md-dialog-content>
     <md-dialog-actions layout="row ">
