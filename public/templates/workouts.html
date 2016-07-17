@@ -57,7 +57,7 @@
                     <md-divider></md-divider>
                 </div>
                 <div>
-                    <md-switch ng-model="ctrl.view.showComments" class="md-primary" md-no-ink aria-label="Switch Comments">
+                    <md-switch ng-model="ctrl.view.showComments" class="md-primary" md-no-ink aria-label="Switch Comm   ents">
                         Show all comments: {{ ctrl.view.showComments}}
                     </md-switch>
                     <md-switch ng-model="ctrl.view.showImages" class="md-primary" md-no-ink aria-label="Switch Images">
@@ -156,28 +156,29 @@
                     <span class="md-subhead">&nbsp;<strong>Tags: </strong></span>
                     <span class="md-subhead" ng-repeat="tag in card.selectedTags">&nbsp;{{tag.name}}&nbsp;</span>
                 </div>
-                <!--<md-card-actions layout="row" layout-align="start center">
-                        <md-button>Action 1</md-button>
-                        <md-button>Action 2</md-button>
-                    </md-card-actions> -->
                 <md-card-content>
-                    <!-- <div class="card">
-                            <div ng-show="view.showImages" class="floatedImg">
-                                <img class="cardImage" ng-src="{{card.image}}" alt="Workout Image" \>
-                            </div>
-                            <div class="cardInfo floatedImg">
-                                <p>{{card.instructions}}</p>    
-                            </div>
-
-                        </div> -->
                     <div class="card">
                         <div>
                             <p class="foo floatedImg">
                                 <img ng-show="ctrl.view.showImages" class="cardImage floatedImg" ng-src="{{card.image}}" alt="Workout Image" align="right" \> {{card.instructions}}
                             </p>
-                            <!-- <span><a href="#" ng-click="addComment()">Comment</a></span>     -->
                         </div>
                     </div>
+                    <!-- //exercise block -->
+                    <div layout="column" flex class="exerciseSets">
+                        <div ng-repeat="set in card.sets" class="setInfo"><h3>Set {{set.number}}:</h3>
+                            <div ng-repeat="exercise in set.exercises" layout="column">
+                                <div class="setInfo" >
+                                    <p>
+                                    <img class="setImage" ng-src="{{exercise.image}}" alt="Exercise image" align="left" \> 
+                                    <strong class="setTitle">{{exercise.title}}: {{exercise.reps}}x</strong>
+                                    </p>
+                                </div>
+                        <md-divider></md-divider>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- // end exercise block -->
                     <div ng-show="card.showAddComment" layout="column" class="tagInput">
                         <md-content class="md-padding" layout="column">
                             <md-input-container class="md-block">

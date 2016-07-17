@@ -27,7 +27,7 @@
         <form name="exercisesForm">
             <fieldset class="standard">
                 <legend> Pick at least one </legend>
-                <!-- <div > -->
+
                 <div ng-repeat="exercise in ctrl.view.exercises | filter: ctrl.view.filteredExercises" class="exerciseInfo">
                 <!-- <pre>{{view.selectedExercise | json}}</pre> -->
                  <!-- <pre>{{exercise | json}}</pre> -->
@@ -39,7 +39,7 @@
                     <img class="exerciseImage " ng-src="{{exercise.image}} " alt="Exercise Image " align="right" \> {{exercise.description}}
                     <br><br><strong>Tags: </strong><i><span ng-repeat="tag in exercise.tags">{{tag}}&nbsp;</span></i></p>
                 </div>
-                <!-- </div> -->
+          
             </fieldset>
     </md-dialog-content>
     <md-dialog-actions layout="row ">

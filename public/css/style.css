@@ -1,8 +1,13 @@
-
-
 .cardImage {
     max-width: 150px;
     max-height: 150px;
+}
+
+.setImage {
+    max-width: 100px;
+    max-height: 100px;
+    vertical-align: text-bottom;
+
 }
 
 .exerciseImage {
@@ -10,26 +15,53 @@
     max-height: 200px;
 }
 
+.exerciseSets {
+        position: relative;
+    max-height: 380px;
+    overflow: scroll;
+}
+
+.exerciseInfo {
+    position: relative;
+    max-height: 300px;
+    overflow: scroll;
+}
+
+.setInfo {
+    position: relative;
+    margin-left: 20px;
+}
+
+.setTitle {
+    margin-left: 10px;
+}
+
+.setInfo:after {
+    clear: both;
+    display: table;
+    content: " ";
+}
+
 .exerciseTags {
     color: blue;
 }
 
 .cardContent {
-    margin-top: 1.5em;  
-}   
+    margin-top: 1.5em;
+}
 
 .fixed-nav {
     position: fixed;
 }
 
-.md-fab {
-  fill: #fff;
-}
+/*.md-fab {
+    fill: #fff;
+}*/
 
 .user-avatar {
-  border-radius: 99%;
-  width: 32px;
-  height: 32px;
+    border-radius: 99%;
+    width: 32px;
+    height: 32px;
 }
 
 .cardTools {
@@ -41,11 +73,10 @@
     margin-bottom: 5px;
 }
 
-
 .card:after {
-        clear: both;
-        display: table;
-        content: " ";
+    clear: both;
+    display: table;
+    content: " ";
 }
 
 .card {
@@ -56,14 +87,6 @@
 }
 
 
-/*
-.exerciseInfo {
-    position: relative;
-    second option things
-    max-height: 300px;
-    overflow: scroll;
-}
-*/
 
 
 .floatedImg {
@@ -72,7 +95,10 @@
     margin: 0px 10px 5px 0px;
 }
 
-/*second option class*/ 
+
+/*second option class*/
+
+
 /*.foo {
     width: 100%;
 }*/
@@ -80,7 +106,6 @@
 .cardInfo {
     position: absolute;
     width: 65%;
-
 }
 
 .cardInfo p {
@@ -97,7 +122,6 @@
 
 .selectHeader {
     /* All these selectors are only applied to children of elements with the 'selectHeader' class */
-
 }
 
 .selectHeader .header-searchbox {
@@ -123,20 +147,26 @@
     max-height: 240px;
 }
 
-.mdi-shape-circle-plus, .mdi-menu, .mdi-star-outline, .mdi-star, .mdi-close, .mdi-magnify, 
-.mdi-account-circle, .mdi-arrow-up-bold-circle, .mdi-arrow-down-bold-circle, .mdi-format-clear  {
+.mdi-shape-circle-plus,
+.mdi-menu,
+.mdi-star-outline,
+.mdi-star,
+.mdi-close,
+.mdi-magnify,
+.mdi-account-circle,
+.mdi-arrow-up-bold-circle,
+.mdi-arrow-down-bold-circle,
+.mdi-format-clear {
     font-size: 25px;
 }
 
-
 .dialog-content {
-     max-width:800px;
-     max-height:810px;
+    max-width: 800px;
+    max-height: 810px;
 }
 
 .commentText {
     margin: 0px 10px 10px 10px;
-  
 }
 
 .exerciseSearch {
@@ -146,12 +176,7 @@
 }
 
 .exerciseInfo:after {
-        clear: both;
-        display: table;
-        content: " ";
+    clear: both;
+    display: table;
+    content: " ";
 }
-
-
-
-
-

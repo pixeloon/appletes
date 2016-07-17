@@ -10,8 +10,6 @@
 
             var ctrl = this;
 
-
-
             ctrl.addToFavs = addToFavs; // to do
             ctrl.cancel = cancel;
             ctrl.closeLeftNav = closeLeftNav;
@@ -38,6 +36,7 @@
 
             WorkoutFactory.getWorkouts().then(function(workouts) {
                 ctrl.view.workouts = workouts.data;
+                console.log("WORKOUTS: ", ctrl.view.workouts)
             });
 
             ExerciseFactory.getExercises().then(function(exercises) {
