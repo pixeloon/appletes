@@ -20,12 +20,14 @@
             ctrl.openLeftNav = openLeftNav;
             ctrl.openRightNav = openRightNav;
             ctrl.setWorkoutId = setWorkoutId;
-            ctrl.showExerciseDialog = showExerciseDialog;
+            ctrl.showExercises = showExercises;
+            // ctrl.showExerciseDialog = showExerciseDialog;
             ctrl.showToast = showToast;
             ctrl.signOutUser = signOutUser;
             ctrl.sort = sort;
             ctrl.submitExercises = submitExercises;
             ctrl.submitWorkout = submitWorkout;
+            ctrl.toggleExercise = toggleExercise;
             ctrl.voteDown = voteDown;
             ctrl.voteUp = voteUp;
 
@@ -60,14 +62,20 @@
             ctrl.view.filterWorkouts = false;
             ctrl.showSets = false;
             ctrl.view.showCards = true;
+            ctrl.pickExercises = false;
+
             ctrl.view.filteredWorkouts = "";
             ctrl.view.selectedTags = [];
             ctrl.view.exerciseCounter = 4;
             ctrl.view.workoutCounter = 3;
             ctrl.view.cardCounter = 0;
             ctrl.view.selectedExercises = [];
+            ctrl.view.skillLevel = "Beginners"
+            ctrl.view.skillLevels = ["Beginners", "Intermediates", "Advanced"]
             ctrl.view.sortOption = "Date"
             ctrl.view.sortOptions = ["Date", "Votes"];
+            ctrl.view.numbersSets = 0;
+            ctrl.view.setNumber = 0;
 
 
             function signOutUser() {
@@ -81,10 +89,12 @@
             function setWorkoutId() {
                 ctrl.view.workoutCounter += 1;
                 ctrl.view.workout.workoutId = ctrl.view.workoutCounter;
+                
                 return ctrl.view.workout.workoutId;
             }
 
             function getWorkoutId() {
+              
                 return ctrl.view.workout.workoutId;
             }
 
@@ -103,20 +113,23 @@
             }
 
             function submitWorkout(workout) {
+              console.log("Submitted WO: ", workout);
+              debugger
                 if (workout) {
                     if (!workout.contributor) {
                         workout.contributor = "Anonymous"
                     } else {
                         //To Do
-                        workout.contributor = $scope.currentUser;
+                        workout.contributor = ctrl.view.contributor;
                     }
-                    workout.workoutId = $scope.view.workoutCounter + 1
+                    workout.workoutId = ctrl.view.workoutCounter + 1
                     workout.timestamp = Date.now();
+                    workout.skill = ctrl.view.skillLevel;
                     workout.comments = [];
                     workout.image = "";
                     workout.votes = 0;
                     workout.comments = [];
-                    workout.selectedTags = $scope.view.selectedTags;
+                    workout.selectedTags = ctrl.view.selectedTags;
                     ctrl.view.workouts.push(workout)
 
                     ctrl.showToast('Workout added!');
@@ -139,23 +152,20 @@
 
             function voteUp(card) {
                 card.votes += 1;
-                console.log("Votes:", card.votes)
                 return card;
 
             }
 
             function voteDown(card) {
                 card.votes -= 1;
-                console.log("Votes:", card.votes)
                 return card;
             }
 
             // handling Exercises
             function submitExercises() {
-                debugger
+              debugger
                 var selectedExercises = ctrl.view.selectedExercises;
-                var workoutExercises = [];
-                // debugger
+                var sets = [];
                 if (selectedExercises) {
                     selectedExercises.forEach(function(ex) {
                         workoutExercises.push(ex.exerciseId)
@@ -164,7 +174,7 @@
                     ctrl.view.workout.exerciseIds = workoutExercises;
                     showToast('Exercises added!');
                 }
-                cancel()
+                ctrl.pickExercises = false;
 
             }
 
@@ -182,6 +192,7 @@
                 $mdSidenav('right').close();
                 ctrl.view.workout = {};
                 ctrl.view.selectedTags = [];
+                ctrl.view.numbersSets = 0
             };
 
             function openLeftNav() {
@@ -192,17 +203,23 @@
                 $mdSidenav('left').close();
             };
 
+            // keep track of which set number we pick exercises for
+            function showExercises(setNumber){
+              ctrl.view.setNumber = setNumber;
+              // console.log("Current Set Number: ",ctrl.view.setNumber);
+            }
+
             // handling exercise add dialog
-            function showExerciseDialog(event) {
-                $mdDialog.show({
-                    templateUrl: '/templates/exerciseDialog.html',
-                    scope: $scope.$new(),
-                    controller: 'ModalController',
-                    parent: angular.element(document.body),
-                    targetEvent: event,
-                    clickOutsideToClose: false
-                })
-            };
+            // function showExerciseDialog(event) {
+            //     $mdDialog.show({
+            //         templateUrl: 'templates/exerciseDialog.html',
+            //         scope: $scope.$new(),
+            //         controller: 'ModalController',
+            //         parent: angular.element(document.body),
+            //         targetEvent: event,
+            //         clickOutsideToClose: false
+            //     })
+            // };
 
             function cancel() {
                 $mdDialog.cancel();
@@ -214,6 +231,39 @@
                     .content(message)
                     .position("top, right")
                     .hideDelay(2500));
+
+            }
+
+            function toggleExercise(exercise) {
+                console.log("Exercise Obj:", exercise)
+                
+
+                if (exercise.selectedExercise) {
+                    if (!exercise.workoutId) {
+                        exercise.workoutId = ctrl.getWorkoutId();
+                    }
+                    // add current workout ID to selected exercise
+                    exercise.workoutIds.push(exercise.workoutId)
+                    ctrl.view.selectedExercises.push(exercise)
+
+                    return exercise
+
+                } else {
+                    console.log("exercise.workoutId:", exercise.workoutId)
+                    var workoutIdAtIndex = exercise.workoutIds.findIndex(function(wid) {
+                        return wid === exercise.workoutId
+                    })
+                    console.log("workoutIdAtIndex:", workoutIdAtIndex)
+                    console.log("workoutIds Array before:", exercise.workoutIds)
+                    exercise.workoutIds.splice(workoutIdAtIndex, 1)
+                    console.log("workoutIds Array after:", exercise.workoutIds)
+
+                    var idAtIndex = ctrl.view.selectedExercises.findIndex(function(el) {
+                        return el.exerciseId === exercise.exerciseId;
+                    })
+                    ctrl.view.selectedExercises.splice(idAtIndex, 1)
+                    return exercise
+                }
 
             }
 
@@ -314,47 +364,6 @@
 
 
         }) // end main controller
-
-    .controller('ModalController', function($scope) {
-
-            window.innerscope = $scope
-
-            $scope.toggleExercise = function(exercise) {
-                console.log("Exercise Obj:", exercise)
-
-                if (exercise.selectedExercise) {
-                    if (!exercise.workoutId) {
-                        exercise.workoutId = ctrl.getWorkoutId();
-                    }
-                    // add current workout ID to selected exercise
-                    exercise.workoutIds.push(exercise.workoutId)
-                    ctrl.view.selectedExercises.push(exercise)
-
-                    return exercise
-
-                } else {
-                    console.log("exercise.workoutId:", exercise.workoutId)
-                    var workoutIdAtIndex = exercise.workoutIds.findIndex(function(wid) {
-                        return wid === exercise.workoutId
-                    })
-                    console.log("workoutIdAtIndex:", workoutIdAtIndex)
-                    console.log("workoutIds Array before:", exercise.workoutIds)
-                    exercise.workoutIds.splice(workoutIdAtIndex, 1)
-                    console.log("workoutIds Array after:", exercise.workoutIds)
-
-                    var idAtIndex = ctrl.view.selectedExercises.findIndex(function(el) {
-                        return el.exerciseId === exercise.exerciseId;
-                    })
-                    ctrl.view.selectedExercises.splice(idAtIndex, 1)
-
-
-                    return exercise
-                }
-
-            }
-
-        }) // end modal controller
-
 
 
 
