@@ -144,8 +144,8 @@
                                     <input ng-model="ctrl.view.filteredExercises" type="text" aria-label="Search Input" placeholder="Filter Exercises">
                                     <div>
                                     <md-button class="md-warn " ng-click="ctrl.view.filteredExercises = ''"  aria-label="Clear Filter">Clear</md-button>
-                                <md-button class="md-warn " ng-click="ctrl.pickExercises = false;">Back</md-button>
-                                <md-button class="md-primary " ng-click="ctrl.submitExercises() ">Submit All</md-button>
+                                <md-button class="md-warn " ng-click="ctrl.pickExercises = false">Back</md-button>
+                                <md-button class="md-primary " ng-click="ctrl.submitExercises();ctrl.pickExercises = false">Submit All</md-button>
                                 </div>
                                 </md-input-container>
                             </p>
@@ -159,7 +159,17 @@
                                     <pre>{{view.selectedExercise | json}}</pre>
                                     <pre>{{exercise | json}}</pre>
                                     <md-checkbox ng-checked=(exercise.selectedExercise) ng-click="exercise.selectedExercise = !exercise.selectedExercise; ctrl.toggleExercise(exercise)" name="exerciseId" layout="row ">
-                                        <h3>{{exercise.name}}</h3></md-checkbox>
+                                        <h3>{{exercise.name}}</h3>
+                                        </md-checkbox>
+                                    <md-input-container>
+                            <label for="reps">Repetitions:</label>
+                            <md-select ng-model="exercise.exerciseReps" ng-change="ctrl.toggleExercise(exercise)"">
+                                <md-option ng-repeat="reps in [10,25,50]" value="{{reps}}">
+                                    {{reps}}
+                                </md-option>
+                                <md-tooltip>Fitness level</md-tooltip>
+                            </md-select>
+                        </md-input-container>
                                     <p>
                                         <img class="exerciseImage " ng-src="{{exercise.image}} " alt="Exercise Image " align="right" \> {{exercise.description}}
                                         <br>
@@ -276,11 +286,12 @@
                     <div layout="column" flex class="exerciseSets" ng-show="card.showSets">
                         <div ng-repeat="set in card.sets" class="setInfo">
                             <h3>Set {{set.number}}:</h3>
-                            <div ng-repeat="exercise in set.exercises" layout="column">
+                            <pre>{{set | json}}</pre>
+                            <div ng-repeat="exerciseSet in set.exercise" layout="column">
                                 <div class="setInfo">
                                     <p>
-                                        <img class="setImage" ng-src="{{exercise.image}}" alt="Exercise image" align="left" \>
-                                        <strong class="setTitle">{{exercise.title}}: {{exercise.reps}}x</strong>
+                                        <img class="setImage" ng-src="{{exerciseSet.image}}" alt="Exercise image" align="left" \>
+                                        <strong class="setTitle">{{exerciseSet.name}}: {{exerciseSet.reps}}x</strong>
                                     </p>
                                 </div>
                                 <md-divider></md-divider>

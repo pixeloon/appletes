@@ -56,7 +56,10 @@
 
             window.mainscope = ctrl
             ctrl.view = {};
+            ctrl.view.newExercise = {};
+            ctrl.view.newExercise.sets = [];
             ctrl.view.workout = {};
+            ctrl.view.workout.sets = [];
             ctrl.view.showImages = true;
             ctrl.view.showComments = true;
             ctrl.view.filterWorkouts = false;
@@ -66,8 +69,8 @@
 
             ctrl.view.filteredWorkouts = "";
             ctrl.view.selectedTags = [];
-            ctrl.view.exerciseCounter = 4;
-            ctrl.view.workoutCounter = 3;
+            ctrl.view.exerciseCounter = 201;
+            ctrl.view.workoutCounter = 101;
             ctrl.view.cardCounter = 0;
             ctrl.view.selectedExercises = [];
             ctrl.view.skillLevel = "Beginners"
@@ -76,6 +79,7 @@
             ctrl.view.sortOptions = ["Date", "Votes"];
             ctrl.view.numbersSets = 0;
             ctrl.view.setNumber = 0;
+            ctrl.view.exerciseReps = 0;
 
 
             function signOutUser() {
@@ -108,15 +112,15 @@
                     return "-timestamp"
                 } else {
 
-                    return "timestamp"
+                    return "-timestamp"
                 }
             }
 
             function submitWorkout(workout) {
               console.log("Submitted WO: ", workout);
-              debugger
+              
                 if (workout) {
-                    if (!workout.contributor) {
+                    if (!ctrl.view.contributor) {
                         workout.contributor = "Anonymous"
                     } else {
                         //To Do
@@ -163,18 +167,27 @@
 
             // handling Exercises
             function submitExercises() {
-              debugger
+              
                 var selectedExercises = ctrl.view.selectedExercises;
-                var sets = [];
+                var workoutExerciseIds = [];
+                // var reps = [];
                 if (selectedExercises) {
                     selectedExercises.forEach(function(ex) {
-                        workoutExercises.push(ex.exerciseId)
+                        workoutExerciseIds.push(ex.exerciseId)
 
                     })
-                    ctrl.view.workout.exerciseIds = workoutExercises;
+                    ctrl.view.workout.exerciseIds = workoutExerciseIds;
+                    
+                    ctrl.view.workout.sets = ctrl.view.newExercise.sets;
+                    console.log("ctrl.view.workout.exerciseIds:",ctrl.view.workout.exerciseIds);
+                    
+                    console.log("workout full:",ctrl.view.workout);
+                    console.log("EXSETS:",ctrl.view.newExercise.sets);
+
                     showToast('Exercises added!');
                 }
                 ctrl.pickExercises = false;
+              
 
             }
 
@@ -239,14 +252,25 @@
                 
 
                 if (exercise.selectedExercise) {
+                  // debugger
                     if (!exercise.workoutId) {
                         exercise.workoutId = ctrl.getWorkoutId();
-                    }
                     // add current workout ID to selected exercise
                     exercise.workoutIds.push(exercise.workoutId)
+                    
+                    ctrl.view.newExercise.sets.push(
+                                                  {"number": ctrl.view.setNumber, "exercise": 
+                                                    [{ "exerciseId": exercise.exerciseId,"name": exercise.name,
+                                                    "image": exercise.image ,"reps": ctrl.view.exerciseReps }]
+                                                  }
+                                                )
                     ctrl.view.selectedExercises.push(exercise)
 
                     return exercise
+                    }
+
+                    // add reps to selected exersise HERE
+                    
 
                 } else {
                     console.log("exercise.workoutId:", exercise.workoutId)
