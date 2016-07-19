@@ -6,12 +6,13 @@
 
         .module("appletesApp")
 
-    .controller("MainController", function($scope, $http, $mdSidenav, $timeout, $q, $mdToast, $mdDialog, WorkoutFactory, ExerciseFactory, TagFactory) {
+    .controller("MainController", function($scope, $http, $state, $mdSidenav, $timeout, $q, $mdToast, $mdDialog, WorkoutFactory, ExerciseFactory, TagFactory) {
 
             var ctrl = this;
 
             ctrl.addToFavs = addToFavs; // to do
             ctrl.cancel = cancel;
+            ctrl.clearWorkout = clearWorkout; //to do
             ctrl.closeLeftNav = closeLeftNav;
             ctrl.closeRightNav = closeRightNav;
             ctrl.deleteWorkout = deleteWorkout; // to do
@@ -21,65 +22,111 @@
             ctrl.openRightNav = openRightNav;
             ctrl.setWorkoutId = setWorkoutId;
             ctrl.showExercises = showExercises;
-            // ctrl.showExerciseDialog = showExerciseDialog;
             ctrl.showToast = showToast;
             ctrl.signOutUser = signOutUser;
             ctrl.sort = sort;
             ctrl.submitExercises = submitExercises;
-            ctrl.submitWorkout = submitWorkout;
+            // ctrl.submitWorkout = submitWorkout;
+            ctrl.saveWorkout = saveWorkout;
             ctrl.toggleExercise = toggleExercise;
             ctrl.voteDown = voteDown;
             ctrl.voteUp = voteUp;
 
-            //from factories
-            // ctrl.view.workouts;
-            // ctrl.view.exercises;
-            // ctrl.view.tagsData;
-            // ctrl.view.tags;
+            ctrl.saveWorkout = saveWorkout;
+
 
             WorkoutFactory.getWorkouts().then(function(workouts) {
-                ctrl.view.workouts = workouts.data;
-                console.log("WORKOUTS: ", ctrl.view.workouts)
+                ctrl.workouts = workouts.data;
+                console.log("WORKOUTS: ", ctrl.workouts)
             });
 
             ExerciseFactory.getExercises().then(function(exercises) {
-                ctrl.view.exercises = exercises.data;
-                console.log("EXERCISES: ", ctrl.view.exercises)
+                ctrl.exercises = exercises.data;
+                console.log("EXERCISES: ", ctrl.exercises)
             });
 
             TagFactory.getTags().then(function(tags) {
-                ctrl.view.tagsData = tags.data;
-                ctrl.view.tags = loadTags();
+                ctrl.tagsData = tags.data;
+                ctrl.tags = loadTags();
 
+            });
+
+            $scope.$on('newWorkout', function(event, newWorkout) {
+                newWorkout.workoutId = ctrl.getWorkoutId();
+                ctrl.workouts.push(newWorkout);
+                showToast('New Workout Saved');
+            });
+
+            $scope.$on('editSaved', function(event, message) {
+                showToast(message);
             });
 
 
             window.mainscope = ctrl
-            ctrl.view = {};
-            ctrl.view.newExercise = {};
-            ctrl.view.newExercise.sets = [];
-            ctrl.view.workout = {};
-            ctrl.view.workout.sets = [];
-            ctrl.view.showImages = true;
-            ctrl.view.showComments = true;
-            ctrl.view.filterWorkouts = false;
+            // ctrl = {};
+            ctrl.newExercise = {};
+            ctrl.newExercise.sets = [];
+            ctrl.workout = {};
+            ctrl.workout.sets = [];
+            ctrl.showImages = true;
+            ctrl.showComments = true;
+            ctrl.filterWorkouts = false;
             ctrl.showSets = false;
-            ctrl.view.showCards = true;
+            ctrl.showCards = true;
             ctrl.pickExercises = false;
+            // ctrl.exerciseChecked = false;
+            // ctrl.repsAdded = false;
+            // ctrl.checked = false;
 
-            ctrl.view.filteredWorkouts = "";
-            ctrl.view.selectedTags = [];
-            ctrl.view.exerciseCounter = 201;
-            ctrl.view.workoutCounter = 101;
-            ctrl.view.cardCounter = 0;
-            ctrl.view.selectedExercises = [];
-            ctrl.view.skillLevel = "Beginners"
-            ctrl.view.skillLevels = ["Beginners", "Intermediates", "Advanced"]
-            ctrl.view.sortOption = "Date"
-            ctrl.view.sortOptions = ["Date", "Votes"];
-            ctrl.view.numbersSets = 0;
-            ctrl.view.setNumber = 0;
-            ctrl.view.exerciseReps = 0;
+            ctrl.filteredWorkouts = "";
+            ctrl.selectedTags = [];
+            ctrl.exerciseCounter = 201;
+            ctrl.workoutCounter = 101;
+            ctrl.cardCounter = 0;
+            ctrl.selectedExercises = [];
+
+            ctrl.sortOption = "Date"
+            ctrl.sortOptions = ["Date", "Votes"];
+            ctrl.numbersSets = 0;
+            ctrl.setNumber = 0;
+            ctrl.exerciseReps = 10;
+
+            function saveWorkout(workout) {
+
+                let workoutId = ctrl.getWorkoutId();
+                let tagsArr = [];
+                let tagsObjArr = ctrl.selectedTags;
+                tagsArr = tagsObjArr.map(function(item) {
+                    return item = item.name
+
+                })
+                console.log("Ready to send:", workout)
+                debugger
+
+                firebase.database().ref('workouts/' + workout.workoutId).set({
+
+                    name: workout.name,
+                    selectedTags: tagsArr,
+                    instructions: workout.instructions,
+
+                    skill: ctrl.skillLevel,
+
+                    sets: ctrl.newExercise.sets,
+                    exerciseIds: ctrl.workout.exerciseIds,
+                    contributor: ctrl.contributor,
+                    image: "http://lorempixel.com/200/200/sports/",
+                    instructions: workout.instructions,
+                    votes: 0,
+                    timestamp: Date.now(),
+                    comments: []
+
+
+                }).then(function() {
+                    ctrl.showToast('Workout added!');
+                    closeRightNav();
+
+                })
+            }
 
 
             function signOutUser() {
@@ -91,19 +138,19 @@
             }
 
             function setWorkoutId() {
-                ctrl.view.workoutCounter += 1;
-                ctrl.view.workout.workoutId = ctrl.view.workoutCounter;
-                
-                return ctrl.view.workout.workoutId;
+                ctrl.workoutCounter += 1;
+                ctrl.workout.workoutId = ctrl.workoutCounter;
+
+                return ctrl.workout.workoutId;
             }
 
             function getWorkoutId() {
-              
-                return ctrl.view.workout.workoutId;
+
+                return ctrl.workout.workoutId;
             }
 
             function sort() {
-              var option = ctrl.view.sortOption;
+                var option = ctrl.sortOption;
 
                 if (option === "Votes") {
                     return "-votes"
@@ -116,31 +163,31 @@
                 }
             }
 
-            function submitWorkout(workout) {
-              console.log("Submitted WO: ", workout);
-              
-                if (workout) {
-                    if (!ctrl.view.contributor) {
-                        workout.contributor = "Anonymous"
-                    } else {
-                        //To Do
-                        workout.contributor = ctrl.view.contributor;
-                    }
-                    workout.workoutId = ctrl.view.workoutCounter + 1
-                    workout.timestamp = Date.now();
-                    workout.skill = ctrl.view.skillLevel;
-                    workout.comments = [];
-                    workout.image = "";
-                    workout.votes = 0;
-                    workout.comments = [];
-                    workout.selectedTags = ctrl.view.selectedTags;
-                    ctrl.view.workouts.push(workout)
+            // function submitWorkout(workout) {
+            // console.log("Submitted WO: ", workout);
 
-                    ctrl.showToast('Workout added!');
+            // if (workout) {
+            //     if (!ctrl.contributor) {
+            //         workout.contributor = "Anonymous"
+            //     } else {
+            //         //To Do
+            //         workout.contributor = ctrl.contributor;
+            //     }
+            // workout.workoutId = ctrl.workoutCounter + 1
+            // workout.timestamp = Date.now();
+            // workout.skill = ctrl.skillLevel;
+            // workout.comments = [];
+            // workout.image = "";
+            // workout.votes = 0;
+            // workout.comments = [];
+            // workout.selectedTags = ctrl.selectedTags;
+            // ctrl.workouts.push(workout)
 
-                }
-                closeRightNav();
-            }
+            // ctrl.showToast('Workout added!');
+
+            // }
+            // closeRightNav();
+            // }
 
 
             function editWorkout(workout) {
@@ -167,27 +214,29 @@
 
             // handling Exercises
             function submitExercises() {
-              
-                var selectedExercises = ctrl.view.selectedExercises;
+
+                var selectedExercises = ctrl.selectedExercises;
                 var workoutExerciseIds = [];
-                // var reps = [];
+
                 if (selectedExercises) {
                     selectedExercises.forEach(function(ex) {
                         workoutExerciseIds.push(ex.exerciseId)
 
                     })
-                    ctrl.view.workout.exerciseIds = workoutExerciseIds;
-                    
-                    ctrl.view.workout.sets = ctrl.view.newExercise.sets;
-                    console.log("ctrl.view.workout.exerciseIds:",ctrl.view.workout.exerciseIds);
-                    
-                    console.log("workout full:",ctrl.view.workout);
-                    console.log("EXSETS:",ctrl.view.newExercise.sets);
+                    ctrl.workout.exerciseIds = workoutExerciseIds;
+                    ctrl.workout.sets = ctrl.newExercise.sets;
+
+
+                    console.log("workout full:", ctrl.workout);
+                    console.log("EXSETS:", ctrl.newExercise.sets);
 
                     showToast('Exercises added!');
                 }
+                // uncheck any previously checked Ex
+                ctrl.exercises.forEach(v => v.selectedExercise = false)
+
                 ctrl.pickExercises = false;
-              
+
 
             }
 
@@ -196,16 +245,21 @@
 
             }
 
+            function clearWorkout() {
+                //to do
+            }
+
             // handling left and right nav slider
             function openRightNav() {
-                $mdSidenav('right').open();
+                // $mdSidenav('right').open();
+                $state.go('workouts.new');
             };
 
             function closeRightNav() {
                 $mdSidenav('right').close();
-                ctrl.view.workout = {};
-                ctrl.view.selectedTags = [];
-                ctrl.view.numbersSets = 0
+                ctrl.workout = {};
+                ctrl.selectedTags = [];
+                ctrl.numbersSets = 0
             };
 
             function openLeftNav() {
@@ -217,22 +271,12 @@
             };
 
             // keep track of which set number we pick exercises for
-            function showExercises(setNumber){
-              ctrl.view.setNumber = setNumber;
-              // console.log("Current Set Number: ",ctrl.view.setNumber);
-            }
+            function showExercises(setNumber) {
 
-            // handling exercise add dialog
-            // function showExerciseDialog(event) {
-            //     $mdDialog.show({
-            //         templateUrl: 'templates/exerciseDialog.html',
-            //         scope: $scope.$new(),
-            //         controller: 'ModalController',
-            //         parent: angular.element(document.body),
-            //         targetEvent: event,
-            //         clickOutsideToClose: false
-            //     })
-            // };
+                ctrl.setNumber = setNumber;
+
+                // console.log("Current Set Number: ",ctrl.setNumber);
+            }
 
             function cancel() {
                 $mdDialog.cancel();
@@ -249,55 +293,62 @@
 
             function toggleExercise(exercise) {
                 console.log("Exercise Obj:", exercise)
-                
+                    // debugger
 
                 if (exercise.selectedExercise) {
-                  // debugger
+
+
                     if (!exercise.workoutId) {
                         exercise.workoutId = ctrl.getWorkoutId();
-                    // add current workout ID to selected exercise
-                    exercise.workoutIds.push(exercise.workoutId)
-                    
-                    ctrl.view.newExercise.sets.push(
-                                                  {"number": ctrl.view.setNumber, "exercise": 
-                                                    [{ "exerciseId": exercise.exerciseId,"name": exercise.name,
-                                                    "image": exercise.image ,"reps": ctrl.view.exerciseReps }]
-                                                  }
-                                                )
-                    ctrl.view.selectedExercises.push(exercise)
-
-                    return exercise
+                        // add current workout ID to selected exercise
+                        exercise.workoutIds.push(exercise.workoutId)
                     }
 
-                    // add reps to selected exersise HERE
-                    
+                    if (exercise.selectedExercise && exercise.repsAdded) {
+                        ctrl.newExercise.sets.push({
+                            "number": ctrl.setNumber,
+                            "exercise": [{
+                                "exerciseId": exercise.exerciseId,
+                                "name": exercise.name,
+                                "image": exercise.image,
+                                "reps": exercise.exerciseReps
+                            }]
+                        })
+                        ctrl.selectedExercises.push(exercise)
+                        return exercise
+
+                    }
+
 
                 } else {
-                    console.log("exercise.workoutId:", exercise.workoutId)
-                    var workoutIdAtIndex = exercise.workoutIds.findIndex(function(wid) {
-                        return wid === exercise.workoutId
-                    })
-                    console.log("workoutIdAtIndex:", workoutIdAtIndex)
-                    console.log("workoutIds Array before:", exercise.workoutIds)
-                    exercise.workoutIds.splice(workoutIdAtIndex, 1)
-                    console.log("workoutIds Array after:", exercise.workoutIds)
+                    // console.log("exercise.workoutId:", exercise.workoutId)
+                    // var workoutIdAtIndex = exercise.workoutIds.findIndex(function(wid) {
+                    //     return wid === exercise.workoutId
+                    // })
+                    // console.log("workoutIdAtIndex:", workoutIdAtIndex)
+                    // console.log("workoutIds Array before:", exercise.workoutIds)
+                    // exercise.workoutIds.splice(workoutIdAtIndex, 1)
+                    // console.log("workoutIds Array after:", exercise.workoutIds)
 
-                    var idAtIndex = ctrl.view.selectedExercises.findIndex(function(el) {
+                    var idAtIndex = ctrl.selectedExercises.findIndex(function(el) {
                         return el.exerciseId === exercise.exerciseId;
                     })
-                    ctrl.view.selectedExercises.splice(idAtIndex, 1)
+                    if (idAtIndex !== -1) {
+
+                        ctrl.selectedExercises.splice(idAtIndex, 1)
+                    }
                     return exercise
                 }
 
             }
 
             // handling tag chips
-            ctrl.view.selectedItem = null;
-            ctrl.view.searchText = null;
-            ctrl.view.querySearch = querySearch;
-            ctrl.view.selectedTags = [];
-            ctrl.view.autocompleteRequireMatch = true;
-            ctrl.view.transformChip = transformChip;
+            ctrl.selectedItem = null;
+            ctrl.searchText = null;
+            ctrl.querySearch = querySearch;
+            ctrl.selectedTags = [];
+            ctrl.autocompleteRequireMatch = true;
+            ctrl.transformChip = transformChip;
             /**
              * Return the proper object when the append is called.
              */
@@ -313,7 +364,7 @@
              * Search for tags.
              */
             function querySearch(query) {
-                var results = query ? ctrl.view.tagsData.filter(createFilterFor(query)) : [];
+                var results = query ? ctrl.tagsData.filter(createFilterFor(query)) : [];
                 return results;
             }
             /**
@@ -327,7 +378,7 @@
             }
 
             function loadTags() {
-                var tags = ctrl.view.tagsData;
+                var tags = ctrl.tagsData;
                 return tags.map(function(tag) {
                     tag.name = tag.name.toLowerCase();
                     return tag;
@@ -354,9 +405,9 @@
                             console.log("  Email: " + profile.email);
                             console.log("  Photo URL: " + profile.photoURL);
 
-                            ctrl.view.contributor = profile.displayName;
-                            ctrl.view.mail = profile.email;
-                            ctrl.view.photoUrl = profile.photoURL;
+                            ctrl.contributor = profile.displayName;
+                            ctrl.mail = profile.email;
+                            ctrl.photoUrl = profile.photoURL;
                             uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
                             // this value to authenticate with your backend server, if
                             // you have one. Use User.getToken() instead.
