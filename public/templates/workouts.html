@@ -12,7 +12,7 @@
                     <md-icon class="mdi mdi-magnify"></md-icon>
                     <md-tooltip>Show Filter</md-tooltip>
                 </md-button>
-                <md-button class="md-fab md-mini md-accent" ng-click="ctrl.setWorkoutId(); ctrl.openRightNav()">
+                <md-button class="md-fab md-mini md-accent" ng-click="ctrl.openRightNav()">
                     +
                     <md-tooltip>Add Workout</md-tooltip>
                 </md-button>
@@ -30,10 +30,16 @@
         </md-toolbar>
         <div layout="column" class="md-inline-form">
             <md-content layout-padding>
-                <div>
+                <div  ng-show="ctrl.userAuthenticated">
                     <img class="user-avatar" ng-src="{{ctrl.photoUrl}}"> {{ctrl.contributor}}
                     <md-button class="md-warn" ng-click="ctrl.signOutUser();ctrl.closeLeftNav()">Log out</md-button>
+                </div>
+                <div ng-hide= "ctrl.userAuthenticated">
+                    <md-button class="md-warn" ng-click="ctrl.signInUser();ctrl.closeLeftNav()">Log in</md-button>
+                </div>
+                <div>
                     <md-divider></md-divider>
+                    
                 </div>
                 <div>
                     <md-switch ng-model="ctrl.showComments" class="md-primary" md-no-ink aria-label="Switch Comments">
@@ -47,18 +53,20 @@
         </div>
     </md-sidenav>
     <!-- // END LEFT SIDENAV -->
+    <!-- //RIGHT Sidenav -->
     <ui-view></ui-view>
+    <!-- //RIGHT Sidenav end -->
     <!-- //CARDS -->
     <md-content class="md-padding " layout="row " layout-align="space-around center " layout-wrap>
         <div flex-xs="5 " flex="10 " flex-gt-sm="20 "></div>
         <div class="cardContent " flex-xs="90 " flex="80 " flex-gt-sm="60 ">
             <!-- // sub menu -->
-            <div ng-show="ctrl.filterWorkouts " flex-xs="90 " flex="80 " flex-gt-sm="60 " class="md-primary " layout-align="center center ">
+            <div ng-show="ctrl.filterWorkouts" flex-xs="90 " flex="80 " flex-gt-sm="60 " class="md-primary " layout-align="center center ">
                 <!-- <span flex></span> -->
                 <div layout="row ">
                     <md-input-container>
                         <label for="filter ">Apply Filter</label>
-                        <input ng-model="ctrl.filteredWorkouts " type="text " aria-label="Filter Input " md-autofocus>
+                        <input ng-model="ctrl.filteredWorkouts" type="text " aria-label="Filter Input " md-autofocus>
                     </md-input-container>
                     <md-input-container>
                         <label>Sort:</label>
@@ -126,7 +134,8 @@
                     <md-icon ng-hide="card.fav " class="mdi mdi-star-outline fav " ng-click='card.fav = !card.fav'></md-icon>
                     <md-icon ng-show="card.fav " class="mdi mdi-star md-accent fav " ng-click='card.fav = !card.fav'></md-icon>
                     <md-card-title-text>
-                        <span class="md-headline ">{{card.name}} - <small>{{card.skill}}</small></span>
+                        <span class="md-headline ">{{card.name
+}} - <small>{{card.skillLevel}}</small></span>
                     </md-card-title-text>
                 </md-card-title>
                 <div class="tag " layout="row ">

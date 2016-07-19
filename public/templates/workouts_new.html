@@ -15,15 +15,6 @@
                             <!-- <div ng-message="required">This is required.</div> -->
                         </md-input-container>
                         <md-input-container>
-                            <label for="sets">Sets</label>
-                            <md-select ng-model="ctrl.numbersSets" name="workoutSets" required>
-                                <md-option ng-repeat="setNumber in [1,2,3,4,5]" value="{{setNumber}}">
-                                    {{setNumber}}
-                                </md-option>
-                                <md-tooltip>Number of Sets</md-tooltip>
-                            </md-select>
-                            <div ng-messages="workoutForm.workoutSets.$error"></div>
-                        </md-input-container>
                     </div>
                     <!-- // image upload -->
                     <!--                         <div flow-init="{target: '/upload'}" flow-files-submitted="$flow.upload()" flow-file-success="$file.msg = $message">
@@ -39,44 +30,46 @@
                         </div> -->
                     <!-- // image upload end -->
                     <!-- // add exercises -->
-                    <div ng-if="ctrl.numbersSets >= 1">
+                    <div ng-if="ctrl.workout.numbersSets >= 1">
                         <md-button class="md-primary" aria-label="Add" ng-click="ctrl.pickExercises = true; ctrl.showExercises(1)">
                             <ng-md-icon icon="add">Add Exercises for Set 1</ng-md-icon>
                         </md-button>
                     </div>
-                    <div ng-if="ctrl.numbersSets >= 2">
+                    <div ng-if="ctrl.workout.numbersSets >= 2">
                         <md-button class="md-primary" aria-label="Add" ng-click="ctrl.pickExercises = true; ctrl.showExercises(2)">
                             <ng-md-icon icon="add">Add Exercises for Set 2</ng-md-icon>
                         </md-button>
                     </div>
-                    <div ng-if="ctrl.numbersSets >= 3">
+                    <div ng-if="ctrl.workout.numbersSets >= 3">
                         <md-button class="md-primary" aria-label="Add" ng-click="ctrl.pickExercises = true; ctrl.showExercises(3)">
                             <ng-md-icon icon="add">Add Exercises for Set 3</ng-md-icon>
                         </md-button>
                     </div>
-                    <div ng-if="ctrl.numbersSets >= 4">
-                        <md-button class="md-primary" aria-label="Add" ng-click="ctrl.pickExercises = true; ctrl.showExercises(4)">
-                            <ng-md-icon icon="add">Add Exercises for Set 4</ng-md-icon>
-                        </md-button>
+                    <div layout="row">
+                        <md-input-container>
+                            <label>Sets:</label>
+                            <md-select ng-model="ctrl.workout.numbersSets" name="workoutSets">
+                                <md-option ng-repeat="setNumber in [1,2,3]" value="{{setNumber}}">
+                                    {{setNumber}}
+                                </md-option>
+                                <md-tooltip>Set number</md-tooltip>
+                            </md-select>
+                            <div ng-messages="workoutForm.workoutSets.$error"></div>
+                        </md-input-container>
+                        <md-input-container>
+                            <label for="level">Best suited for:</label>
+                            <md-select ng-model="ctrl.workout.skillLevel">
+                                <md-option ng-repeat="level in ctrl.skillLevels" value="{{level}}">
+                                    {{level}}
+                                </md-option>
+                                <md-tooltip>Fitness level</md-tooltip>
+                            </md-select>
+                        </md-input-container>
                     </div>
-                    <div ng-if="ctrl.numbersSets == 5">
-                        <md-button class="md-primary" aria-label="Add" ng-click="ctrl.pickExercises = true; ctrl.showExercises(5)">
-                            <ng-md-icon icon="add">Add Exercises for Set 5</ng-md-icon>
-                        </md-button>
-                    </div>
-                    <md-input-container>
-                        <label for="level">Best suited for:</label>
-                        <md-select ng-model="ctrl.skillLevel">
-                            <md-option ng-repeat="level in ctrl.skillLevels" value="{{level}}">
-                                {{level}}
-                            </md-option>
-                            <md-tooltip>Fitness level</md-tooltip>
-                        </md-select>
-                    </md-input-container>
                     <!-- //SELECT -->
                     <div layout="column" class="tagInput">
                         <md-content class="md-padding" layout="column">
-                            <md-chips name='tags' ng-model="ctrl.selectedTags" md-max-chips='5' md-autocomplete-snap md-transform-chip="ctrl.transformChip($chip)" md-require-match="ctrl.autocompleteRequireMatch">
+                            <md-chips name='tags' ng-model="ctrl.workout.selectedTags" md-max-chips='5' md-autocomplete-snap md-transform-chip="ctrl.transformChip($chip)" md-require-match="ctrl.autocompleteRequireMatch">
                                 <md-autocomplete md-selected-item="ctrl.selectedItem" md-search-text="ctrl.searchText" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name" placeholder="Start typing to apply tags">
                                     <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
                                 </md-autocomplete>
@@ -104,7 +97,7 @@
                     <!-- <md-button class="md-primary" ng-click="ctrl.submitWorkout(ctrl.workout)">Save</md-button> -->
                     <!-- //TEST -->
                     <md-button class="md-primary" ng-click="ctrl.saveWorkout(ctrl.workout)">Save</md-button>
-                    <md-button ng-click="ctrl.closeRightNav(); ctrl.workout.instructions=''" class="md-warn">Cancel</md-button>
+                    <md-button ng-click="ctrl.closeRightNav()" class="md-warn">Cancel</md-button>
                 </form>
             </div>
             <div><pre>{{ctrl.workout | json}}</pre></div>
@@ -141,7 +134,7 @@
                                 <md-input-container>
                                     <label for="reps">Repetitions</label>
                                     <md-select ng-model="exercise.exerciseReps" ng-change="exercise.repsAdded;ctrl.toggleExercise(exercise)">
-                                        <md-option ng-selected="$first" ng-repeat="reps in [10,25,50] " ng-value="{{reps}}">
+                                        <md-option ng-repeat="reps in [10,25,50] " ng-value="{{reps}}">
                                             {{reps}}
                                         </md-option>
                                         <md-tooltip>Number of repetitions</md-tooltip>

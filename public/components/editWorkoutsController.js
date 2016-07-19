@@ -8,41 +8,40 @@
 
       var ctrl = this;
 
-      // ctrl.closeSidebar = closeSidebar;
-      // ctrl.saveEdit = saveEdit;
+      ctrl.closeRightNav = closeRightNav;
+      ctrl.saveEdit = saveEdit;
 
-      // ctrl.sidebarTitle = 'Edit Workout';
+      ctrl.rightNavTitle = 'Edit Workout';
 
-      // ctrl.workout = $state.params.workout;
+      ctrl.workout = $state.params.workout;
 
-      // $timeout(function() {
-      //   $mdSidenav('left').open();    
-      // });
+      $timeout(function() {
+        $mdSidenav('right').open();    
+      });
 
-      // $scope.$watch('rightNavOpen', function(rightNavOpen) {
-      //   if(rightNavOpen === false) {
-      //     $mdSidenav('left')
-      //       .close()
-      //       .then(function() {
-      //         $state.go('workouts');
-      //     });
-      //   }
-      // });
+      $scope.$watch('rightNavOpen', function(rightNavOpen) {
+        if(rightNavOpen === false) {
+          $mdSidenav('right')
+            .close()
+            .then(function() {
+              $state.go('workouts');
+          });
+        }
+      });
 
 
+      // watcher handles state
+      function closeRightNav() {
+        ctrl.workout = {};
+        ctrl.rightNavOpen = false;        
+      }
 
-      // watcher to handles state
-      // function closeSidebar() {
-      //   ctrl.workout = {};
-      //   $scope.rightNavOpen = false;        
-      // }
-
-      // function saveEdit() {
-      //   // Need to clear the form after
-      //   $scope.rightNavOpen = false;
-      //   // showToast('Edit Saved');
-      //   $scope.$emit('editSaved', 'Edit Saved');
-      // }
+      function saveEdit() {
+        //clear the form after
+        ctrl.rightNavOpen = false;
+        // showToast('Edit Saved');
+        $scope.$emit('editSaved', 'Edit Saved');
+      }
 
 
     });

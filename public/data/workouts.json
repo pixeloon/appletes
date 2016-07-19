@@ -3,7 +3,7 @@
     "name": "Hulk Maker",
     "selectedTags": [{"name": "endurance"}, {"name": "arms"}, {"name": "upper body"}],
     "tags": ["endurance", "arms"],
-    "skill": "beginner",
+    "skillLevel": "beginner",
     "sets": [{"number": 1, "exercises": 
         [{"exerciseId": 1,"name":"Pushups", "image": "/images/Push-Ups.jpg", "reps": 25},
             {"exerciseId": 2, "name":"Pullups", "image": "/images/pullup.jpg","reps": 20},
@@ -25,7 +25,7 @@
     "name": "Wonder Woman",
     "selectedTags": [{"name": "endurance"}, {"name": "strength"}, {"name": "back"}, {"name": "legs"}, {"name": "plyometric"}],
     "tags": ["endurance", "plyometric"],
-    "skill": "intermediate",
+    "skillLevel": "intermediate",
     "sets": [{"number": 1, "exercises": 
         [{"exerciseId": 1, "name":"Pushups", "image": "/images/Push-Ups.jpg", "reps": 25},
         {"exerciseId": 1,"name":"Pushups", "image": "/images/Push-Ups.jpg", "reps": 20},
@@ -44,7 +44,7 @@
     "name": "Runners delight",
     "selectedTags": [{"name": "endurance"}, {"name": "strength"}, {"name": "arms"}],
     "tags": ["endurance", "strength"],
-    "skill": "advanced",
+    "skillLevel": "advanced",
     "sets": [{"number": 1, "exercises": [{"exerciseId": 1,  "name":"Pullups", "image": "/images/Push-Ups.jpg","reps": 25},
         {"exerciseId": 2, "name":"Pullups", "image": "/images/pullup.jpg","reps": 20},
         {"exerciseId": 1,"name":"Pushups", "image": "/images/Push-Ups.jpg", "reps": 15}]},
