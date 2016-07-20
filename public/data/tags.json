@@ -13,5 +13,21 @@
 }, {
     "name": "back"
 }, {
-    "name": "upper body"
+    "name": "lower body"
+}, {
+    "name": "full body"
+}, {
+    "name": "chest"
+}, {
+    "name": "core"
+}, {
+    "name": "explosivenes"
+}, {
+    "name": "health"
+}, {
+    "name": "light"
+}, {
+    "name": "intensive"
+}, {
+    "name": "performance"
 }]

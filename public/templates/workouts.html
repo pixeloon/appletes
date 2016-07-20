@@ -143,7 +143,7 @@
                     &nbsp;{{tag}}&nbsp;</span>
                 </div>
                 <md-card-content>
-                    <div class="card " ng-hide="card.showSets ">
+                    <div class="card " ng-hide="card.showSets">
                         <div>
                             <p class="foo floatedImg ">
                                 <img ng-show="ctrl.showImages " class="cardImage floatedImg " ng-src="{{card.image}} " alt="Workout Image " align="right " \> {{card.instructions}}
@@ -151,11 +151,11 @@
                         </div>
                     </div>
                     <!-- //exercise block -->
-                    <div layout="column " flex class="exerciseSets " ng-show="card.showSets ">
+                    <div layout="column" flex class="exerciseSets" ng-show="card.showSets">
                         <div ng-repeat="set in card.sets " class="setInfo ">
                             <h3>Set {{set.number}}:</h3>
-                            <pre>{{set | json}}</pre>
-                            <div ng-repeat="exerciseSet in set.exercise " layout="column ">
+                            <!-- <pre>{{set | json}}</pre> -->
+                            <div ng-repeat="exerciseSet in set.exercise " layout="column">
                                 <div class="setInfo ">
                                     <p>
                                         <img class="setImage " ng-src="{{exerciseSet.image}} " alt="Exercise image " align="left " \>

@@ -1,53 +1,149 @@
-[{
+[
+{
     "exerciseId": 1,
-    "name": "Pushups",
+    "name": "Knee Pushups",
     "tags": ["endurance", "upper body"],
+    "skill": "Beginners",
     "workoutIds": [],
-    "image": "/images/Push-Ups.jpg",
+    "image": "/images/kneepushups.jpg",
     "videoUrl": "",
-    "equipment": "none",
+    "equipment": "No Equipment",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
-    "timestamp": "07/05/16"
+    "timestamp": 1468146426454
 }, {
     "exerciseId": 2,
     "name": "Pullups",
-    "tags": ["strength", "arms"],
+    "tags": ["strength", "upper body", "arms", "back"],
+    "skill": "Intermediates",
     "workoutIds": [],
     "image": "/images/pullup.jpg",
     "videoUrl": "",
-    "equipment": "none",
+    "equipment": "Pull-up Bar",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
-    "timestamp": "07/04/16"
+    "timestamp": 1468146426454
 }, {
     "exerciseId": 3,
     "name": "Jumpingjacks",
-    "tags": ["endurance", "legs", "shoulders"],
+    "tags": ["endurance", "legs", "lower body"],
+    "skill": "Beginners",
     "workoutIds": [],
     "image": "/images/jumpingjack.jpg",
     "videoUrl": "",
-    "equipment": "none",
+    "equipment": "No Equipment",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
-    "timestamp": "07/06/16"
+    "timestamp": 1468146426454
 },
 {
     "exerciseId": 4,
-    "name": "Flying Dutchman",
-    "tags": ["endurance", "legs", "shoulders"],
+    "name": "Burpees",
+    "tags": ["endurance", "full body"],
+    "skill": "Advanced",
     "workoutIds": [],
-    "image": "/images/jumpingjack.jpg",
+    "image": "/images/burpees.jpg",
     "videoUrl": "",
-    "equipment": "none",
+    "equipment": "No Equipment",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
-    "timestamp": "07/06/16"
+    "timestamp": 1468146426454
 },
 {
     "exerciseId": 5,
-    "name": "Heroes",
-    "tags": ["endurance", "legs", "shoulders"],
+    "name": "Frogs Jumps",
+    "tags": ["endurance","strength", "lower body", "plyometric", "legs"],
+    "skill": "Intermediate",
     "workoutIds": [],
-    "image": "/images/jumpingjack.jpg",
+    "image": "/images/frogjumps.jpg",
     "videoUrl": "",
-    "equipment": "none",
+    "equipment": "No Equipment",
     "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
-    "timestamp": "07/06/16"
+    "timestamp": 1468146426454
+},
+{
+    "exerciseId": 6,
+    "name": "Tuck Jumps",
+    "tags": ["endurance", "legs", "lower body", "plyometric"],
+    "skill": "Intermediates",
+    "workoutIds": [],
+    "image": "/images/tuckjumps.png",
+    "videoUrl": "",
+    "equipment": "No Equipment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "timestamp": 1468146426454
+},{
+    "exerciseId": 7,
+    "name": "Squats",
+    "tags": ["endurance", "legs", "lower body"],
+    "skill": "Beginners",
+    "workoutIds": [],
+    "image": "/images/squat.jpg",
+    "videoUrl": "",
+    "equipment": "No Equipment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "timestamp": 1468146426454
+},
+    {
+    "exerciseId": 9,
+    "name": "Lunges",
+    "tags": ["endurance", "legs", "lower body"],
+    "skill": "Beginners",
+    "workoutIds": [],
+    "image": "/images/lunge.jpg",
+    "videoUrl": "",
+    "equipment": "No Equipment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "timestamp": 1468146426454
+},{
+    "exerciseId": 10,
+    "name": "Situps",
+    "tags": ["endurance", "core", "upper body"],
+    "skill": "Beginners",
+    "workoutIds": [],
+    "image": "/images/situps.jpg",
+    "videoUrl": "",
+    "equipment": "Yoga Mat",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "timestamp": 1468146426454
+},{
+    "exerciseId": 11,
+    "name": "Handstand Pushups",
+    "tags": ["shoulders", "strength"],
+    "skill": "Advanced",
+    "workoutIds": [],
+    "image": "/images/hspushups.png",
+    "videoUrl": "",
+    "equipment": "Yoga Mat",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "timestamp": 1468146426454
+},{
+    "exerciseId": 12,
+    "name": "Climbers",
+    "tags": ["endurance", "shoulders", "full body"],
+    "skill": "Beginners",
+    "workoutIds": [],
+    "image": "/images/climbers.jpg",
+    "videoUrl": "",
+    "equipment": "No Equipment",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "timestamp": 1468146426454
+},{
+    "exerciseId": 13,
+    "name": "Leg Raise",
+    "tags": ["endurance", "lower body", "core"],
+    "skill": "Beginners",
+    "workoutIds": [],
+    "image": "/images/legraise.jpg",
+    "videoUrl": "",
+    "equipment": "Yoga Mat",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "timestamp": 1468146426454
+},{
+    "exerciseId": 14,
+    "name": "Standups",
+    "tags": ["endurance", "strength", "full body","core"],
+    "skill": "Intermediates",
+    "workoutIds": [],
+    "image": "/images/standups.png",
+    "videoUrl": "",
+    "equipment": "Yoga Mat",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos architecto aliquid, dignissimos culpa quis quia amet nostrum esse suscipit vero, ullam molestias sequi fuga cumque. Aliquid molestias iusto, inventore provident.",
+    "timestamp": 1468146426454
 }]

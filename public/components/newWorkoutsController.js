@@ -16,13 +16,15 @@
 
             ctrl.closeRightNav = closeRightNav;
             ctrl.saveWorkout = saveWorkout;
+            ctrl.showExercises = showExercises;
+            ctrl.checkSet = checkSet;
 
             ctrl.toggleExercise = toggleExercise;
             ctrl.submitExercises = submitExercises;
 
             ExerciseFactory.getExercises().then(function(exercises) {
                 ctrl.exercises = exercises.data;
-                console.log("EXERCISES: ", ctrl.exercises)
+                // console.log("EXERCISES: ", ctrl.exercises)
             });
 
             TagFactory.getTags().then(function(tags) {
@@ -35,6 +37,8 @@
             ctrl.rightNavTitle = 'Add a Workout';
             ctrl.workout = {};
             ctrl.exercise = {};
+            ctrl.exercise.sets = [];
+            ctrl.selectedExercises = [];
             ctrl.workout.exercises = [];
             ctrl.workout.image = ""
             ctrl.workout.instructions = ""
@@ -42,6 +46,9 @@
             ctrl.workout.skillLevel = "Beginners";
             ctrl.workout.numbersSets = 1;
             ctrl.setNumber = 0;
+            ctrl.set1 = false;
+            ctrl.set2 = false;
+            ctrl.set3 = false;
 
             // ctrl.exercise.exerciseNumber
             // ctrl.exercise.exerciseNumber.sets;
@@ -73,7 +80,42 @@
             }
 
             // handling Exercises
+
+                        // keep track of which set number we pick exercises for
+            function showExercises(setNumber) {
+
+                ctrl.setNumber = setNumber;
+                // ctrl.exercise.setNumber = ctrl.setNumber;
+
+                // console.log("Current Set Number: ",ctrl.setNumber);
+            }
+
+            function checkSet(){
+              if(ctrl.setNumber == 1){
+                ctrl.set1 = true;
+
+              } else if (ctrl.setNumber == 2){
+                ctrl.set2 = true;
+
+              } else if (ctrl.setNumber == 3){
+                ctrl.set3 = true;
+
+              }
+            }
+
             function submitExercises() {
+
+              
+              // let exCB = document.querySelectorAll("#exerciseCB");
+
+              // for(var i=0; i < exCB.length;i++){
+              //   if(exCB[i].checked){
+              //     let exName = exCB[i].getAttribute("name")
+
+              //   ctrl.exercise = {"exerciseId": ctrl.exerciseId,"name": exName, "image": ctrl.workout.image}
+              //   }
+
+              // }   
 
                 var selectedExercises = ctrl.selectedExercises;
                 var workoutExerciseIds = [];
@@ -90,22 +132,20 @@
                     console.log("workout full:", ctrl.workout);
                     console.log("EXSETS:", ctrl.exercise.sets);
 
-                    showToast('Exercises added!');
+                    // showToast('Exercises added!');
                 }
                 // uncheck any previously checked Ex
                 ctrl.exercises.forEach(v => v.selectedExercise = false)
 
                 ctrl.pickExercises = false;
 
-
             }
 
             function toggleExercise(exercise) {
-                console.log("Exercise Obj:", exercise)
+                // console.log("Exercise Obj:", exercise)
                     // debugger
 
                 if (exercise.selectedExercise) {
-
 
                     // if (!exercise.workoutId) {
                     //     exercise.workoutId = ctrl.getWorkoutId();
@@ -113,7 +153,7 @@
                     //     exercise.workoutIds.push(exercise.workoutId)
                     // }
 
-                    if (exercise.selectedExercise && exercise.repsAdded) {
+                    if (exercise.selectedExercise) {
                         ctrl.exercise.sets.push({
                             "number": ctrl.setNumber,
                             "exercise": [{
@@ -128,15 +168,14 @@
 
                     }
 
-
                 } else {
                     // console.log("exercise.workoutId:", exercise.workoutId)
-                    // var workoutIdAtIndex = exercise.workoutIds.findIndex(function(wid) {
-                    //     return wid === exercise.workoutId
-                    // })
+                    var workoutIdAtIndex = exercise.workoutIds.findIndex(function(wid) {
+                        return wid === exercise.workoutId
+                    })
                     // console.log("workoutIdAtIndex:", workoutIdAtIndex)
                     // console.log("workoutIds Array before:", exercise.workoutIds)
-                    // exercise.workoutIds.splice(workoutIdAtIndex, 1)
+                    exercise.workoutIds.splice(workoutIdAtIndex, 1)
                     // console.log("workoutIds Array after:", exercise.workoutIds)
 
                     var idAtIndex = ctrl.selectedExercises.findIndex(function(el) {
@@ -150,7 +189,6 @@
                 }
 
             }
-
 
             // handling tag chips
             ctrl.selectedItem = null;

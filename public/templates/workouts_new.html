@@ -7,7 +7,7 @@
         <md-content layout-padding>
             <div ng-hide="ctrl.pickExercises">
                 <form name="workoutForm">
-                    <div layout="row">
+                    <div layout="row" class="md-primary">
                         <md-input-container>
                             <label for="name">Name your Workout</label>
                             <input ng-model="ctrl.workout.name" type="text" md-autofocus name="workoutName" required>
@@ -33,16 +33,19 @@
                     <div ng-if="ctrl.workout.numbersSets >= 1">
                         <md-button class="md-primary" aria-label="Add" ng-click="ctrl.pickExercises = true; ctrl.showExercises(1)">
                             <ng-md-icon icon="add">Add Exercises for Set 1</ng-md-icon>
+                            <md-icon ng-show="ctrl.set1" class="mdi mdi-check-circle-outline"></md-icon>
                         </md-button>
                     </div>
                     <div ng-if="ctrl.workout.numbersSets >= 2">
                         <md-button class="md-primary" aria-label="Add" ng-click="ctrl.pickExercises = true; ctrl.showExercises(2)">
                             <ng-md-icon icon="add">Add Exercises for Set 2</ng-md-icon>
+                            <md-icon ng-show="ctrl.set2" class="mdi mdi-check-circle-outline"></md-icon>
                         </md-button>
                     </div>
                     <div ng-if="ctrl.workout.numbersSets >= 3">
                         <md-button class="md-primary" aria-label="Add" ng-click="ctrl.pickExercises = true; ctrl.showExercises(3)">
                             <ng-md-icon icon="add">Add Exercises for Set 3</ng-md-icon>
+                            <md-icon ng-show="ctrl.set3" class="mdi mdi-check-circle-outline"></md-icon>
                         </md-button>
                     </div>
                     <div layout="row">
@@ -87,7 +90,7 @@
                     </div>
                     <!-- //SELECT END -->
                     <md-input-container class="md-block">
-                        <label for="instructions">Provide helpful Instructions:</label>
+                        <label for="instructions">Provide instructions and equipment needs:</label>
                         <textarea ng-model="ctrl.workout.instructions" md-maxlength="500" rows="5" id="instructions" md-select-on-focus></textarea>
                     </md-input-container>
                     <md-input-container>
@@ -100,7 +103,8 @@
                     <md-button ng-click="ctrl.closeRightNav()" class="md-warn">Cancel</md-button>
                 </form>
             </div>
-            <div><pre>{{ctrl.workout | json}}</pre></div>
+<!--             <div><pre>{{ctrl.workout.exercise | json}}</pre></div>
+            <div><pre>{{ctrl.workout | json}}</pre></div> -->
             <!-- // pick EXERCISES 1 -->
             <div ng-show="ctrl.pickExercises">
                 <p>
@@ -112,7 +116,7 @@
                     </div>
                     <div>
                         <md-button class="md-warn " ng-click="ctrl.pickExercises = false">Back</md-button>
-                        <md-button class="md-primary " ng-click="ctrl.submitExercises();ctrl.pickExercises = false">Submit All</md-button>
+                        <md-button class="md-primary " ng-click="ctrl.submitExercises();ctrl.checkSet();ctrl.pickExercises = false">Submit All</md-button>
                     </div>
                 </p>
                 <!-- </div> -->
@@ -123,27 +127,23 @@
                             <div ng-repeat="exercise in ctrl.exercises | filter: ctrl.filteredExercises">
                                 <!-- <pre>{.selectedExercise | json}}</pre> -->
                                 <!-- <pre>{{exercise | json}}</pre> -->
-                                <md-input-container>
-                                    <div layout="row">
-                                        <!-- <div> -->
+                                <div layout="row" id="exercise">
+                                    <md-input-container>
                                         <md-checkbox ng-checked="exercise.selectedExercise" ng-click="exercise.selectedExercise = !exercise.selectedExercise; ctrl.toggleExercise(exercise)" name="exerciseId" layout="row"><strong>{{exercise.name}}</strong>
+
                                         </md-checkbox>
-                                </md-input-container>
-                                <!--  </div>
-                                   <div> -->
-                                <md-input-container>
-                                    <label for="reps">Repetitions</label>
-                                    <md-select ng-model="exercise.exerciseReps" ng-change="exercise.repsAdded;ctrl.toggleExercise(exercise)">
-                                        <md-option ng-repeat="reps in [10,25,50] " ng-value="{{reps}}">
-                                            {{reps}}
-                                        </md-option>
-                                        <md-tooltip>Number of repetitions</md-tooltip>
-                                    </md-select>
-                                </md-input-container>
-                                <!-- </div> -->
+                                    </md-input-container>
+                                    <md-input-container>
+                                        <label>Repetitions</label>
+                                        <md-select ng-model="exercise.exerciseReps">
+                                            <md-option ng-repeat="reps in [10,25,50] " ng-value="{{reps}}">
+                                                {{reps}}
+                                            </md-option>
+                                            <md-tooltip>Number of repetitions</md-tooltip>
+                                        </md-select>
+                                    </md-input-container>
                                 </div>
                                 <!-- //end row -->
-                                <!-- <div><pre>{{exercise | json}}</pre></div> -->
                                 <div>
                                     <!-- //start row -->
                                     <div>

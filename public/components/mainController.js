@@ -26,7 +26,6 @@
             ctrl.openLeftNav = openLeftNav;
             ctrl.openRightNav = openRightNav;
 
-            ctrl.showExercises = showExercises;
             ctrl.showToast = showToast;
             ctrl.sort = sort;
 
@@ -101,6 +100,7 @@
                     instructions: workout.instructions,
                     contributor: workout.contributor,
                     votes: workout.votes,
+                    sets: workout.sets,
                     timestamp: workout.timestamp,
                     comments: workout.comments,
                     // workoutId: workout.workoutId
@@ -273,8 +273,8 @@
                     ctrl.workout.sets = ctrl.exercise.sets;
 
 
-                    console.log("workout full:", ctrl.workout);
-                    console.log("EXSETS:", ctrl.exercise.sets);
+                    // console.log("workout full:", ctrl.workout);
+                    // console.log("EXSETS:", ctrl.exercise.sets);
 
                     showToast('Exercises added!');
                 }
@@ -316,13 +316,7 @@
                 $mdSidenav('left').close();
             };
 
-            // keep track of which set number we pick exercises for
-            function showExercises(setNumber) {
 
-                ctrl.setNumber = setNumber;
-
-                // console.log("Current Set Number: ",ctrl.setNumber);
-            }
 
             function cancel() {
                 $mdDialog.cancel();
@@ -348,17 +342,17 @@
 
             firebase.auth().onAuthStateChanged(function(user) {
                 if (user) {
-                    console.log("User available!")
+                    // console.log("User available!")
                     ctrl.user = firebase.auth().currentUser;
                     ctrl.name, ctrl.email, ctrl.photoUrl, ctrl.uid;
 
                     if (user != null) {
                         user.providerData.forEach(function(profile) {
-                            console.log("Sign-in provider: " + profile.providerId);
-                            console.log("  Provider-specific UID: " + profile.uid);
-                            console.log("  Name: " + profile.displayName);
-                            console.log("  Email: " + profile.email);
-                            console.log("  Photo URL: " + profile.photoURL);
+                            // console.log("Sign-in provider: " + profile.providerId);
+                            // console.log("  Provider-specific UID: " + profile.uid);
+                            // console.log("  Name: " + profile.displayName);
+                            // console.log("  Email: " + profile.email);
+                            // console.log("  Photo URL: " + profile.photoURL);
 
                             ctrl.contributor = profile.displayName;
                             ctrl.mail = profile.email;
