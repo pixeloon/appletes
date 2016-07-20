@@ -105,18 +105,6 @@
 
             function submitExercises() {
 
-              
-              // let exCB = document.querySelectorAll("#exerciseCB");
-
-              // for(var i=0; i < exCB.length;i++){
-              //   if(exCB[i].checked){
-              //     let exName = exCB[i].getAttribute("name")
-
-              //   ctrl.exercise = {"exerciseId": ctrl.exerciseId,"name": exName, "image": ctrl.workout.image}
-              //   }
-
-              // }   
-
                 var selectedExercises = ctrl.selectedExercises;
                 var workoutExerciseIds = [];
 
