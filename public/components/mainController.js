@@ -6,7 +6,7 @@
 
         .module("appletesApp")
 
-    .controller("MainController", function($scope, $http, $state, $mdSidenav, $timeout, $q, $mdToast, $mdDialog, WorkoutFactory) {
+    .controller("MainController", function($scope, $http, $state, $mdSidenav, $timeout, $q, $mdToast, $mdDialog, $firebaseArray) {
 
             var ctrl = this;
 
@@ -28,7 +28,6 @@
 
             ctrl.showExercises = showExercises;
             ctrl.showToast = showToast;
-            // ctrl.signOutUser = signOutUser;
             ctrl.sort = sort;
 
             // ctrl.submitWorkout = submitWorkout;
@@ -37,22 +36,38 @@
             ctrl.voteDown = voteDown;
             ctrl.voteUp = voteUp;
 
-            // ctrl.saveWorkout = saveWorkout;
-            ctrl.workoutId;
+            // WorkoutFactory.getWorkouts().then(function(workouts) {
+            //     ctrl.workouts = workouts.data;
+            //     console.log("WORKOUTS: ", ctrl.workouts)
+            // });
 
+            ctrl.workoutsRef = firebase.database().ref('workouts/')
+            ctrl.workouts = $firebaseArray(ctrl.workoutsRef);
 
-            WorkoutFactory.getWorkouts().then(function(workouts) {
-                ctrl.workouts = workouts.data;
-                console.log("WORKOUTS: ", ctrl.workouts)
+            ctrl.workoutsRef.on('value', function(workouts) {
+                console.log("Workout Value: ", workouts.val())
+                let workoutsVal = workouts.val()
+                for (var key in workoutsVal) {
+
+                    var obj = workoutsVal[key];
+                    for (var prop in obj) {
+
+                        console.log(prop + " = " + obj[prop]);
+                    }
+                }
+
             });
 
 
 
+            // SAVE new Workout, from newWorkoutsController
             $scope.$on('newWorkout', function(event, workout) {
                 // ctrl.workoutId = ctrl.getWorkoutId();
                 // ctrl.workouts.push(workout);
                 // showToast('New Workout Saved');
                 workout.workoutId = ctrl.getWorkoutId();
+                // to do: request unique key for this, like:
+                let newWorkoutKey = firebase.database().ref().child('workouts').push().key;
 
                 let tagsArr = [];
                 let tagsObjArr = workout.selectedTags;
@@ -66,12 +81,29 @@
                 workout.votes = 0;
                 workout.timestamp = Date.now();
                 workout.comments = [];
-                console.log("Ready to send:", workout)
-                
+                if (!workout.instructions) {
+                    workout.instructions = ""
+                }
+                if (!workout.image) {
+                    workout.image = "http://lorempixel.com/200/200/sports/"
+                }
+                console.log("Ready to send image:", workout.image)
 
-                firebase.database().ref('workouts/' + workout.workoutId).set({
 
-                    workout: workout
+                firebase.database().ref('workouts/' + newWorkoutKey).set({
+
+                    // workout: workout,
+                    name: workout.name,
+                    sets: workout.numbersSets,
+                    skillLevel: workout.skillLevel,
+                    selectedTags: workout.selectedTags,
+                    image: workout.image,
+                    instructions: workout.instructions,
+                    contributor: workout.contributor,
+                    votes: workout.votes,
+                    timestamp: workout.timestamp,
+                    comments: workout.comments,
+                    // workoutId: workout.workoutId
 
                 }).then(function() {
                     ctrl.showToast('Workout added!');
@@ -80,6 +112,8 @@
                 })
 
             });
+
+
 
             $scope.$on('editSaved', function(event, message) {
                 showToast(message);
@@ -335,6 +369,7 @@
                         });
 
                         ctrl.userAuthenticated = true;
+                        ctrl.myUserId = firebase.auth().currentUser.uid
                     }
 
 
@@ -366,8 +401,8 @@
                     ctrl.token = result.credential.accessToken;
                     // The signed-in user info.
                     ctrl.user = result.user;
-
-                    console.log("Signed out successfully!");
+                    ctrl.myUserId = firebase.auth().currentUser.uid
+                    console.log("Signed in successfully!");
                 }).catch(function(error) {
                     // Handle Errors here.
                     ctrl.errorCode = error.code;

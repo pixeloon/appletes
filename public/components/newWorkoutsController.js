@@ -31,14 +31,13 @@
 
             });
 
-           
-
             // some initial values
             ctrl.rightNavTitle = 'Add a Workout';
             ctrl.workout = {};
             ctrl.exercise = {};
             ctrl.workout.exercises = [];
-            ctrl.workout.image = "http://lorempixel.com/200/200/sports/"
+            ctrl.workout.image = ""
+            ctrl.workout.instructions = ""
             ctrl.skillLevels = ["Beginners", "Intermediates", "Advanced"];
             ctrl.workout.skillLevel = "Beginners";
             ctrl.workout.numbersSets = 1;
@@ -46,7 +45,6 @@
 
             // ctrl.exercise.exerciseNumber
             // ctrl.exercise.exerciseNumber.sets;
-
 
             // handling sidenav state
             $scope.$watch('ctrl.rightNavOpen', function(rightNavOpen) {
@@ -73,8 +71,6 @@
                     ctrl.rightNavOpen = false;
                 }
             }
-
-
 
             // handling Exercises
             function submitExercises() {
