@@ -20,6 +20,7 @@
             ctrl.closeRightNav = closeRightNav;
             ctrl.deleteWorkout = deleteWorkout; // to do
             ctrl.editWorkout = editWorkout; // to do
+            ctrl.addComment = addComment
 
             ctrl.getWorkoutId = getWorkoutId;
 
@@ -67,7 +68,7 @@
                 workout.workoutId = ctrl.getWorkoutId();
                 // to do: request unique key for this, like:
                 workout.contributor = ctrl.contributor || "Anonymous";
-                let newWorkoutKey = firebase.database().ref().child('workouts').push().key;
+                // let newWorkoutKey = firebase.database().ref().child('workouts').push().key;
 
                 let tagsArr = [];
                 let tagsObjArr = workout.selectedTags;
@@ -80,7 +81,8 @@
                 workout.contributor = ctrl.contributor;
                 workout.votes = 0;
                 workout.timestamp = Date.now();
-                workout.comments = [{"commenter": "TESTER","text":"test text", "timestamp":Date.now()}];
+                // workout.comments = [{"commenter": workout.contributor,"text":"test text", "timestamp":Date.now()}];
+                workout.comments = []
                 if (!workout.instructions) {
                     workout.instructions = ""
                 }
@@ -90,7 +92,7 @@
                 console.log("Ready to send image:", workout.image)
 
 
-                firebase.database().ref('workouts/' + newWorkoutKey).set({
+                firebase.database().ref('workouts/' + workout.key).set({
 
                     // workout: workout,
                     name: workout.name,
@@ -104,7 +106,7 @@
                     sets: workout.sets,
                     timestamp: workout.timestamp,
                     comments: workout.comments
-                    // workoutId: workout.workoutId
+                        // workoutId: workout.workoutId
 
                 }).then(function() {
                     ctrl.showToast('Workout added!');
@@ -114,12 +116,15 @@
 
             });
 
-            function addComment(comment) {
-  firebase.database().ref('users/' + userId).set({
-    username: name,
-    email: email
-  });
-}
+            function addComment(comments) {
+                console.log("COMMENT:", comments)
+
+                // firebase.database().ref('users/' + userId).set({
+                //     username: name,
+                //     email: email
+                // });
+
+            }
 
 
 

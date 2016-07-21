@@ -40,6 +40,7 @@
             ctrl.exercise.sets = [];
             ctrl.selectedExercises = [];
             ctrl.workout.exercises = [];
+            ctrl.workout.key = ""
             ctrl.workout.image = ""
             ctrl.workout.instructions = ""
             ctrl.skillLevels = ["Beginners", "Intermediates", "Advanced"];
@@ -73,9 +74,11 @@
 
             function saveWorkout(workout) {
                 if (workout) {
+                  workout.key =  firebase.database().ref().child('workouts').push().key;
 
                     $scope.$emit('newWorkout', workout)
                     ctrl.rightNavOpen = false;
+                    ctrl.workout.key = workout.key;
                 }
             }
 
