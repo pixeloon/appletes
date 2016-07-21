@@ -121,7 +121,7 @@
                             <textarea ng-model="card.comment " md-maxlength="250 " rows="5 " id="comment " md-select-on-focus></textarea>
                         </md-input-container>
                         <div>
-                            <md-button class="md-primary " ng-click="ctrl.submitComment(card.comment) ">Save</md-button>
+                            <md-button class="md-primary " ng-click="ctrl.addComment(card.comment) ">Save</md-button>
                             <md-button ng-click="card.showAddComment=false; card.comment='' " class="md-warn ">Cancel</md-button>
                         </div>
                     </md-content>
@@ -176,7 +176,7 @@
                                 </md-card-avatar>
                                 <md-card-header-text>
                                     <span class="md-subhead "> {{comment.timestamp | date: 'short'}}</span>
-                                    <span class="md-title ">{{comment.contributor}}: </span>
+                                    <span class="md-title ">{{comment.commenter}}: </span>
                                 </md-card-header-text>
                             </md-card-header>
                             <span class="commentText ">{{comment.text}}</span>

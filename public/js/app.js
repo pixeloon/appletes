@@ -19,14 +19,5 @@ angular.module('appletesApp', ['ngMaterial', 'ngMessages', 'ui.router', 'firebas
                 templateUrl: '../templates/workouts_new.html',
                 controller: 'NewWorkoutsController as ctrl'
             })
-        .state('classifieds.edit', {
-                url: '/:id/edit',
-                templateUrl: '../templates/workouts_edit.html',
-                controller: 'EditWorkoutsController as ctrl',
-                params: {
-                  classified: null
-                }
-            });
-
 
     })

@@ -66,6 +66,7 @@
                 // showToast('New Workout Saved');
                 workout.workoutId = ctrl.getWorkoutId();
                 // to do: request unique key for this, like:
+                workout.contributor = ctrl.contributor || "Anonymous";
                 let newWorkoutKey = firebase.database().ref().child('workouts').push().key;
 
                 let tagsArr = [];
@@ -79,7 +80,7 @@
                 workout.contributor = ctrl.contributor;
                 workout.votes = 0;
                 workout.timestamp = Date.now();
-                workout.comments = [];
+                workout.comments = [{"commenter": "TESTER","text":"test text", "timestamp":Date.now()}];
                 if (!workout.instructions) {
                     workout.instructions = ""
                 }
@@ -102,7 +103,7 @@
                     votes: workout.votes,
                     sets: workout.sets,
                     timestamp: workout.timestamp,
-                    comments: workout.comments,
+                    comments: workout.comments
                     // workoutId: workout.workoutId
 
                 }).then(function() {
@@ -112,6 +113,13 @@
                 })
 
             });
+
+            function addComment(comment) {
+  firebase.database().ref('users/' + userId).set({
+    username: name,
+    email: email
+  });
+}
 
 
 

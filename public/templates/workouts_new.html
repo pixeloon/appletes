@@ -15,6 +15,16 @@
                             <!-- <div ng-message="required">This is required.</div> -->
                         </md-input-container>
                         <md-input-container>
+                            <label>Sets:</label>
+                            <md-select ng-model="ctrl.workout.numbersSets" name="workoutSets">
+                                <md-option ng-repeat="setNumber in [1,2,3]" value="{{setNumber}}">
+                                    {{setNumber}}
+                                </md-option>
+                                <md-tooltip>Set number</md-tooltip>
+                            </md-select>
+                            <!-- <div ng-messages="workoutForm.workoutSets.$error"></div> -->
+                        </md-input-container>
+                        <!-- <md-input-container> -->
                     </div>
                     <!-- // image upload -->
                     <!--                         <div flow-init="{target: '/upload'}" flow-files-submitted="$flow.upload()" flow-file-success="$file.msg = $message">
@@ -50,14 +60,14 @@
                     </div>
                     <div layout="row">
                         <md-input-container>
-                            <label>Sets:</label>
-                            <md-select ng-model="ctrl.workout.numbersSets" name="workoutSets">
-                                <md-option ng-repeat="setNumber in [1,2,3]" value="{{setNumber}}">
-                                    {{setNumber}}
+                            <label>Time:</label>
+                            <md-select ng-model="ctrl.workout.duration" name="duration">
+                                <md-option ng-repeat="time in [15,30,45,60]" value="{{time}}">
+                                    {{time}}
                                 </md-option>
-                                <md-tooltip>Set number</md-tooltip>
+                                <md-tooltip>Estimate time needed</md-tooltip>
                             </md-select>
-                            <div ng-messages="workoutForm.workoutSets.$error"></div>
+                            <!-- <div ng-messages="workoutForm.duration.$error"></div> -->
                         </md-input-container>
                         <md-input-container>
                             <label for="level">Best suited for:</label>
@@ -103,7 +113,7 @@
                     <md-button ng-click="ctrl.closeRightNav()" class="md-warn">Cancel</md-button>
                 </form>
             </div>
-<!--             <div><pre>{{ctrl.workout.exercise | json}}</pre></div>
+            <!--             <div><pre>{{ctrl.workout.exercise | json}}</pre></div>
             <div><pre>{{ctrl.workout | json}}</pre></div> -->
             <!-- // pick EXERCISES 1 -->
             <div ng-show="ctrl.pickExercises">
@@ -130,7 +140,6 @@
                                 <div layout="row" id="exercise">
                                     <md-input-container>
                                         <md-checkbox ng-checked="exercise.selectedExercise" ng-click="exercise.selectedExercise = !exercise.selectedExercise;ctrl.toggleExercise(exercise)" name="exerciseId" layout="row"><strong>{{exercise.name}}</strong>
-
                                         </md-checkbox>
                                     </md-input-container>
                                     <md-input-container>
