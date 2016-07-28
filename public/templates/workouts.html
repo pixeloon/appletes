@@ -118,10 +118,10 @@
                     <md-content class="md-padding " layout="column ">
                         <md-input-container class="md-block ">
                             <label for="comments ">Enter your comment here:</label>
-                            <textarea ng-model="card.comment " md-maxlength="250 " rows="5 " id="comment " md-select-on-focus></textarea>
+                            <textarea ng-model="card.comment.text " md-maxlength="250 " rows="5 " id="comment " md-select-on-focus></textarea>
                         </md-input-container>
                         <div>
-                            <md-button class="md-primary " ng-click="ctrl.addComment(card.comments); card.showAddComment=false; card.comment='' ">Save</md-button>
+                            <md-button class="md-primary " ng-click="ctrl.addComment(card); card.showAddComment=false; card.comment='' ">Save</md-button>
                             <md-button ng-click="card.showAddComment=false; card.comment='' " class="md-warn ">Cancel</md-button>
                         </div>
                     </md-content>
@@ -133,7 +133,7 @@
                     <md-icon ng-show="card.fav " class="mdi mdi-star md-accent fav " ng-click='card.fav = !card.fav'></md-icon>
                     <md-card-title-text>
                         <span class="md-headline ">{{card.name
-}} - <small>{{card.skillLevel}}</small></span>
+}} - <small>{{card.skillLevel}}</small>{{card.$id}}</span>
                     </md-card-title-text>
                 </md-card-title>
                 <div class="tag " layout="row ">

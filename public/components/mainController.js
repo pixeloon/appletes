@@ -20,7 +20,8 @@
             ctrl.closeRightNav = closeRightNav;
             ctrl.deleteWorkout = deleteWorkout; // to do
             ctrl.editWorkout = editWorkout; // to do
-            ctrl.addComment = addComment
+            ctrl.addComment = addComment;
+            ctrl.comment = {};
 
             ctrl.getWorkoutId = getWorkoutId;
 
@@ -49,10 +50,16 @@
                 let workoutsVal = workouts.val()
                 for (var key in workoutsVal) {
 
+                    // console.log("KEY: ",key);
+
                     var obj = workoutsVal[key];
                     for (var prop in obj) {
 
-                        console.log(prop + " = " + obj[prop]);
+                        // console.log("PROPERTY: " + prop + " = " + obj[prop]);
+
+                        // if (obj["comments"] !== undefined){
+                        // console.log("COMMENTS:", obj["comments"][0]["text"])
+                        // }
                     }
                 }
 
@@ -116,18 +123,49 @@
 
             });
 
-            function addComment(comments) {
-                console.log("COMMENT:", comments)
+            function addComment(workout) {
 
-                // firebase.database().ref('users/' + userId).set({
-                //     username: name,
-                //     email: email
-                // });
+                let comment = {};
+                let workoutId = workout.$id;
+
+                if (workout.comments) {
+                    if (ctrl.contributor) {
+                        comment.contributor = ctrl.contributor;
+                    } else {
+                        comment.contributor = "Anonymous"
+                    }
+
+
+                    // don't post an empty string
+                    if (workout.comment) {
+                        workout.comment.text
+                        comment.text = workout.comment.text;
+                    } else {
+                        return
+                    }
+                    comment.timestamp = Date.now();
+                    workout.comments.push(comment);
+                } else {
+                    workout.comments = [{ "commenter": ctrl.contributor, "text": workout.comment.text, "timestamp": Date.now() }]
+                }
+                workout.comments.forEach(comment => delete comment.$$hashKey);
+
+                console.log("New Comments:", workout.comments)
+                debugger
+                if (ctrl.text === "") {
+                    return;
+                }
+
+                firebase.database().ref('workouts/' + workoutId).update({
+                    comments: workout.comments
+                });
+
 
             }
 
 
 
+            //To Do
             $scope.$on('editSaved', function(event, message) {
                 showToast(message);
             });
@@ -202,10 +240,6 @@
 
             //     })
             // }
-
-
-
-
 
 
             function sort() {
