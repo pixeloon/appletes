@@ -13,35 +13,22 @@
             ctrl.signInUser = signInUser;
             ctrl.signOutUser = signOutUser;
 
+            ctrl.addComment = addComment;
             ctrl.addToFavs = addToFavs; // to do
             ctrl.cancel = cancel;
             ctrl.clearWorkout = clearWorkout; //to do
             ctrl.closeLeftNav = closeLeftNav;
             ctrl.closeRightNav = closeRightNav;
+            ctrl.comment = {};
             ctrl.deleteWorkout = deleteWorkout; // to do
             ctrl.editWorkout = editWorkout; // to do
-            ctrl.addComment = addComment;
-            ctrl.comment = {};
-
             ctrl.getWorkoutId = getWorkoutId;
-
             ctrl.openLeftNav = openLeftNav;
             ctrl.openRightNav = openRightNav;
-
             ctrl.showToast = showToast;
             ctrl.sort = sort;
-
-            // ctrl.submitWorkout = submitWorkout;
-            // ctrl.saveWorkout = saveWorkout;
-
             ctrl.voteDown = voteDown;
             ctrl.voteUp = voteUp;
-
-            // WorkoutFactory.getWorkouts().then(function(workouts) {
-            //     ctrl.workouts = workouts.data;
-            //     console.log("WORKOUTS: ", ctrl.workouts)
-            // });
-
             ctrl.workoutsRef = firebase.database().ref('workouts/')
             ctrl.workouts = $firebaseArray(ctrl.workoutsRef);
 
@@ -50,16 +37,9 @@
                 let workoutsVal = workouts.val()
                 for (var key in workoutsVal) {
 
-                    // console.log("KEY: ",key);
-
                     var obj = workoutsVal[key];
                     for (var prop in obj) {
 
-                        // console.log("PROPERTY: " + prop + " = " + obj[prop]);
-
-                        // if (obj["comments"] !== undefined){
-                        // console.log("COMMENTS:", obj["comments"][0]["text"])
-                        // }
                     }
                 }
 
@@ -67,28 +47,21 @@
 
 
 
-            // SAVE new Workout, from newWorkoutsController
+            // SAVE NEW Workout, from newWorkoutsController
             $scope.$on('newWorkout', function(event, workout) {
-                // ctrl.workoutId = ctrl.getWorkoutId();
-                // ctrl.workouts.push(workout);
-                // showToast('New Workout Saved');
                 workout.workoutId = ctrl.getWorkoutId();
-                // to do: request unique key for this, like:
                 workout.contributor = ctrl.contributor || "Anonymous";
-                // let newWorkoutKey = firebase.database().ref().child('workouts').push().key;
 
                 let tagsArr = [];
                 let tagsObjArr = workout.selectedTags;
                 tagsArr = tagsObjArr.map(function(item) {
                     return item = item.name;
-
                 })
 
                 workout.selectedTags = tagsArr;
                 workout.contributor = ctrl.contributor;
                 workout.votes = 0;
                 workout.timestamp = Date.now();
-                // workout.comments = [{"commenter": workout.contributor,"text":"test text", "timestamp":Date.now()}];
                 workout.comments = []
                 if (!workout.instructions) {
                     workout.instructions = ""
@@ -101,7 +74,6 @@
 
                 firebase.database().ref('workouts/' + workout.key).set({
 
-                    // workout: workout,
                     name: workout.name,
                     sets: workout.numbersSets,
                     skillLevel: workout.skillLevel,
@@ -113,7 +85,6 @@
                     sets: workout.sets,
                     timestamp: workout.timestamp,
                     comments: workout.comments
-                        // workoutId: workout.workoutId
 
                 }).then(function() {
                     ctrl.showToast('Workout added!');
@@ -159,10 +130,7 @@
                 firebase.database().ref('workouts/' + workoutId).update({
                     comments: workout.comments
                 });
-
-
             }
-
 
 
             //To Do
@@ -171,12 +139,6 @@
             });
 
 
-            window.mainscope = ctrl
-                // ctrl = {};
-                // ctrl.exercise = {};
-                // ctrl.exercise.sets = [];
-                // ctrl.workout = {};
-                // ctrl.workout.sets = [];
             ctrl.userAuthenticated = false;
             ctrl.showImages = true;
             ctrl.showComments = true;
@@ -184,62 +146,18 @@
             ctrl.showSets = false;
             ctrl.showCards = true;
             ctrl.pickExercises = false;
-            // ctrl.exerciseChecked = false;
-
             ctrl.filteredWorkouts = "";
-
             ctrl.exerciseCounter = 201;
             ctrl.workoutCounter = 101;
             ctrl.cardCounter = 0;
             ctrl.selectedExercises = [];
-
             ctrl.sortOption = "Date"
             ctrl.sortOptions = ["Date", "Votes"];
-
-
             ctrl.exerciseReps = 10;
 
             function getWorkoutId() {
                 return ctrl.workoutCounter += 1;
             }
-
-
-            // function saveWorkout(workout) {
-
-            //     let workoutId = ctrl.getWorkoutId();
-            //     let tagsArr = [];
-            //     let tagsObjArr = ctrl.selectedTags;
-            //     tagsArr = tagsObjArr.map(function(item) {
-            //         return item = item.name
-
-            //     })
-            //     console.log("Ready to send:", workout)
-            //     debugger
-
-            //     firebase.database().ref('workouts/' + workout.workoutId).set({
-
-            //         name: workout.name,
-            //         selectedTags: tagsArr,
-            //         instructions: workout.instructions,
-
-            //         skill: ctrl.skillLevel,
-
-            //         sets: ctrl.exercise.sets,
-            //         exerciseIds: ctrl.workout.exerciseIds,
-            //         contributor: ctrl.contributor,
-            //         image: "http://lorempixel.com/200/200/sports/",
-            //         instructions: workout.instructions,
-            //         votes: 0,
-            //         timestamp: Date.now(),
-            //         comments: []
-
-
-            //     }).then(function() {
-            //         ctrl.showToast('Workout added!');
-            //         closeRightNav();
-
-            //     })
-            // }
 
 
             function sort() {
@@ -255,32 +173,6 @@
                     return "-timestamp"
                 }
             }
-
-            // function submitWorkout(workout) {
-            // console.log("Submitted WO: ", workout);
-
-            // if (workout) {
-            //     if (!ctrl.contributor) {
-            //         workout.contributor = "Anonymous"
-            //     } else {
-            //         //To Do
-            //         workout.contributor = ctrl.contributor;
-            //     }
-            // workout.workoutId = ctrl.workoutCounter + 1
-            // workout.timestamp = Date.now();
-            // workout.skill = ctrl.skillLevel;
-            // workout.comments = [];
-            // workout.image = "";
-            // workout.votes = 0;
-            // workout.comments = [];
-            // workout.selectedTags = ctrl.selectedTags;
-            // ctrl.workouts.push(workout)
-
-            // ctrl.showToast('Workout added!');
-
-            // }
-            // closeRightNav();
-            // }
 
 
             function editWorkout(workout) {
@@ -318,10 +210,6 @@
                     })
                     ctrl.workout.exerciseIds = workoutExerciseIds;
                     ctrl.workout.sets = ctrl.exercise.sets;
-
-
-                    // console.log("workout full:", ctrl.workout);
-                    // console.log("EXSETS:", ctrl.exercise.sets);
 
                     showToast('Exercises added!');
                 }
