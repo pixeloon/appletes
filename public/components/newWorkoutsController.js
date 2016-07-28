@@ -133,16 +133,18 @@
             }
 
             function toggleExercise(exercise) {
-                // console.log("Exercise Obj:", exercise)
+                console.log("Exercise Obj:", exercise)
                     // debugger
 
                 if (exercise.selectedExercise) {
+                    console.log("REPS:",exercise.exerciseReps)
+                    // debugger
 
-                    // if (!exercise.workoutId) {
-                    //     exercise.workoutId = ctrl.getWorkoutId();
-                    //     // add current workout ID to selected exercise
-                    //     exercise.workoutIds.push(exercise.workoutId)
-                    // }
+                    if (!exercise.exerciseReps) {
+                        exercise.exerciseReps = 10;
+                        // debugger
+                        console.log("REPS after:",exercise.exerciseReps)
+                    }
 
                     if (exercise.selectedExercise) {
                         ctrl.exercise.sets.push({
@@ -160,20 +162,17 @@
                     }
 
                 } else {
-                    // console.log("exercise.workoutId:", exercise.workoutId)
                     var workoutIdAtIndex = exercise.workoutIds.findIndex(function(wid) {
                         return wid === exercise.workoutId
                     })
-                    // console.log("workoutIdAtIndex:", workoutIdAtIndex)
-                    // console.log("workoutIds Array before:", exercise.workoutIds)
+
                     exercise.workoutIds.splice(workoutIdAtIndex, 1)
-                    // console.log("workoutIds Array after:", exercise.workoutIds)
 
                     var idAtIndex = ctrl.selectedExercises.findIndex(function(el) {
                         return el.exerciseId === exercise.exerciseId;
                     })
-                    if (idAtIndex !== -1) {
 
+                    if (idAtIndex !== -1) {
                         ctrl.selectedExercises.splice(idAtIndex, 1)
                     }
                     return exercise
