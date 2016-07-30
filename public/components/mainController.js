@@ -10,8 +10,11 @@
 
             var ctrl = this;
 
+            window.ctrl = ctrl;
+
             ctrl.signInUser = signInUser;
             ctrl.signOutUser = signOutUser;
+            ctrl.reloadRoute = reloadRoute;
 
             ctrl.addComment = addComment;
             ctrl.addToFavs = addToFavs; // to do
@@ -22,6 +25,7 @@
             ctrl.comment = {};
             ctrl.deleteWorkout = deleteWorkout; // to do
             ctrl.editWorkout = editWorkout; // to do
+            ctrl.forceSignOut = true;
             ctrl.getWorkoutId = getWorkoutId;
             ctrl.openLeftNav = openLeftNav;
             ctrl.openRightNav = openRightNav;
@@ -98,15 +102,17 @@
 
                 let comment = {};
                 let workoutId = workout.$id;
+                debugger
+
+                if (ctrl.contributor) {
+                    comment.commenter = ctrl.contributor;
+                    comment.profileImg = ctrl.photoUrl;
+                } else {
+                    comment.commenter = "Anonymous"
+                    comment.profileImg = "/images/anon.png";
+                }
 
                 if (workout.comments) {
-                    if (ctrl.contributor) {
-                        comment.contributor = ctrl.contributor;
-                    } else {
-                        comment.contributor = "Anonymous"
-                    }
-
-
                     // don't post an empty string
                     if (workout.comment) {
                         workout.comment.text
@@ -114,15 +120,14 @@
                     } else {
                         return
                     }
-                    comment.timestamp = Date.now();
+                    comment.timestamp = firebase.database.ServerValue.TIMESTAMP;
+
                     workout.comments.push(comment);
                 } else {
-                    workout.comments = [{ "commenter": ctrl.contributor, "text": workout.comment.text, "timestamp": Date.now() }]
+                    workout.comments = [{ "commenter": comment.commenter, "text": workout.comment.text, "timestamp": Date.now(), "profileImg": ctrl.photoUrl }]
                 }
                 workout.comments.forEach(comment => delete comment.$$hashKey);
 
-                console.log("New Comments:", workout.comments)
-                debugger
                 if (ctrl.text === "") {
                     return;
                 }
@@ -213,7 +218,7 @@
 
                     showToast('Exercises added!');
                 }
-                // uncheck any previously checked Ex
+                // uncheck any previously checked Exercises
                 ctrl.exercises.forEach(v => v.selectedExercise = false)
 
                 ctrl.pickExercises = false;
@@ -232,8 +237,13 @@
 
             // handling left and right nav slider
             function openRightNav() {
+                if (ctrl.userAuthenticated) {
 
-                $state.go('workouts.new');
+                    $state.go('workouts.new');
+                } else {
+                    showToast('To add workouts, please Login (requires Google Chrome)');
+                }
+
             };
 
             function closeRightNav() {
@@ -250,7 +260,6 @@
             function closeLeftNav() {
                 $mdSidenav('left').close();
             };
-
 
 
             function cancel() {
@@ -276,7 +285,7 @@
                 if (user) {
                     // console.log("User available!")
                     ctrl.user = firebase.auth().currentUser;
-                    ctrl.name, ctrl.email, ctrl.photoUrl, ctrl.uid;
+                    ctrl.contributor, ctrl.email, ctrl.photoUrl, ctrl.uid;
 
                     if (user != null) {
                         user.providerData.forEach(function(profile) {
@@ -292,68 +301,85 @@
                             ctrl.uid = user.uid; // The user's ID, unique to the Firebase project. Do NOT use
                             // this value to authenticate with your backend server, if
                             // you have one. Use User.getToken() instead.
+                            ctrl.userAuthenticated = true;
+                            // ctrl.myUserId = firebase.auth().currentUser.uid
                         });
 
-                        ctrl.userAuthenticated = true;
-                        ctrl.myUserId = firebase.auth().currentUser.uid
                     }
-
 
                 } else {
                     console.log("No user available!")
-                    firebase.auth().signInWithPopup(provider).then(function(result) {
-                        // This gives you a Google Access Token. You can use it to access the Google API.
-                        var token = result.credential.accessToken;
-                        // The signed-in user info.
-                        var user = result.user;
-                        // ...
-                    }).catch(function(error) {
-                        // Handle Errors here.
-                        var errorCode = error.code;
-                        var errorMessage = error.message;
-                        // The email of the user's account used.
-                        var email = error.email;
-                        // The firebase.auth.AuthCredential type that was used.
-                        var credential = error.credential;
-                        // ...
-                    })
+                    ctrl.userAuthenticated = false;
+
+                    if (ctrl.forceSignOut = false) {
+
+                        firebase.auth().signInWithPopup(provider).then(function(result) {
+                            // This gives you a Google Access Token. You can use it to access the Google API.
+                            ctrl.token = result.credential.accessToken;
+                            // The signed-in user info.
+                            ctrl.user = result.user;
+                            console.log("Signed in automatically!");
+                            // ...
+                        }).catch(function(error) {
+                            // Handle Errors here.
+                            ctrl.errorCode = error.code;
+                            ctrl.errorMessage = error.message;
+                            // The email of the user's account used.
+                            ctrl.errorEmail = error.email;
+                            // The firebase.auth.AuthCredential type that was used.
+                            ctrl.errorCredential = error.credential;
+                            // ...
+                        })
+
+                    }
                 }
             });
 
             function signInUser() {
                 var provider = new firebase.auth.GoogleAuthProvider();
-                firebase.auth().signInWithPopup(provider).then(function(result) {
-                    // This gives you a Google Access Token. You can use it to access the Google API.
-                    ctrl.token = result.credential.accessToken;
-                    // The signed-in user info.
-                    ctrl.user = result.user;
-                    ctrl.myUserId = firebase.auth().currentUser.uid
-                    console.log("Signed in successfully!");
-                }).catch(function(error) {
-                    // Handle Errors here.
-                    ctrl.errorCode = error.code;
-                    ctrl.errorMessage = error.message;
-                    // The email of the user's account used.
-                    ctrl.email = error.email;
-                    // The firebase.auth.AuthCredential type that was used.
-                    ctrl.credential = error.credential;
+                $timeout(function() {
+                    firebase.auth().signInWithPopup(provider)
+                        .then(function(result) {
+                            // This gives you a Google Access Token. You can use it to access the Google API.
+                            ctrl.token = result.credential.accessToken;
+                            // The signed-in user info.
+                            ctrl.user = result.user;
+                            ctrl.contributor = result.displayName;
+                            ctrl.myUserId = firebase.auth().currentUser.uid
+                            ctrl.forceSignOut = false;
+                            reloadRoute();
 
-                });
+                            console.log("Signed in manually!");
+                        }).catch(function(error) {
+                            // Handle Errors here.
+                            ctrl.errorCode = error.code;
+                            ctrl.errorMessage = error.message;
+                            // The email of the user's account used.
+                            ctrl.email = error.email;
+                            // The firebase.auth.AuthCredential type that was used.
+                            ctrl.credential = error.credential;
+
+                        });
+
+                })
             }
+
 
 
             function signOutUser() {
+
                 firebase.auth().signOut().then(function() {
                     ctrl.userAuthenticated = false;
+                    ctrl.forceSignOut = true;
                     console.log("Signed out successfully!");
                 }, function(error) {
-                    console.log("Error occurred: ", error)
+                    console.log("Signout error occurred: ", error)
                 });
             }
 
-
-
-
+            function reloadRoute() {
+                $state.reload();
+            };
 
 
         }) // end main controller

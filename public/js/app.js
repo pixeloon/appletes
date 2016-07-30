@@ -15,9 +15,16 @@ angular.module('appletesApp', ['ngMaterial', 'ngMessages', 'ui.router', 'firebas
             })
 
         .state('workouts.new', {
-                url: '/new',
-                templateUrl: '../templates/workouts_new.html',
-                controller: 'NewWorkoutsController as ctrl'
-            })
+            url: '/new',
+            templateUrl: '../templates/workouts_new.html',
+            controller: 'NewWorkoutsController as ctrl',
+            resolve: {
+                security: ['$q', function($q) {
+                    if ( ctrl.userAuthenticated === false ) {
+                        return $q.reject("Not Authorized");
+                    }
+                }]
+            }
+        })
 
     })

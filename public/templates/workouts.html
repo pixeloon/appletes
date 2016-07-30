@@ -14,7 +14,8 @@
                 </md-button>
                 <md-button class="md-fab md-mini md-accent" ng-click="ctrl.openRightNav()">
                     +
-                    <md-tooltip>Add Workout</md-tooltip>
+                    <md-tooltip ng-if="ctrl.userAuthenticated === false">Please Login</md-tooltip>
+                    <md-tooltip ng-if="ctrl.userAuthenticated">Add Workout</md-tooltip>
                 </md-button>
             </div>
         </md-whiteframe>
@@ -132,8 +133,7 @@
                     <md-icon ng-hide="card.fav " class="mdi mdi-star-outline fav " ng-click='card.fav = !card.fav'></md-icon>
                     <md-icon ng-show="card.fav " class="mdi mdi-star md-accent fav " ng-click='card.fav = !card.fav'></md-icon>
                     <md-card-title-text>
-                        <span class="md-headline ">{{card.name
-}} - <small>{{card.skillLevel}}</small></span>
+                        <span class="md-headline ">{{card.name}} - <small>{{card.skillLevel}}</small></span>
                     </md-card-title-text>
                 </md-card-title>
                 <div class="tag " layout="row ">
@@ -172,7 +172,8 @@
                         <md-card ng-repeat="comment in card.comments ">
                             <md-card-header>
                                 <md-card-avatar>
-                                    <md-icon class="mdi mdi-account-circle "></md-icon>
+                                    <!-- <md-icon class="mdi mdi-account-circle "></md-icon> -->
+                                    <img class="user-avatar" ng-src="{{comment.profileImg}}">
                                 </md-card-avatar>
                                 <md-card-header-text>
                                     <span class="md-subhead "> {{comment.timestamp | date: 'short'}}</span>

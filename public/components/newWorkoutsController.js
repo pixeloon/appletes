@@ -24,7 +24,6 @@
 
             ExerciseFactory.getExercises().then(function(exercises) {
                 ctrl.exercises = exercises.data;
-                // console.log("EXERCISES: ", ctrl.exercises)
             });
 
             TagFactory.getTags().then(function(tags) {
@@ -133,17 +132,11 @@
             }
 
             function toggleExercise(exercise) {
-                console.log("Exercise Obj:", exercise)
-                    // debugger
 
                 if (exercise.selectedExercise) {
-                    console.log("REPS:",exercise.exerciseReps)
-                    // debugger
 
                     if (!exercise.exerciseReps) {
                         exercise.exerciseReps = 10;
-                        // debugger
-                        console.log("REPS after:",exercise.exerciseReps)
                     }
 
                     if (exercise.selectedExercise) {
