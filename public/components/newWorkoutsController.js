@@ -42,16 +42,14 @@
             ctrl.workout.key = ""
             ctrl.workout.image = ""
             ctrl.workout.instructions = ""
-            ctrl.skillLevels = ["Beginners", "Intermediates", "Advanced"];
-            ctrl.workout.skillLevel = "Beginners";
+            ctrl.skillLevels = ["Beginner", "Intermediate", "Advanced"];
+            ctrl.workout.skillLevel = "Beginner";
             ctrl.workout.numbersSets = 1;
             ctrl.setNumber = 0;
             ctrl.set1 = false;
             ctrl.set2 = false;
             ctrl.set3 = false;
 
-            // ctrl.exercise.exerciseNumber
-            // ctrl.exercise.exerciseNumber.sets;
 
             // handling sidenav state
             $scope.$watch('ctrl.rightNavOpen', function(rightNavOpen) {
@@ -68,7 +66,6 @@
             function closeRightNav() {
                 ctrl.workout = {};
                 ctrl.rightNavOpen = false;
-
             }
 
             function saveWorkout(workout) {
@@ -83,13 +80,9 @@
 
             // handling Exercises
 
-                        // keep track of which set number we pick exercises for
+            // keep track of which set number we pick exercises for
             function showExercises(setNumber) {
-
                 ctrl.setNumber = setNumber;
-                // ctrl.exercise.setNumber = ctrl.setNumber;
-
-                // console.log("Current Set Number: ",ctrl.setNumber);
             }
 
             function checkSet(){
@@ -101,7 +94,6 @@
 
               } else if (ctrl.setNumber == 3){
                 ctrl.set3 = true;
-
               }
             }
 
@@ -118,11 +110,7 @@
                     ctrl.workout.exerciseIds = workoutExerciseIds;
                     ctrl.workout.sets = ctrl.exercise.sets;
 
-
-                    console.log("workout full:", ctrl.workout);
-                    console.log("EXSETS:", ctrl.exercise.sets);
-
-                    // showToast('Exercises added!');
+                    showToast('Exercises added!');
                 }
                 // uncheck any previously checked Ex
                 ctrl.exercises.forEach(v => v.selectedExercise = false)
@@ -151,7 +139,6 @@
                         })
                         ctrl.selectedExercises.push(exercise)
                         return exercise
-
                     }
 
                 } else {

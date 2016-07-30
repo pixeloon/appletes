@@ -31,16 +31,15 @@
         </md-toolbar>
         <div layout="column" class="md-inline-form">
             <md-content layout-padding>
-                <div  ng-show="ctrl.userAuthenticated">
+                <div ng-show="ctrl.userAuthenticated">
                     <img class="user-avatar" ng-src="{{ctrl.photoUrl}}"> {{ctrl.contributor}}
                     <md-button class="md-warn" ng-click="ctrl.signOutUser();ctrl.closeLeftNav()">Log out</md-button>
                 </div>
-                <div ng-hide= "ctrl.userAuthenticated">
+                <div ng-hide="ctrl.userAuthenticated">
                     <md-button class="md-warn" ng-click="ctrl.signInUser();ctrl.closeLeftNav()">Log in</md-button>
                 </div>
                 <div>
                     <md-divider></md-divider>
-                    
                 </div>
                 <div>
                     <md-switch ng-model="ctrl.showComments" class="md-primary" md-no-ink aria-label="Switch Comments">
@@ -80,7 +79,7 @@
                     <a ng-click="ctrl.filteredWorkouts='' " style="margin-top: 2em;margin-left:0.5em">CLEAR
 
                     </a>
-                    <a ng-click="ctrl.filterWorkouts=false "  style="margin-top: 2em;margin-left:0.5em">CLOSE
+                    <a ng-click="ctrl.filterWorkouts=false " style="margin-top: 2em;margin-left:0.5em">CLOSE
 
                     </a>
                 </div>
@@ -118,7 +117,8 @@
                 <div ng-show="card.showAddComment " layout="column " class="tagInput ">
                     <md-content class="md-padding " layout="column ">
                         <md-input-container class="md-block ">
-                            <label for="comments ">Enter your comment here:</label>
+                            <label for="comments " ng-if="ctrl.userAuthenticated">Enter your comment here:</label>
+                            <label for="comments " ng-if="ctrl.userAuthenticated === false">Please login to leave comments.</label>
                             <textarea ng-model="card.comment.text " md-maxlength="250 " rows="5 " id="comment " md-select-on-focus></textarea>
                         </md-input-container>
                         <div>
@@ -169,7 +169,7 @@
                     <!-- // end exercise block -->
                     <!-- // comment block -->
                     <div ng-show="ctrl.showComments ">
-                        <md-card ng-repeat="comment in card.comments ">
+                        <md-card ng-repeat="comment in card.comments | orderBy: '-timestamp'">
                             <md-card-header>
                                 <md-card-avatar>
                                     <!-- <md-icon class="mdi mdi-account-circle "></md-icon> -->

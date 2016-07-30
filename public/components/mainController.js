@@ -91,7 +91,7 @@
                     comments: workout.comments
 
                 }).then(function() {
-                    ctrl.showToast('Workout added!');
+                    showToast('Workout added!');
                     closeRightNav();
 
                 })
@@ -100,41 +100,47 @@
 
             function addComment(workout) {
 
-                let comment = {};
-                let workoutId = workout.$id;
-                debugger
+                if (ctrl.userAuthenticated) {
 
-                if (ctrl.contributor) {
-                    comment.commenter = ctrl.contributor;
-                    comment.profileImg = ctrl.photoUrl;
-                } else {
-                    comment.commenter = "Anonymous"
-                    comment.profileImg = "/images/anon.png";
-                }
+                    let comment = {};
+                    let workoutId = workout.$id;
 
-                if (workout.comments) {
-                    // don't post an empty string
-                    if (workout.comment) {
-                        workout.comment.text
-                        comment.text = workout.comment.text;
+                    if (ctrl.contributor) {
+                        comment.commenter = ctrl.contributor;
+                        comment.profileImg = ctrl.photoUrl;
                     } else {
-                        return
+                        comment.commenter = "Anonymous"
+                        comment.profileImg = "/images/anon.png";
                     }
-                    comment.timestamp = firebase.database.ServerValue.TIMESTAMP;
 
-                    workout.comments.push(comment);
+                    if (workout.comments) {
+                        // don't post an empty string
+                        if (workout.comment) {
+                            workout.comment.text
+                            comment.text = workout.comment.text;
+                        } else {
+                            return
+                        }
+                        comment.timestamp = firebase.database.ServerValue.TIMESTAMP;
+
+                        workout.comments.push(comment);
+                    } else {
+                        workout.comments = [{ "commenter": comment.commenter, "text": workout.comment.text, "timestamp": Date.now(), "profileImg": ctrl.photoUrl }]
+                    }
+                    workout.comments.forEach(comment => delete comment.$$hashKey);
+
+                    if (ctrl.text === "") {
+                        return;
+                    }
+
+                    firebase.database().ref('workouts/' + workoutId).update({
+                        comments: workout.comments
+                    });
+
                 } else {
-                    workout.comments = [{ "commenter": comment.commenter, "text": workout.comment.text, "timestamp": Date.now(), "profileImg": ctrl.photoUrl }]
-                }
-                workout.comments.forEach(comment => delete comment.$$hashKey);
-
-                if (ctrl.text === "") {
-                    return;
+                    showToast('Please login to leave comments.');
                 }
 
-                firebase.database().ref('workouts/' + workoutId).update({
-                    comments: workout.comments
-                });
             }
 
 
