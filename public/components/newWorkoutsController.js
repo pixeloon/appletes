@@ -110,7 +110,6 @@
                     ctrl.workout.exerciseIds = workoutExerciseIds;
                     ctrl.workout.sets = ctrl.exercise.sets;
 
-                    showToast('Exercises added!');
                 }
                 // uncheck any previously checked Ex
                 ctrl.exercises.forEach(v => v.selectedExercise = false)

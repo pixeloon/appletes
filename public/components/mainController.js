@@ -37,7 +37,7 @@
             ctrl.workouts = $firebaseArray(ctrl.workoutsRef);
 
             ctrl.workoutsRef.on('value', function(workouts) {
-                console.log("Workout Value: ", workouts.val())
+
                 let workoutsVal = workouts.val()
                 for (var key in workoutsVal) {
 
@@ -48,7 +48,6 @@
                 }
 
             });
-
 
 
             // SAVE NEW Workout, from newWorkoutsController
@@ -73,7 +72,6 @@
                 if (!workout.image) {
                     workout.image = "http://lorempixel.com/200/200/sports/"
                 }
-                console.log("Ready to send image:", workout.image)
 
 
                 firebase.database().ref('workouts/' + workout.key).set({
@@ -91,7 +89,7 @@
                     comments: workout.comments
 
                 }).then(function() {
-                    showToast('Workout added!');
+                    ctrl.showToast('Workout added!');
                     closeRightNav();
 
                 })
@@ -100,47 +98,40 @@
 
             function addComment(workout) {
 
-                if (ctrl.userAuthenticated) {
+                let comment = {};
+                let workoutId = workout.$id;
 
-                    let comment = {};
-                    let workoutId = workout.$id;
-
-                    if (ctrl.contributor) {
-                        comment.commenter = ctrl.contributor;
-                        comment.profileImg = ctrl.photoUrl;
-                    } else {
-                        comment.commenter = "Anonymous"
-                        comment.profileImg = "/images/anon.png";
-                    }
-
-                    if (workout.comments) {
-                        // don't post an empty string
-                        if (workout.comment) {
-                            workout.comment.text
-                            comment.text = workout.comment.text;
-                        } else {
-                            return
-                        }
-                        comment.timestamp = firebase.database.ServerValue.TIMESTAMP;
-
-                        workout.comments.push(comment);
-                    } else {
-                        workout.comments = [{ "commenter": comment.commenter, "text": workout.comment.text, "timestamp": Date.now(), "profileImg": ctrl.photoUrl }]
-                    }
-                    workout.comments.forEach(comment => delete comment.$$hashKey);
-
-                    if (ctrl.text === "") {
-                        return;
-                    }
-
-                    firebase.database().ref('workouts/' + workoutId).update({
-                        comments: workout.comments
-                    });
-
+                if (ctrl.contributor) {
+                    comment.commenter = ctrl.contributor;
+                    comment.profileImg = ctrl.photoUrl;
                 } else {
-                    showToast('Please login to leave comments.');
+                    comment.commenter = "Anonymous"
+                    comment.profileImg = "/images/anon.png";
                 }
 
+                if (workout.comments) {
+                    // don't post an empty string
+                    if (workout.comment) {
+                        workout.comment.text
+                        comment.text = workout.comment.text;
+                    } else {
+                        return
+                    }
+                    comment.timestamp = firebase.database.ServerValue.TIMESTAMP;
+
+                    workout.comments.push(comment);
+                } else {
+                    workout.comments = [{ "commenter": comment.commenter, "text": workout.comment.text, "timestamp": Date.now(), "profileImg": ctrl.photoUrl }]
+                }
+                workout.comments.forEach(comment => delete comment.$$hashKey);
+
+                if (ctrl.text === "") {
+                    return;
+                }
+
+                firebase.database().ref('workouts/' + workoutId).update({
+                    comments: workout.comments
+                });
             }
 
 

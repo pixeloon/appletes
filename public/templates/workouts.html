@@ -119,7 +119,7 @@
                         <md-input-container class="md-block ">
                             <label for="comments " ng-if="ctrl.userAuthenticated">Enter your comment here:</label>
                             <label for="comments " ng-if="ctrl.userAuthenticated === false">Please login to leave comments.</label>
-                            <textarea ng-model="card.comment.text " md-maxlength="250 " rows="5 " id="comment " md-select-on-focus></textarea>
+                            <textarea ng-model="card.comment.text " md-maxlength="250 " rows="5 " id="comment " md-select-on-focus aria-label="Comments"></textarea>
                         </md-input-container>
                         <div>
                             <md-button class="md-primary " ng-click="ctrl.addComment(card); card.showAddComment=false; card.comment='' ">Save</md-button>
@@ -169,7 +169,7 @@
                     <!-- // end exercise block -->
                     <!-- // comment block -->
                     <div ng-show="ctrl.showComments ">
-                        <md-card ng-repeat="comment in card.comments | orderBy: '-timestamp'">
+                        <md-card ng-repeat="comment in card.comments">
                             <md-card-header>
                                 <md-card-avatar>
                                     <!-- <md-icon class="mdi mdi-account-circle "></md-icon> -->
